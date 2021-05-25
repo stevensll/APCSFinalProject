@@ -1,6 +1,8 @@
 public class Candy{
-  public Candy(){
+  String c; 
   
+  public Candy(String c){
+  this.c = c;
   
   }
 }
