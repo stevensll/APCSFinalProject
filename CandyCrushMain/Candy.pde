@@ -6,7 +6,10 @@ public class Candy{
     this.c = c;
   }
   void initIcon(){
-    if (c.equals("blue")) icon = loadImage("blue.png");
+    String[] files = {"red", "orange", "yellow", "green", "blue", "purple"};
+    for (int i=0; i<files.length; i++){
+      if (c.equals(files[i])) icon = loadImage(files[i]+".png");
+    }
   }
   void loadIcon(int x, int y){
     image(icon,x,y);
