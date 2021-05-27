@@ -9,10 +9,7 @@ public class Candy{
     //this.isClicked = false;
   }
   void initIcon(){
-    String[] files = {"red", "orange", "yellow", "green", "blue", "purple"};
-    for (int i=0; i<files.length; i++){
-      if (c.equals(files[i])) icon = loadImage(files[i]+".png");
-    }
+    icon = loadImage(c+".png");
   }
   void loadIcon(int x, int y){
     image(icon,x,y);
