@@ -12,6 +12,7 @@ public class Candy{
     icon = loadImage(c+".png");
   }
   void loadIcon(int x, int y){
+    icon.resize(50,50);
     image(icon,x,y);
   }
   String getColor(){

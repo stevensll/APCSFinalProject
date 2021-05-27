@@ -8,6 +8,7 @@ abstract class Blocker{
     icon = loadImage(imagePath);
   }
   void loadIcon(int x, int y){
+    icon.resize(50,50);
     image(icon,x,y);
   }
 }
