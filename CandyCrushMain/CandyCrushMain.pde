@@ -8,16 +8,23 @@ Candy test5 = new Candy("blue");
 Candy test6 = new Candy("orange");
 Candy test7 = new Candy("yellow");
 
-
 void setup(){
-  try{
-    Level l1 = new Level(1);
-    System.out.println(l1.getMaxMoves());
-    System.out.println(l1.numBlockers);
+  //try{
+    size(463,1000);
+    PImage firstm = loadImage("playMenu.png");
+    firstm.resize(463,800);
+    image(firstm, 0,0);
+    
+    Button playButton = new Button(0,0);
+    playButton.mouseClicked();
+    //mouseClicked();
+    //Level l1 = new Level(1);
+    //System.out.println(l1.getMaxMoves());
+    //System.out.println(l1.numBlockers);
 
-} catch(FileNotFoundException e){
-    e.printStackTrace();
-  }
+//} catch(FileNotFoundException e){
+//    e.printStackTrace();
+//  }
   //size(800,1000);
   //test.initIcon();
   //test2.initIcon();
@@ -29,7 +36,7 @@ void setup(){
 }
 
 void draw(){
-  background(140);
+  //background(140);
   //test.loadIcon(200,200);
   //test2.loadIcon(300,300);
   //test3.loadIcon(365,300);
