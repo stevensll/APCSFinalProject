@@ -1,21 +1,23 @@
 
-Icing test = new Icing();
+//Icing test = new Icing();
 
-Candy test2 = new Candy("green");
-Candy test3 = new Candy("red");
-Candy test4 = new Candy("purple");
-Candy test5 = new Candy("blue");
-Candy test6 = new Candy("orange");
-Candy test7 = new Candy("yellow");
+//Candy test2 = new Candy("green");
+//Candy test3 = new Candy("red");
+//Candy test4 = new Candy("purple");
+//Candy test5 = new Candy("blue");
+//Candy test6 = new Candy("orange");
+//Candy test7 = new Candy("yellow");
 Level l1;
 
 
 void setup(){
-  l1 = new Level(1);
+  l1 = new Level(2);
   l1.init();
   System.out.println(l1.getMaxMoves());
-  System.out.println(l1.xSize + " " + l1.ySize);
-  System.out.println(l1.numBlockers);
+  //System.out.println(l1.map.size() + " " + l1.map.get(0).size());
+
+  //System.out.println(l1.xSize + " " + l1.ySize);
+  //System.out.println(l1.numBlockers);
 
 
   size(800,1000);

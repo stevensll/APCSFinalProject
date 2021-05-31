@@ -1,14 +1,12 @@
 import java.util.ArrayList;
-//import java.util.Scanner;
-//import java.io.*;
-
+import java.util.*;
 
 public class Level {
-  private ArrayList<ArrayList<Element>> map;
-  private int maxMoves;
-  private int numBlockers;
-  private int xSize;
-  private int ySize;
+  ArrayList<ArrayList<Element>> map;
+  int maxMoves;
+  int numBlockers;
+  int xSize;
+  int ySize;
 
   public Level(int level){
     numBlockers = 0;
@@ -16,7 +14,6 @@ public class Level {
     String [] lines = loadStrings("level"+level+".txt");
     for(int i = 0; i<lines.length; i++){
       System.out.println();
-      map.add(new ArrayList<Element>());
       if(i == 0){
         String [] splitter = lines[0].split(" ");
         xSize = Integer.parseInt(splitter[0]);
@@ -24,42 +21,45 @@ public class Level {
         maxMoves = Integer.parseInt(splitter[2]);
       }
       else{
+        ArrayList<Element> column = new ArrayList<Element>();
         for(int j = 0; j < xSize; j++){
             String [] splitter = lines[i].split(" ");
             if(splitter[j].equals("E")) {
-              map.get(map.size()-1).add(new Icing());
-              System.out.print(0 + "");
+              column.add(new Icing());
+              //System.out.print(0 + "");
             }
             if(splitter[j].equals("R")) {
-              map.get(map.size()-1).add(new Candy("red"));
-              System.out.print("R ");
+              column.add(new Candy("red"));
+              //System.out.print("R ");
             }
             if(splitter[j].equals("G")) {
-              map.get(map.size()-1).add(new Candy("green"));
-              System.out.print("G ");
+              column.add(new Candy("green"));
+              //System.out.print("G ");
             }
             if(splitter[j].equals("B")) {
-              map.get(map.size()-1).add(new Candy("blue"));
-              System.out.print("B ");
+              column.add(new Candy("blue"));
+              //System.out.print("B ");
             }
             if(splitter[j].equals("Y")) {
-              map.get(map.size()-1).add(new Candy("yellow"));
-              System.out.print("Y ");
+              column.add(new Candy("yellow"));
+              //System.out.print("Y ");
             }
             if(splitter[j].equals("P")) {
-              map.get(map.size()-1).add(new Candy("purple"));
-              System.out.print("P ");
+              column.add(new Candy("purple"));
+              //System.out.print("P ");
             }
             if(splitter[j].equals("O")) {
-              map.get(map.size()-1).add(new Candy("orange"));
-              System.out.print("O ");
+              column.add(new Candy("orange"));
+              //System.out.print("O ");
             }
             if(splitter[j].equals("I")) {
               numBlockers++;
-              map.get(map.size()-1).add(new Icing());
-              System.out.print("I ");
+              column.add(new Icing());
+              //System.out.print("I ");
             }
         }
+        map.add(column);
+
       }
     }
   }
@@ -71,6 +71,7 @@ public class Level {
   void decreaseBlockers() {
     numBlockers--;
   }
+  
   void init(){
     for(ArrayList<Element> column : map){
       for(Element e: column){
@@ -78,9 +79,10 @@ public class Level {
       }
     }
   }
+  
   void display(){
-    for(int y = 0; y < this.ySize; y++){
-      for(int x = 0; x < this.xSize; x++){
+    for(int y = 0; y < this.ySize-1; y++){
+      for(int x = 0; x < this.xSize-1; x++){
         map.get(y).get(x).display(x*50, y*50);
       }
     }
