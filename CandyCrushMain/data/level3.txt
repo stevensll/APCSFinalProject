@@ -1,0 +1,7 @@
+7 6 21
+E G B I G B E
+E G I I I B E
+G B I I I G B
+I G O I P B B
+B I O I B I O
+E B I G I B E
