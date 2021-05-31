@@ -1,0 +1,9 @@
+7 8 16
+E E I G I E E
+E E G O G E E
+E I I G I I E
+E I I G I I E
+B I G I O I O
+P I O I G I P
+B I I I I I P
+E I I O I I E
