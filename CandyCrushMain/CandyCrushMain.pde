@@ -7,35 +7,38 @@ Candy test4 = new Candy("purple");
 Candy test5 = new Candy("blue");
 Candy test6 = new Candy("orange");
 Candy test7 = new Candy("yellow");
+Level l1;
 
 
 void setup(){
-  Level l1 = new Level(1);
+  l1 = new Level(1);
+  l1.init();
   System.out.println(l1.getMaxMoves());
   System.out.println(l1.xSize + " " + l1.ySize);
   System.out.println(l1.numBlockers);
 
 
   size(800,1000);
-  test.initIcon();
-  test2.initIcon();
-  test3.initIcon();
-  test4.initIcon();
-  test5.initIcon();
-  test6.initIcon();
-  test7.initIcon();
+  //test.init();
+  //test2.init();
+  //test3.init();
+  //test4.init();
+  //test5.init();
+  //test6.init();
+  //test7.init();
 }
 
 void draw(){
   background(140);
+  l1.display();
   //for(int i= 0; i < l1.map.size();i++){
     
   //}
-  test.displayIcon(200,200);
-  test2.displayIcon(300,300);
-  test3.displayIcon(365,300);
-  test4.displayIcon(300,200);
-  test5.displayIcon(365,200);
-  test6.displayIcon(500,300);
-  test7.displayIcon(430,300);
+  //test.display(200,200);
+  //test2.display(300,300);
+  //test3.display(365,300);
+  //test4.display(300,200);
+  //test5.display(365,200);
+  //test6.display(500,300);
+  //test7.display(430,300);
 }

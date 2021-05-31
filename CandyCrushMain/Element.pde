@@ -6,10 +6,10 @@ abstract class Element{
     iconDimensions = 50;
     imagePath = file;
   }
-  void initIcon(){
+  void init(){
     icon = loadImage(imagePath);
   }
-  void displayIcon(int x, int y){
+  void display(int x, int y){
     icon.resize(iconDimensions,iconDimensions);
     image(icon,x,y);
   }
