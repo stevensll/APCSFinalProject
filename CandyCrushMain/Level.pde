@@ -25,32 +25,32 @@ public class Level {
         for(int j = 0; j < xSize; j++){
             String [] splitter = lines[i].split(" ");
             if(splitter[j].equals("E")) {
-              column.add(new Icing());
-              //System.out.print(0 + "");
+              column.add(null);
+              System.out.print(" ");
             }
             if(splitter[j].equals("R")) {
               column.add(new Candy("red"));
-              //System.out.print("R ");
+              System.out.print("R ");
             }
             if(splitter[j].equals("G")) {
               column.add(new Candy("green"));
-              //System.out.print("G ");
+              System.out.print("G ");
             }
             if(splitter[j].equals("B")) {
               column.add(new Candy("blue"));
-              //System.out.print("B ");
+              System.out.print("B ");
             }
             if(splitter[j].equals("Y")) {
               column.add(new Candy("yellow"));
-              //System.out.print("Y ");
+              System.out.print("Y ");
             }
             if(splitter[j].equals("P")) {
               column.add(new Candy("purple"));
-              //System.out.print("P ");
+              System.out.print("P ");
             }
             if(splitter[j].equals("O")) {
               column.add(new Candy("orange"));
-              //System.out.print("O ");
+              System.out.print("O ");
             }
             if(splitter[j].equals("I")) {
               numBlockers++;
@@ -75,15 +75,19 @@ public class Level {
   void init(){
     for(ArrayList<Element> column : map){
       for(Element e: column){
-        e.init();
+        if(e!=null){
+           e.init();
+        }
       }
     }
   }
   
   void display(){
-    for(int y = 0; y < this.ySize-1; y++){
-      for(int x = 0; x < this.xSize-1; x++){
-        map.get(y).get(x).display(x*50, y*50);
+    for(int y = 0; y < this.ySize; y++){
+      for(int x = 0; x < this.xSize; x++){
+        if(map.get(y).get(x)!=null){
+                  map.get(y).get(x).display(x*50, y*50);
+        }
       }
     }
   }
