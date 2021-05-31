@@ -10,9 +10,10 @@ Candy test7 = new Candy("yellow");
 
 
 void setup(){
-    Level l1 = new Level(1);
-    System.out.println(l1.getMaxMoves());
-    System.out.println(l1.numBlockers);
+  Level l1 = new Level(1);
+  System.out.println(l1.getMaxMoves());
+  System.out.println(l1.xSize + " " + l1.ySize);
+  System.out.println(l1.numBlockers);
 
 
   size(800,1000);
@@ -27,9 +28,9 @@ void setup(){
 
 void draw(){
   background(140);
-  for(int i= 0; i < l1.size();i++){
-  
-  }
+  //for(int i= 0; i < l1.map.size();i++){
+    
+  //}
   test.loadIcon(200,200);
   test2.loadIcon(300,300);
   test3.loadIcon(365,300);
