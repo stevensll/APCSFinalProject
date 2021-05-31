@@ -31,11 +31,11 @@ void draw(){
   //for(int i= 0; i < l1.map.size();i++){
     
   //}
-  test.loadIcon(200,200);
-  test2.loadIcon(300,300);
-  test3.loadIcon(365,300);
-  test4.loadIcon(300,200);
-  test5.loadIcon(365,200);
-  test6.loadIcon(500,300);
-  test7.loadIcon(430,300);
+  test.displayIcon(200,200);
+  test2.displayIcon(300,300);
+  test3.displayIcon(365,300);
+  test4.displayIcon(300,200);
+  test5.displayIcon(365,200);
+  test6.displayIcon(500,300);
+  test7.displayIcon(430,300);
 }

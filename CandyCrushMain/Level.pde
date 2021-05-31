@@ -62,31 +62,6 @@ public class Level {
         }
       }
     }
-    //reads the corresponding level file and displays upon construction
-    
-    //Scanner levelReader = new Scanner(new File(dataPath("level"+level+".txt")));
-    //xSize = levelReader.nextInt();
-    //ySize = levelReader.nextInt();
-    //maxMoves = levelReader.nextInt();
-    //while (levelReader.hasNextLine()) {
-    //  Scanner line = new Scanner(levelReader.nextLine());
-    //  map.add(new ArrayList<Object>());
-    //  while (line.hasNext()) {
-    //    String obj = line.next();
-    //    if (obj.equals("E")) map.get(map.size()-1).add(new Integer(0));
-    //    if (obj.equals("R")) map.get(map.size()-1).add(new Candy("red")); 
-    //    if (obj.equals("G")) map.get(map.size()-1).add(new Candy("green"));
-    //    if (obj.equals("B")) map.get(map.size()-1).add(new Candy("blue"));
-    //    if (obj.equals("Y")) map.get(map.size()-1).add(new Candy("yellow"));
-    //    if (obj.equals("O")) map.get(map.size()-1).add(new Candy("orange"));
-    //    if (obj.equals("P")) map.get(map.size()-1).add(new Candy("purple"));
-    //    if (obj.equals("I")) {
-    //      map.get(map.size()-1).add(new Icing());
-    //      numBlockers++;
-    //    }
-    //  }//if(obj.equals("J")) map.get(map.size()-1).add(new Jelly());
-    //}
-    //levelReader.close();
   }
 
   int getMaxMoves() {
@@ -95,6 +70,15 @@ public class Level {
   
   void decreaseBlockers() {
     numBlockers--;
+  }
+  
+  void load(){
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize; x++){
+        if(map.get(y).get(x) instanceof Element){
+        }
+      }
+    }
   }
   
 }
