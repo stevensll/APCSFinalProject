@@ -21,17 +21,17 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
   * **Together**: We discussed how we should specifically implement the Candy, Blocker, and Button classes. We realized that a nice use of OOP would be to make each level object dictated by a .txt file representing the level. This would make it easy for us to design levels since we would just edit a .txt file, and this also opens up the room for custom levels.
 
 * **5/26** 
- * **Steven**: I implemented the Blocker class and Icing subclass, and tested displaying its icon from an image file in the Processing project data folder.
- * **Ava**: I created text files for Levels 1 and 2 with information about the initial positions of candies and letters representing the different colors. I also implemented the Candy class in a similar faction to the Blocker class and tested displaying various colors, which all worked.
+  * **Steven**: I implemented the Blocker class and Icing subclass, and tested displaying its icon from an image file in the Processing project data folder.
+  * **Ava**: I created text files for Levels 1 and 2 with information about the initial positions of candies and letters representing the different colors. I also implemented the Candy class in a similar faction to the Blocker class and tested displaying various colors, which all worked.
 
 * **5/27**
- * **Steven**: I created the mapTesting branch and worked on implementing the level class. To read in our level .txt file, I first tried using Java’s built in Scanner, but I realized that this meant I would need to encapsulate our main in a try-catch block. I did some research and discovered that I could also use Processing’s readString() function, and started working on scanning through that process.
- * **Ava**: I created the buttonDev branch and worked on creating our home screen with the play button and finding the right dimensions for our screen. After that, I added the image of the levels screen as well and started working on implementing the Button class, which connects the different screens.
- * **Together**: We briefly discussed how we could use git branching to divide our work and organize it in a fashionable manner.
+  * **Steven**: I created the mapTesting branch and worked on implementing the level class. To read in our level .txt file, I first tried using Java’s built in Scanner, but I realized that this meant I would need to encapsulate our main in a try-catch block. I did some research and discovered that I could also use Processing’s readString() function, and started working on scanning through that process.
+  * **Ava**: I created the buttonDev branch and worked on creating our home screen with the play button and finding the right dimensions for our screen. After that, I added the image of the levels screen as well and started working on implementing the Button class, which connects the different screens.
+  * **Together**: We briefly discussed how we could use git branching to divide our work and organize it in a fashionable manner.
 
 * 5/30
- * **Steven**: N/A
- * **Ava**: I created the text files for levels 3 and 4, which included information about the candy placement and also information about the number of rows, columns, and the limited number of moves. 
+  * **Steven**: N/A
+  * **Ava**: I created the text files for levels 3 and 4, which included information about the candy placement and also information about the number of rows, columns, and the limited number of moves. 
 
 * 5/31
- * **Steven**: First, I reformatted the class hierarchy of the game elements by adding the parent abstract class Element. Candy and Blockers now extend from this class, which removes the repeated constructor scheme for loading the image icon. I also finished the constructor of the level class using loadStrings and String delimiters. I was able to successfully display each Element object within the map 2D ArrayList of the level and also accounted for empty squares.
+  * **Steven**: First, I reformatted the class hierarchy of the game elements by adding the parent abstract class Element. Candy and Blockers now extend from this class, which removes the repeated constructor scheme for loading the image icon. I also finished the constructor of the level class using loadStrings and String delimiters. I was able to successfully display each Element object within the map 2D ArrayList of the level and also accounted for empty squares.
