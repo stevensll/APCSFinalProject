@@ -82,11 +82,15 @@ public class Level {
     }
   }
   
-  void display(){
+  void display(int w, int l){
+    //offsets for centering the board
+    int xOff = w - (this.xSize * 50 / 2);
+    int yOff = l - (this.ySize * 50 / 2);
     for(int y = 0; y < this.ySize; y++){
       for(int x = 0; x < this.xSize; x++){
         if(map.get(y).get(x)!=null){
-                  map.get(y).get(x).display(x*50, y*50);
+            int d = map.get(y).get(x).iconDimensions;
+            map.get(y).get(x).display(xOff+x*d, yOff+y*d);
         }
       }
     }

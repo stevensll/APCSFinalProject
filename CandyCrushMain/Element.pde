@@ -13,5 +13,4 @@ abstract class Element{
     icon.resize(iconDimensions,iconDimensions);
     image(icon,x,y);
   }
-  
 }

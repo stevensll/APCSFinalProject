@@ -8,7 +8,7 @@
 //Candy test6 = new Candy("orange");
 //Candy test7 = new Candy("yellow");
 Level l1;
-
+Level l2;
 
 void setup(){
   l1 = new Level(2);
@@ -32,7 +32,7 @@ void setup(){
 
 void draw(){
   background(140);
-  l1.display();
+  l1.display(width/2, height/2);
   //for(int i= 0; i < l1.map.size();i++){
     
   //}
