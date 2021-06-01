@@ -15,8 +15,6 @@ void setup(){
     firstm.resize(463,800);
     image(firstm, 0,0);
     
-    Button playButton = new Button(0,0);
-    playButton.mouseClicked();
     //mouseClicked();
     //Level l1 = new Level(1);
     //System.out.println(l1.getMaxMoves());
@@ -36,6 +34,10 @@ void setup(){
 }
 
 void draw(){
+  Button playButton = new Button(0,0,100,100);
+  if (mousePressed){
+      if (mouseX>=135 && mouseX<=320 && mouseY>=370 && mouseY<=420) playButton.mouseClicked();
+    }
   //background(140);
   //test.loadIcon(200,200);
   //test2.loadIcon(300,300);
