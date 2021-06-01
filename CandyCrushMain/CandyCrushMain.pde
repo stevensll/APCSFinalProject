@@ -12,10 +12,9 @@ void setup(){
   //try{
     size(463,1000);
     PImage firstm = loadImage("playMenu.png");
-    firstm.resize(463,800);
+    firstm.resize(463,1000);
     image(firstm, 0,0);
     
-    //mouseClicked();
     //Level l1 = new Level(1);
     //System.out.println(l1.getMaxMoves());
     //System.out.println(l1.numBlockers);
@@ -34,11 +33,11 @@ void setup(){
 }
 
 void draw(){
-  Button playButton = new Button(0,0,100,100);
+  Button playButton = new Button();
   if (mousePressed){
-      if (mouseX>=135 && mouseX<=320 && mouseY>=370 && mouseY<=420) playButton.mouseClicked();
+      if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) playButton.mouseClicked();
     }
-  //background(140);
+
   //test.loadIcon(200,200);
   //test2.loadIcon(300,300);
   //test3.loadIcon(365,300);
