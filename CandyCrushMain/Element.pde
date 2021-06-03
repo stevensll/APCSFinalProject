@@ -1,6 +1,10 @@
 abstract class Element{
   PImage icon;
   String imagePath;
+  Element lN = null; 
+  Element rN = null;
+  Element uN = null;
+  Element dN = null;
   public Element(String file){
     imagePath = file;
   }
@@ -8,8 +12,14 @@ abstract class Element{
     icon = loadImage(imagePath);
   }
   void display(int x, int y, float factor){
-    icon.resize(int(50 * factor), 0);
+    icon.resize(0,int(55 * factor));
     imageMode(CENTER);
     image(icon,x,y);
+  }
+  void neighborTest(){
+    System.out.println(lN.getClass().getName());
+    System.out.println(rN.getClass().getName());
+    System.out.println(uN.getClass().getName());
+    System.out.println(dN.getClass().getName());
   }
 }

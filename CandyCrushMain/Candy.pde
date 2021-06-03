@@ -1,9 +1,11 @@
 public class Candy extends Element{
   String c;
   boolean isClicked;
-  int hNeighbors; 
-  int vNeighbors;
-  
+  // neighbors
+
+  //coordinates based on list positioning;
+  int xPos;
+  int yPos;
   public Candy(String c){
     super(c+".png");
     this.c = c;
@@ -12,10 +14,5 @@ public class Candy extends Element{
   String getColor(){
     return this.c;
   }
-  int getHNeighbors(){
-    return this.hNeighbors;
-  }
-  int getVNeighbors(){
-    return this.vNeighbors;
-  }
+
 }

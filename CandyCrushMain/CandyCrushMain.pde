@@ -12,15 +12,16 @@ void setup(){
     //image(firstm, 0,0);
 
     //currentscreen="firstm";
-    l1 = new Level(2);
+    l1 = new Level(1);
     l1.init();
-    l1.display(width/2,height/2);
+    l1.map.get(0).get(0).neighborTest();
 }
 
 void draw(){
-  Button playButton = new Button();
-  if (mousePressed && currentscreen.equals("firstm")){
-      if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) playButton.mouseClicked("levels.jpg");
-   } 
+  l1.display(width/2,height/2);
+  //Button playButton = new Button();
+  //if (mousePressed && currentscreen.equals("firstm")){
+  //    if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) playButton.mouseClicked("levels.jpg");
+  // } 
 
 }
