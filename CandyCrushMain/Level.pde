@@ -57,6 +57,26 @@ public class Level {
               column.add(new Icing());
               //System.out.print("I ");
             }
+            if(splitter[j].equals("JB")) {
+              numBlockers++;
+              column.add(new Jelly());
+            }
+            if(splitter[j].equals("JR")) {
+              numBlockers++;
+              column.add(new Jelly());
+            }
+            if(splitter[j].equals("JO")) {
+              numBlockers++;
+              column.add(new Jelly());
+            }
+            if(splitter[j].equals("JP")) {
+              numBlockers++;
+              column.add(new Jelly());
+            }
+            if(splitter[j].equals("JG")) {
+              numBlockers++;
+              column.add(new Jelly());
+            }
         }
         map.add(column);
 
