@@ -10,14 +10,10 @@ void setup(){
     PImage firstm = loadImage("playMenu.png");
     firstm.resize(463,1000);
     image(firstm, 0,0);
-<<<<<<< HEAD
 
-
-=======
     currentscreen="firstm";
    
 
->>>>>>> origin/buttonDev
 }
 
 void draw(){
