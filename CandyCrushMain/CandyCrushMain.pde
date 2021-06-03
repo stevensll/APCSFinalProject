@@ -8,41 +8,28 @@ Candy test5 = new Candy("blue");
 Candy test6 = new Candy("orange");
 Candy test7 = new Candy("yellow");
 
+String currentscreen;
+
 void setup(){
   //try{
     size(463,1000);
     PImage firstm = loadImage("playMenu.png");
     firstm.resize(463,1000);
     image(firstm, 0,0);
-    
-    //Level l1 = new Level(1);
-    //System.out.println(l1.getMaxMoves());
-    //System.out.println(l1.numBlockers);
+    currentscreen="firstm";
+   
 
-//} catch(FileNotFoundException e){
-//    e.printStackTrace();
-//  }
-  //size(800,1000);
-  //test.initIcon();
-  //test2.initIcon();
-  //test3.initIcon();
-  //test4.initIcon();
-  //test5.initIcon();
-  //test6.initIcon();
-  //test7.initIcon();
 }
 
 void draw(){
   Button playButton = new Button();
-  if (mousePressed){
-      if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) playButton.mouseClicked();
-    }
-
-  //test.loadIcon(200,200);
-  //test2.loadIcon(300,300);
-  //test3.loadIcon(365,300);
-  //test4.loadIcon(300,200);
-  //test5.loadIcon(365,200);
-  //test6.loadIcon(500,300);
-  //test7.loadIcon(430,300);
+  if (mousePressed && currentscreen.equals("firstm")){
+      if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) playButton.mouseClicked("levels.jpg");
+   } 
+   //Button[] levels = new Button[10];
+   //if (mousePressed){
+   //  for (Button b : levels){
+   //    if (mouseX<=100) b.mouseClicked();
+   //  }
+   //}
 }
