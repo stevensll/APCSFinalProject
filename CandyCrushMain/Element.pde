@@ -1,16 +1,14 @@
 abstract class Element{
   PImage icon;
   String imagePath;
-  int iconDimensions;
   public Element(String file){
-    iconDimensions = 50;
     imagePath = file;
   }
   void init(){
     icon = loadImage(imagePath);
   }
-  void display(int x, int y){
-    icon.resize(iconDimensions,iconDimensions);
+  void display(int x, int y, float factor){
+    icon.resize(int(50 * factor), 0);
     image(icon,x,y);
   }
 }
