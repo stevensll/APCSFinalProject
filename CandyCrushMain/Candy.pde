@@ -1,18 +1,13 @@
-public class Candy{
-  private String c;
-  private PImage icon;
-  //private boolean isClicked;
-  private int hNeighbors; private int vNeighbors;
+public class Candy extends Element{
+  String c;
+  boolean isClicked;
+  int hNeighbors; 
+  int vNeighbors;
   
   public Candy(String c){
+    super(c+".png");
     this.c = c;
-    //this.isClicked = false;
-  }
-  void initIcon(){
-    icon = loadImage(c+".png");
-  }
-  void loadIcon(int x, int y){
-    image(icon,x,y);
+    this.isClicked = false;
   }
   String getColor(){
     return this.c;

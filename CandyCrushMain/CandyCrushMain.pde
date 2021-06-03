@@ -1,40 +1,27 @@
 
-Icing test = new Icing();
-
-Candy test2 = new Candy("green");
-Candy test3 = new Candy("red");
-Candy test4 = new Candy("purple");
-Candy test5 = new Candy("blue");
-Candy test6 = new Candy("orange");
-Candy test7 = new Candy("yellow");
-
-
+Level l1;
+Level l2;
 void setup(){
-  try{
-    Level l1 = new Level(1);
-    System.out.println(l1.getMaxMoves());
-    System.out.println(l1.numBlockers);
+  l1 = new Level(2);
+  l1.init();
+  System.out.println(l1.getMaxMoves());
+  //System.out.println(l1.map.size() + " " + l1.map.get(0).size());
 
-} catch(FileNotFoundException e){
-    e.printStackTrace();
-  }
-  //size(800,1000);
-  //test.initIcon();
-  //test2.initIcon();
-  //test3.initIcon();
-  //test4.initIcon();
-  //test5.initIcon();
-  //test6.initIcon();
-  //test7.initIcon();
+  //System.out.println(l1.xSize + " " + l1.ySize);
+  //System.out.println(l1.numBlockers);
+
+
+  size(800,1000);
+  //test.init();
+  //test2.init();
+  //test3.init();
+  //test4.init();
+  //test5.init();
+  //test6.init();
+  //test7.init();
 }
 
 void draw(){
   background(140);
-  //test.loadIcon(200,200);
-  //test2.loadIcon(300,300);
-  //test3.loadIcon(365,300);
-  //test4.loadIcon(300,200);
-  //test5.loadIcon(365,200);
-  //test6.loadIcon(500,300);
-  //test7.loadIcon(430,300);
+  l1.display(width/2, height/2);
 }
