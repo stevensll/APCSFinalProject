@@ -1,27 +1,28 @@
 
 Level l1;
 Level l2;
+
 void setup(){
-  l1 = new Level(2);
-  l1.init();
-  System.out.println(l1.getMaxMoves());
-  //System.out.println(l1.map.size() + " " + l1.map.get(0).size());
 
-  //System.out.println(l1.xSize + " " + l1.ySize);
-  //System.out.println(l1.numBlockers);
+    size(463,1000);
+    PImage firstm = loadImage("playMenu.png");
+    firstm.resize(463,1000);
+    image(firstm, 0,0);
 
 
-  size(800,1000);
-  //test.init();
-  //test2.init();
-  //test3.init();
-  //test4.init();
-  //test5.init();
-  //test6.init();
-  //test7.init();
 }
 
 void draw(){
-  background(140);
-  l1.display(width/2, height/2);
+  Button playButton = new Button();
+  if (mousePressed){
+      if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) playButton.mouseClicked();
+    }
+
+  //test.loadIcon(200,200);
+  //test2.loadIcon(300,300);
+  //test3.loadIcon(365,300);
+  //test4.loadIcon(300,200);
+  //test5.loadIcon(365,200);
+  //test6.loadIcon(500,300);
+  //test7.loadIcon(430,300);
 }
