@@ -7,13 +7,14 @@ String currentscreen;
 void setup(){
 
     size(463,1000);
-    PImage firstm = loadImage("playMenu.png");
-    firstm.resize(463,1000);
-    image(firstm, 0,0);
+    //PImage firstm = loadImage("playMenu.png");
+    //firstm.resize(463,1000);
+    //image(firstm, 0,0);
 
-    currentscreen="firstm";
-   
-
+    //currentscreen="firstm";
+    l1 = new Level(2);
+    l1.init();
+    l1.display(width/2,height/2);
 }
 
 void draw(){
@@ -21,10 +22,5 @@ void draw(){
   if (mousePressed && currentscreen.equals("firstm")){
       if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) playButton.mouseClicked("levels.jpg");
    } 
-   //Button[] levels = new Button[10];
-   //if (mousePressed){
-   //  for (Button b : levels){
-   //    if (mouseX<=100) b.mouseClicked();
-   //  }
-   //}
+
 }

@@ -83,18 +83,20 @@ public class Level {
   }
   
   void display(int w, int l){
-    int d = 50;
+    int xSpacing = 50;
+    int ySpacing = 60;
     rectMode(CENTER);
     stroke(120);
     fill(120);
-    rect(w,l,this.xSize*(d*1.05), this.ySize *(d*1.05), 10,10,10,10);
+    rect(w,l,this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10,10,10,10);
     //offsets for centering the board
-    int xOff = w - (this.xSize * d / 2);
-    int yOff = l - (this.ySize * d / 2);
+    int xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
+    int yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
     for(int y = 0; y < this.ySize; y++){
       for(int x = 0; x < this.xSize; x++){
-        if(map.get(y).get(x)!=null){
-            map.get(y).get(x).display(xOff+x*50, yOff+y*50,1);
+        Element e = map.get(y).get(x);
+        if(e!=null){
+            e.display(xOff+x*50, yOff+y*50,1);
         }
       }
     }
