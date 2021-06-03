@@ -9,6 +9,7 @@ abstract class Element{
   }
   void display(int x, int y, float factor){
     icon.resize(int(50 * factor), 0);
+    imageMode(CENTER);
     image(icon,x,y);
   }
 }
