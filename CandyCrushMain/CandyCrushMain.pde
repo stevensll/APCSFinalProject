@@ -25,3 +25,6 @@ void draw(){
   // } 
 
 }
+void mouseClicked(){
+  l1.mouseTrack();
+}

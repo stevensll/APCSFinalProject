@@ -3,11 +3,14 @@ import java.util.*;
 
 public class Level {
   ArrayList<ArrayList<Element>> map;
-  int maxMoves;
-  int numBlockers;
-  int xSize;
-  int ySize;
-
+  int maxMoves, numBlockers;
+  int xSize, ySize;
+  int screenW, screenL;
+  float xOff, yOff;
+  int xSpacing = 50;
+  int ySpacing = 55;
+  Element selected;
+  
   public Level(int level){
     numBlockers = 0;
     map = new ArrayList<ArrayList<Element>>();
@@ -44,9 +47,10 @@ void setNeighbors(){
   }
   
   void display(int w, int l){
-    int xSpacing = 50;
-    int ySpacing = 55;
-    
+    xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
+    yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
+    screenW = w;
+    screenL = l;
     /////draw the rectangular box around the candies
     rectMode(CENTER);
     stroke(120);
@@ -54,8 +58,7 @@ void setNeighbors(){
     rect(w,l,this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10,10,10,10);
     
     //offsets for centering the board
-    float xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
-    float yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
+
     
     //display the candies at their right pixel positions
     for(int y = 0; y < this.ySize; y++){
@@ -68,11 +71,9 @@ void setNeighbors(){
         }
       }
     }
-    mouseTrack(xOff, yOff, xSpacing,ySpacing);
   }
   
-  void mouseTrack(float xOff, float yOff, int xSpacing, int ySpacing){
-    if(mousePressed){
+  void mouseTrack(){
 
       //System.out.println(mouseX  + " " + mouseY);
       //converts the mouse position to a possible list coordinate position
@@ -80,12 +81,33 @@ void setNeighbors(){
       float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
       
       //System.out.println((mouseX-xOff+xSpacing/2) + " " + (mouseY-yOff+ySpacing/2));
-      
-      if(x >= 0 && x<xSize && y>=0 && y<ySize){
-        if(map.get((int)y).get((int)x)!=null && map.get((int)y).get((int)x) instanceof Candy);
-           map.get((int)y).get((int)x).mouseClicked();
+      if(x >= 0 && x<xSize && y>=0 && y<ySize){    
+        Element chosen =map.get((int)y).get((int)x);
+        //check if clicked is valid
+        if(chosen!=null && chosen instanceof Candy){
+          //if there is already a selected: unselect if same candy, if not check if its a neighbor and swap if true
+          if(selected!=null){
+            if(chosen.equals(selected)){
+               chosen.clicked();
+               selected = null;
+
+            } else if(chosen.equals(selected.dN)){
+              chosen.clicked();
+            } else if(chosen.equals(selected.rN)){
+              chosen.clicked();
+            } else if(chosen.equals(selected.lN)){
+              chosen.clicked();
+            } else if(chosen.equals(selected.uN)){
+              chosen.clicked();
+            }
+         //if not, chosen is the selected
+          } else {
+            selected = chosen;
+            chosen.clicked();
+          }
+        }
       }
-    }
+      System.out.println(selected);
   }
   
   void init(int level){

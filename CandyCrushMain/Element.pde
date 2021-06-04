@@ -24,7 +24,7 @@ abstract class Element{
     imageMode(CENTER);
     image(icon,x,y);
   }
-  void mouseClicked(){}
+  void clicked(){}
   
   abstract String toString();
 

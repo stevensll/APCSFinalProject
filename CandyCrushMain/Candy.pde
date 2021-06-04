@@ -1,19 +1,19 @@
 public class Candy extends Element{
   String c;
+  PImage clickedIcon;
   boolean isClicked;
   // neighbors
   public Candy(String c){
     super(c+".png");
     this.c = c;
     this.isClicked = false;
+    clickedIcon = loadImage(c+"clicked.png"); 
+    clickedIcon.resize(0, (int)(55*scale));
   }
   @Override
-  void mouseClicked(){
+  void clicked(){
     if(!isClicked){
       isClicked = true;
-        PImage clickedIcon = loadImage(c+"clicked.png"); 
-        clickedIcon.resize(0, (int)(55*scale));
-        image(clickedIcon, xPos, yPos);
     }
     else {
       isClicked = false;
@@ -23,12 +23,11 @@ public class Candy extends Element{
   }
   
   void display(float x, float y){
-    //if(isClicked){
-    //    PImage clickedIcon = loadImage(c+"clicked.png"); 
-    //    clickedIcon.resize(0, (int)(55*scale));
-    //    image(clickedIcon, xPos, yPos);
-    //} else {
+    if(!isClicked){
        super.display(x,y);
+    } else {
+       image(clickedIcon,x,y);
+    }
   }
   
   String toString(){
