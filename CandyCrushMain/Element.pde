@@ -1,7 +1,9 @@
 abstract class Element{
   PImage icon;
   String imagePath;
+  String c;
   Element lN, rN, uN, dN;
+  int[] chains = new int[]{0,0,0,0};
   float scale;
   
   //coordinates based on pixel positioning;
@@ -10,10 +12,24 @@ abstract class Element{
   int xPosL, yPosL;
 
   public Element(String file){
+    c = "";
     scale = 1;
     imagePath = file;
   }
-  
+  void updateChains(String input, int value){
+    if(input.equals("up")){  
+      chains[0]+=value;
+    }
+    if(input.equals("down")){  
+      chains[1]+=value;
+    }
+    if(input.equals("left")){  
+      chains[2]+=value;
+    }
+    if(input.equals("right")){  
+      chains[3]+=value;
+    }
+  }
   void init(float factor){
     scale = factor;
     icon = loadImage(imagePath);

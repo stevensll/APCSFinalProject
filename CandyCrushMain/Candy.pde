@@ -1,5 +1,4 @@
 public class Candy extends Element{
-  String c;
   PImage clickedIcon;
   boolean isClicked;
   // neighbors
