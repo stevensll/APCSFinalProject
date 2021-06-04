@@ -23,7 +23,6 @@ public class Tracker{
     textSize(20);
     text("Blockers Left: "+numBlockers,width/2,65); //displays number of blockers left
     
-    maxMoves=0;
     if (maxMoves==0){
       if (numBlockers==0){ //display win
         PImage win = loadImage("win.jpg");
