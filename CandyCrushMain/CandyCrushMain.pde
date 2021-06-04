@@ -1,15 +1,16 @@
-
 Level l1; Level l2;
 Level l3; Level l4;
 Level l5; Level l6;
 
 String currentscreen;
+PImage current;
 
 void setup(){
-    size(463,1000);
+    size(440,680);
 
     PImage firstm = loadImage("playMenu.png");
-    firstm.resize(463,1000);
+    current = firstm;
+    firstm.resize(440,0);
     image(firstm, 0,0);
     currentscreen="firstm";
     l1 = new Level(1); l1.init();
@@ -23,44 +24,44 @@ void setup(){
 void draw(){
   Button playButton = new Button();
   if (mousePressed && currentscreen.equals("firstm")){
-      if (mouseX>=135 && mouseX<=320 && mouseY>=470 && mouseY<=520) {
+      if (mouseX>=135 && mouseX<=300 && mouseY>=435 && mouseY<=495) {
         playButton.mouseClicked("levels.jpg");
         currentscreen = "levels";
       }
    } 
-
    if (mousePressed && currentscreen.equals("levels")){ //displays the gameplays for each level
-   //coordinates not accurate
-     if (mouseX<=200 && mouseY>=200) {
+     if (mouseX>=7 && mouseX<=65 && mouseY>=555 && mouseY<=630) {
        clear();
        l1.display(width/2,height/2); 
        currentscreen = "level1";
      }
-     else if (mouseX<=400 && mouseX>=200 && mouseY>=500) {
+     else if (mouseX>=175 && mouseX<=230 && mouseY>=600 && mouseY<=690) {
        clear();
        l2.display(width/2, height/2);
        currentscreen = "level2";
      }
-     else if (mouseX<=500 && mouseX>=400 && mouseY>=500){
+     else if (mouseX>=325 && mouseX<=385 && mouseY>=560 && mouseY<=640){
        clear();
        l3.display(width/2, height/2);
        currentscreen = "level3";
      }
-     else if (mouseX<100){
+     else if (mouseX>=380 && mouseX<=435 && mouseY>=430 && mouseY<=505){
        clear();
        l4.display(width/2, height/2);
        currentscreen = "level4";
      }
-     else if (mouseX<=300){
+     else if (mouseX>=310 && mouseX<=365 && mouseY>=315 && mouseY<=390){
        clear();
        l5.display(width/2, height/2);
        currentscreen = "level5";
      }
-     else if (mouseX<=400){
-       clear();
-       l6.display(width/2, height/2);
-       currentscreen = "level6";
-     }
+     
+     //level 6
+     //else if (mouseX<=400){
+     //  clear();
+     //  l6.display(width/2, height/2);
+     //  currentscreen = "level6";
+     //}
    }
 
 

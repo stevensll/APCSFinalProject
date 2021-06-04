@@ -4,9 +4,15 @@ public class Button{
   }
   
   void mouseClicked(String filename){
-    PImage levelm = loadImage(filename);
-    levelm.resize(463,1000);
-    image(levelm, 0,0);
+    PImage loadscreen = loadImage(filename);
+    if (filename.equals("levels.jpg")) {
+      loadscreen.resize(463,1000);
+      image(loadscreen,-20,-200);
+    }
+    else{
+      loadscreen.resize(463,0);
+      image(loadscreen,0,0);
+    }
 
   }
   void display(){
