@@ -1,21 +1,35 @@
 public class Candy extends Element{
-  String c;
+  PImage clickedIcon;
   boolean isClicked;
-  int hNeighbors; 
-  int vNeighbors;
-  
+  // neighbors
   public Candy(String c){
     super(c+".png");
     this.c = c;
     this.isClicked = false;
+    clickedIcon = loadImage(c+"clicked.png"); 
+    clickedIcon.resize(0, (int)(55*scale));
   }
-  String getColor(){
-    return this.c;
+  @Override
+  void clicked(){
+    if(!isClicked){
+      isClicked = true;
+    }
+    else {
+      isClicked = false;
+    }
+    //System.out.println(xPos + " " + yPos + " clicked");
+
   }
-  int getHNeighbors(){
-    return this.hNeighbors;
+  
+  void display(float x, float y){
+    if(!isClicked){
+       super.display(x,y);
+    } else {
+       image(clickedIcon,x,y);
+    }
   }
-  int getVNeighbors(){
-    return this.vNeighbors;
+  
+  String toString(){
+    return c.substring(0,1);
   }
 }

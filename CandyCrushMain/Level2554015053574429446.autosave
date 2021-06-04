@@ -10,18 +10,13 @@ public class Level {
   int xSpacing = 50;
   int ySpacing = 55;
   Element firstSelected;
-  Tracker score;
+
   public Level(int level) {
     numBlockers = 0;
     map = new ArrayList<ArrayList<Element>>();
     init(level);
     updateNeighbors();
-    score = new Tracker(this);
-     PImage background = loadImage("background.png");
-     background.resize(0,1000);
-     image(background,0,0);
   }
-  
   void updateNeighbors() {
     for (int i =0; i < ySize; i++) {
       for (int j = 0; j < xSize; j++) {
@@ -58,17 +53,16 @@ public class Level {
       }
     }
   }
-  
+
   int getMaxMoves() {
     return maxMoves;
   }
-  
+
   void decreaseBlockers() {
     numBlockers--;
   }
-  
-  void display(int w, int l, boolean toggle) {
-    score.display();
+
+  void display(int w, int l) {
     xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
     yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
     screenW = w;
@@ -78,10 +72,10 @@ public class Level {
     stroke(120);
     fill(120);
     rect(w, l, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
-  
+
     //offsets for centering the board
-  
-  
+
+
     //display the candies at their right pixel positions
     for (int y = 0; y < this.ySize; y++) {
       for (int x = 0; x < this.xSize; x++) {
@@ -93,30 +87,31 @@ public class Level {
         }
       }
     }
+    cheese();
     updateNeighbors();
     pushDown();
   }
-  
+
   void mouseTrack() {
-  
+
     //System.out.println(mouseX  + " " + mouseY);
     //converts the mouse position to a possible list coordinate position
     float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
     float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
-  
+
     //System.out.println((mouseX-xOff+xSpacing/2) + " " + (mouseY-yOff+ySpacing/2));
     if (x >= 0 && x<xSize && y>=0 && y<ySize) {    
       Element chosen =map.get((int)y).get((int)x);
       //check if clicked is valid
       if (chosen!=null && chosen instanceof Candy) {
-  
+
         //if there is already a firstSelected: unselect if same candy, if not check if its a neighbor and swap if true
         if (firstSelected!=null) {
           System.out.println(Arrays.toString(firstSelected.chains));
           if (chosen.equals(firstSelected)) {
             chosen.clicked();
             firstSelected = null;
-  
+
             //swapping sequence: core of the program
           } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
             chosen.clicked();
@@ -129,20 +124,18 @@ public class Level {
             } else {
               updateNeighbors();
             }
-            cheese();
             //System.out.println(chosen);
             firstSelected = null;
             updateNeighbors();
-            score.maxMoves--;
             maxMoves--;
           }
-  
+
           //if not, chosen is the firstSelected
         } else {
           firstSelected = chosen;
           chosen.clicked();
         }
-  
+
         //debug
         if (firstSelected!=null) {
           System.out.println("firstSelected: " + firstSelected + " " + firstSelected.xPosL + " " + firstSelected.yPosL );
@@ -154,16 +147,16 @@ public class Level {
     int sxPosL = firstSelected.xPosL;
     int syPosL = firstSelected.yPosL;
     //System.out.println( sxPosL + " " + syPosL);
-  
+
     firstSelected.xPosL = chosen.xPosL;
     firstSelected.yPosL = chosen.yPosL;
-  
-  
+
+
     map.get(chosen.yPosL).set(chosen.xPosL, firstSelected);
-  
+
     chosen.xPosL = sxPosL;
     chosen.yPosL = syPosL;
-  
+
     map.get(syPosL).set(sxPosL, chosen);
     //System.out.println(this);
     firstSelected.clicked();
@@ -221,9 +214,9 @@ public class Level {
     }
     
   }
-  
-  
-  
+
+
+
   void init(int level) {
     String [] lines = loadStrings("level"+level+".txt");
     for (int i = 0; i<lines.length; i++) {
@@ -263,28 +256,8 @@ public class Level {
             numBlockers++;
             column.add(new Icing());
           }
-          if(splitter[j].equals("JB")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-            if(splitter[j].equals("JR")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-            if(splitter[j].equals("JO")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-            if(splitter[j].equals("JP")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-            if(splitter[j].equals("JG")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
           //////////////////////////////
-  
+
           //set the list positionings of the candies and init it with its scale
           if (column.get(j) == null) {
             System.out.print(" ");
@@ -304,8 +277,7 @@ public class Level {
     String r = "";
     for (ArrayList<Element> column : map) {
       for (Element e : column) {
-        if(e!=null)r+= e.toString() + " ";
-        else r+=" ";
+        r+= e.toString() + " ";
       }
       r+="\n";
     }
