@@ -57,6 +57,7 @@ void setNeighbors(){
     float xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
     float yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
     
+    //display the candies at their right pixel positions
     for(int y = 0; y < this.ySize; y++){
       for(int x = 0; x < this.xSize; x++){
         Element e = map.get(y).get(x);
@@ -67,21 +68,26 @@ void setNeighbors(){
         }
       }
     }
-    mouseTrack(xOff,yOff);
+    mouseTrack(xOff, yOff, xSpacing,ySpacing);
   }
   
-  void mouseTrack(float xOff, float yOff){
+  void mouseTrack(float xOff, float yOff, int xSpacing, int ySpacing){
     if(mousePressed){
-      int x = (int)(mouseX -xOff) / 40;
-      int y = (int)(mouseY - yOff) / 50;
-      System.out.println(x);
-      System.out.println(y);
+
+      //System.out.println(mouseX  + " " + mouseY);
+      //converts the mouse position to a possible list coordinate position
+      float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
+      float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
+      
+      //System.out.println((mouseX-xOff+xSpacing/2) + " " + (mouseY-yOff+ySpacing/2));
+      
       if(x >= 0 && x<xSize && y>=0 && y<ySize){
-        if(map.get(y).get(x)!=null && map.get(y).get(x) instanceof Candy);
-           map.get(y).get(x).mouseClicked();
+        if(map.get((int)y).get((int)x)!=null && map.get((int)y).get((int)x) instanceof Candy);
+           map.get((int)y).get((int)x).mouseClicked();
       }
     }
   }
+  
   void init(int level){
     String [] lines = loadStrings("level"+level+".txt");
     for(int i = 0; i<lines.length; i++){
