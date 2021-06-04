@@ -14,7 +14,6 @@ void setup(){
     //currentscreen="firstm";
     l1 = new Level(1);
     l1.init();
-    l1.map.get(0).get(0).neighborTest();
 }
 
 void draw(){
