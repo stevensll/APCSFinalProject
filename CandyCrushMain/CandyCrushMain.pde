@@ -73,7 +73,7 @@ void draw(){
      }
    }
    if (mousePressed && currentscreen.equals("back")){
-     if (mouseX>=200 && mouseX<=300){
+     if (mouseX>=135 && mouseX<=325 && mouseY>=530 && mouseY<=575){
        clear();
        
        back.mouseClicked("levels.jpg",-20,-200);
