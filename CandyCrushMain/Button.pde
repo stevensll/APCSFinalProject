@@ -16,7 +16,10 @@ public class Button{
     }
 
   }
-  void display(){
-
+  void display(String filename, int x, int y){ //just displays
+    PImage load = loadImage(filename);
+    imageMode(CORNER);
+    if (filename.equals("backIcon.png")) load.resize(60,60);
+    image(load,x,y);
   }
 }
