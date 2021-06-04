@@ -30,34 +30,40 @@ void draw(){
       }
    } 
    Button back = new Button();
+   Tracker test;
    if (currentscreen.equals("levels") && mousePressed){ //displays the gameplays for each level
      if (mouseX>=7 && mouseX<=65 && mouseY>=555 && mouseY<=630) {
        clear();
        l1.display(width/2,height/2); 
+       test = new Tracker(l1); test.display();
        back.display("backIcon.png",0,0);
        currentscreen = "lvl1";
      }
      else if (mouseX>=175 && mouseX<=230 && mouseY>=600 && mouseY<=690) {
        clear();
        l2.display(width/2, height/2);
+       test = new Tracker(l2); test.display();
        back.display("backIcon.png",0,0);
        currentscreen = "lvl2";
      }
      else if (mouseX>=325 && mouseX<=385 && mouseY>=560 && mouseY<=640){
        clear();
        l3.display(width/2, height/2);
+       test = new Tracker(l3); test.display();
        back.display("backIcon.png",0,0);
        currentscreen = "lvl3";
      }
      else if (mouseX>=380 && mouseX<=435 && mouseY>=430 && mouseY<=505){
        clear();
        l4.display(width/2, height/2);
+       test = new Tracker(l4); test.display();
        back.display("backIcon.png",0,0);
        currentscreen = "lvl4";
      }
      else if (mouseX>=310 && mouseX<=365 && mouseY>=315 && mouseY<=390){
        clear();
        l5.display(width/2, height/2);
+       test = new Tracker(l5); test.display();
        back.display("backIcon.png",0,0);
        currentscreen = "lvl5";
      }
