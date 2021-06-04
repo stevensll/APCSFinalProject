@@ -8,7 +8,8 @@ public class Tracker{
   }
 
   void display(){
-    for (int i=0; i<width; i++){
+    
+    for (int i=100; i<width-100; i++){
       for (int j=0; j<=100; j++){
         color c = color(247,160,233);
         set(i,j,c);

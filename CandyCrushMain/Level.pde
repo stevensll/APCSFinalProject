@@ -67,34 +67,38 @@ public class Level {
     numBlockers--;
   }
   
-  void display(int w, int l, boolean toggle) {
+  void display(int w, int l) {
     score.display();
-    xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
-    yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
-    screenW = w;
-    screenL = l;
-    /////draw the rectangular box around the candies
-    rectMode(CENTER);
-    stroke(120);
-    fill(120);
-    rect(w, l, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
-  
-    //offsets for centering the board
-  
-  
-    //display the candies at their right pixel positions
-    for (int y = 0; y < this.ySize; y++) {
-      for (int x = 0; x < this.xSize; x++) {
-        Element e = map.get(y).get(x);
-        if (e!=null) {
-          e.xPos = xOff+x*xSpacing;
-          e.yPos = yOff+y*ySpacing;
-          e.display(e.xPos, e.yPos);
+    if(maxMoves>0 || numBlockers>0){
+      xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
+      yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
+      screenW = w;
+      screenL = l;
+      /////draw the rectangular box around the candies
+      rectMode(CENTER);
+      stroke(120);
+      fill(120);
+      rect(w, l, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
+    
+      //offsets for centering the board
+    
+    
+      //display the candies at their right pixel positions
+      for (int y = 0; y < this.ySize; y++) {
+        for (int x = 0; x < this.xSize; x++) {
+          Element e = map.get(y).get(x);
+          if (e!=null) {
+            e.xPos = xOff+x*xSpacing;
+            e.yPos = yOff+y*ySpacing;
+            e.display(e.xPos, e.yPos);
+          }
         }
       }
+      updateNeighbors();
+      spawnCandy();
+      updateNeighbors();
+      pushDown();
     }
-    updateNeighbors();
-    pushDown();
   }
   
   void mouseTrack() {
@@ -129,7 +133,7 @@ public class Level {
             } else {
               updateNeighbors();
             }
-            cheese();
+            updateCandies();
             //System.out.println(chosen);
             firstSelected = null;
             updateNeighbors();
@@ -169,7 +173,37 @@ public class Level {
     firstSelected.clicked();
     chosen.clicked();
   }
-  
+  void spawnCandy(){
+     for(int i=0; i<1; i++){
+      for(int j = 0; j < xSize; j++){
+        Element ref = map.get(i).get(j);
+        if(ref==null){
+          double n  = Math.random() * 6;
+          if(n >= 0){
+            map.get(i).set(j, new Candy("orange"));
+          }
+          if(n >= 1){
+            map.get(i).set(j, new Candy("purple"));
+          }
+          if(n >= 2){
+            map.get(i).set(j, new Candy("yellow"));
+          }
+          if(n >= 3){
+            map.get(i).set(j, new Candy("red"));
+          }
+          if(n >= 4){
+            map.get(i).set(j, new Candy("blue"));
+          }
+          if(n >= 5){
+            map.get(i).set(j, new Candy("green"));
+          }
+          map.get(i).get(j).init(1);
+          map.get(i).get(j).xPosL = j;
+          map.get(i).get(j).yPosL = i;
+        }
+      }
+    }
+  }
   void pushDown(){
     for(int i=ySize-2; i>=0; i--){
       for(int j = 0; j < xSize; j++){
@@ -184,7 +218,7 @@ public class Level {
       }
     }
   }
-  void cheese(){
+  void updateCandies(){
     for(int i=ySize-1; i>=0; i--){
       for(int j = 0; j < xSize; j++){
         Element ref = map.get(i).get(j);

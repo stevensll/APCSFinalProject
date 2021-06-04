@@ -83,8 +83,8 @@ void draw(){
        //resume level
      }
    }
-  if(l1!=null && !toggle)l1.display(width/2,height/2);
-  if(l2!=null && !toggle)l2.display(width/2,height/2);
+  if(l1!=null)l1.display(width/2,height/2);
+  if(l2!=null)l2.display(width/2,height/2);
   if(l3!=null && !toggle)l3.display(width/2,height/2);
   if(l4!=null && !toggle)l4.display(width/2,height/2);
   if(l5!=null && !toggle)l5.display(width/2,height/2);
@@ -94,5 +94,8 @@ void mouseClicked(){
   if(l1!=null){
     l1.mouseTrack();
   }
+  //if(l2!=null){
+  //  l2.mouseTrack();
+  //}
 
 }
