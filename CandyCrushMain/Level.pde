@@ -11,56 +11,7 @@ public class Level {
   public Level(int level){
     numBlockers = 0;
     map = new ArrayList<ArrayList<Element>>();
-    String [] lines = loadStrings("level"+level+".txt");
-    for(int i = 0; i<lines.length; i++){
-      System.out.println();
-      if(i == 0){
-        String [] splitter = lines[0].split(" ");
-        xSize = Integer.parseInt(splitter[0]);
-        ySize = Integer.parseInt(splitter[1]);
-        maxMoves = Integer.parseInt(splitter[2]);
-      }
-      else{
-        ArrayList<Element> column = new ArrayList<Element>();
-        for(int j = 0; j < xSize; j++){
-            String [] splitter = lines[i].split(" ");
-            if(splitter[j].equals("E")) {
-              column.add(null);
-              System.out.print(" ");
-            }
-            if(splitter[j].equals("R")) {
-              column.add(new Candy("red"));
-              System.out.print("R ");
-            }
-            if(splitter[j].equals("G")) {
-              column.add(new Candy("green"));
-              System.out.print("G ");
-            }
-            if(splitter[j].equals("B")) {
-              column.add(new Candy("blue"));
-              System.out.print("B ");
-            }
-            if(splitter[j].equals("Y")) {
-              column.add(new Candy("yellow"));
-              System.out.print("Y ");
-            }
-            if(splitter[j].equals("P")) {
-              column.add(new Candy("purple"));
-              System.out.print("P ");
-            }
-            if(splitter[j].equals("O")) {
-              column.add(new Candy("orange"));
-              System.out.print("O ");
-            }
-            if(splitter[j].equals("I")) {
-              numBlockers++;
-              column.add(new Icing());
-              //System.out.print("I ");
-            }
-        }
-        map.add(column);
-      }
-    }
+    init(level);
     setNeighbors();
   }
 void setNeighbors(){
@@ -92,45 +43,37 @@ void setNeighbors(){
     numBlockers--;
   }
   
-  void init(){
-    for(ArrayList<Element> column : map){
-      for(Element e: column){
-        if(e!=null){
-           e.init();
-        }
-      }
-    }
-  }
-  
   void display(int w, int l){
     int xSpacing = 50;
     int ySpacing = 55;
     
+    /////draw the rectangular box around the candies
     rectMode(CENTER);
     stroke(120);
     fill(120);
     rect(w,l,this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10,10,10,10);
+    
     //offsets for centering the board
-    int xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
-    int yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
+    float xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
+    float yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
     
     for(int y = 0; y < this.ySize; y++){
       for(int x = 0; x < this.xSize; x++){
         Element e = map.get(y).get(x);
         if(e!=null){
-            map.get(y).get(x).xPos = xOff+x*xSpacing;
-            map.get(y).get(x).yPos = yOff+y*ySpacing;
-            e.display(xOff+x*xSpacing, yOff+y*ySpacing,1);
+            e.xPos = xOff+x*xSpacing;
+            e.yPos = yOff+y*ySpacing;
+            e.display(e.xPos, e.yPos);
         }
       }
     }
     mouseTrack(xOff,yOff);
   }
   
-  void mouseTrack(int xOff, int yOff){
+  void mouseTrack(float xOff, float yOff){
     if(mousePressed){
-      int x = (mouseX -xOff) / 40;
-      int y = (mouseY - yOff) / 50;
+      int x = (int)(mouseX -xOff) / 40;
+      int y = (int)(mouseY - yOff) / 50;
       System.out.println(x);
       System.out.println(y);
       if(x >= 0 && x<xSize && y>=0 && y<ySize){
@@ -139,5 +82,60 @@ void setNeighbors(){
       }
     }
   }
-  
+  void init(int level){
+    String [] lines = loadStrings("level"+level+".txt");
+    for(int i = 0; i<lines.length; i++){
+      System.out.println();
+      if(i == 0){
+        String [] splitter = lines[0].split(" ");
+        xSize = Integer.parseInt(splitter[0]);
+        ySize = Integer.parseInt(splitter[1]);
+        maxMoves = Integer.parseInt(splitter[2]);
+      }
+      else{
+        ArrayList<Element> column = new ArrayList<Element>();
+        for(int j = 0; j < xSize; j++){
+            String [] splitter = lines[i].split(" ");
+            if(splitter[j].equals("E")) {
+              column.add(null);
+              System.out.print(" ");
+            }
+            if(splitter[j].equals("R")) {
+              column.add(new Candy("red"));
+            }
+            if(splitter[j].equals("G")) {
+              column.add(new Candy("green"));
+            }
+            if(splitter[j].equals("B")) {
+              column.add(new Candy("blue"));
+            }
+            if(splitter[j].equals("Y")) {
+              column.add(new Candy("yellow"));
+            }
+            if(splitter[j].equals("P")) {
+              column.add(new Candy("purple"));
+            }
+            if(splitter[j].equals("O")) {
+              column.add(new Candy("orange"));
+            }
+            if(splitter[j].equals("I")) {
+              numBlockers++;
+              column.add(new Icing());
+            }
+            //////////////////////////////
+            
+            //set the list positionings of the candies and init it with its scale
+            if(column.get(j) == null){
+              System.out.print(" ");
+            } else {
+              System.out.print(column.get(j).toString() + " ");
+              column.get(j).xPosL = j;
+              column.get(j).yPosL = i;
+              column.get(j).init(1);
+            }
+        }
+        map.add(column);
+      }
+    }
+  }
 }

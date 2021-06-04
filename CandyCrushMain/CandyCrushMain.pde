@@ -12,8 +12,7 @@ void setup(){
     //image(firstm, 0,0);
 
     //currentscreen="firstm";
-    l1 = new Level(1);
-    l1.init();
+    l1 = new Level(3);
 }
 
 void draw(){
