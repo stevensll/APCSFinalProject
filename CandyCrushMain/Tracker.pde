@@ -16,12 +16,12 @@ public class Tracker{
       }
     }
     fill(0);
-    textSize(20);
+    textSize(15);
     textAlign(CENTER,CENTER);
     text("Moves Left: "+maxMoves,width/2, 30); //displays number of moves left
     
     fill(0);
-    textSize(20);
+    textSize(15);
     text("Blockers Left: "+numBlockers,width/2,65); //displays number of blockers left
     
     if (maxMoves==0){

@@ -63,13 +63,13 @@ void draw(){
    //allows player to go back to levels screen
    if (mousePressed && currentscreen.contains("lvl")){
      if (mouseX>=10 && mouseX<=47 && mouseY<=47){
-       back.mouseClicked("backButton.png",0,0);
+       back.mouseClicked("backButtonCropped.png",0,50);
        currentscreen = "back";
        //toggle = true;
      }
    }
    if (mousePressed && currentscreen.equals("back")){
-     if (mouseX>=135 && mouseX<=325 && mouseY>=530 && mouseY<=575){
+     if (mouseX>=0 && mouseX<=100 && mouseY>=47 && mouseY<=80){
        clear();
        l1 = null;
        l2 = null;
@@ -97,5 +97,7 @@ void mouseClicked(){
   //if(l2!=null){
   //  l2.mouseTrack();
   //}
-
+  if(l2!=null){
+    l2.score.maxMoves--;
+  }
 }

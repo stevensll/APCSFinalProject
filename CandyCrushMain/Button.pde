@@ -11,7 +11,7 @@ public class Button{
       image(loadscreen,x,y);
     }
     else{
-      loadscreen.resize(463,0);
+      loadscreen.resize(100,0);
       image(loadscreen,x,y);
     }
 
