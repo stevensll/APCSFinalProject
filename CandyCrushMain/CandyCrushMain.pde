@@ -3,6 +3,7 @@ Level l3; Level l4;
 Level l5; Level l6;
 
 String currentscreen;
+//boolean win;
 //PImage current;
 
 void setup(){
@@ -31,6 +32,7 @@ void draw(){
    } 
    Button back = new Button();
    Tracker test;
+   //win = false;
    if (currentscreen.equals("levels") && mousePressed){ //displays the gameplays for each level
      if (mouseX>=7 && mouseX<=65 && mouseY>=555 && mouseY<=630) {
        clear();
