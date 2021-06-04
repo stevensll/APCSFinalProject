@@ -109,6 +109,12 @@ void setNeighbors(){
       }
       System.out.println(selected);
   }
+  void swap(Candy selected, Candy chosen){
+    int sxPosL = selected.xPosL;
+    int syPosL = selected.yPosL;
+    float selectedXPos = selected.xPos;
+    float selectedYPos = selected.yPos;
+  }
   
   void init(int level){
     String [] lines = loadStrings("level"+level+".txt");
@@ -156,7 +162,7 @@ void setNeighbors(){
             if(column.get(j) == null){
               System.out.print(" ");
             } else {
-              System.out.print(column.get(j).toString() + " ");
+              //System.out.print(column.get(j).toString() + " ");
               column.get(j).xPosL = j;
               column.get(j).yPosL = i;
               column.get(j).init(1);
@@ -165,5 +171,20 @@ void setNeighbors(){
         map.add(column);
       }
     }
+    System.out.println(this);
   }
+  String toString(){
+    String r = "";
+    for(ArrayList<Element> column : map){
+      for(Element e : column){
+        r+= e.toString() + " ";
+      }
+      r+="\n";
+    }
+    return r;
+  }
+  
+  
+  
+  
 }
