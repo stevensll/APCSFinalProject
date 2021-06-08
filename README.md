@@ -10,6 +10,10 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
 
 **Full Documentation**: https://docs.google.com/document/d/14Sa5gidgGSbhlf87K5KDiDqQwpsWG7MyiybDuFpHrM4/edit?usp=sharing
 
+**UML**
+![APCS Candy Crush UML (1)](https://user-images.githubusercontent.com/46882137/121121836-607ed200-c7ee-11eb-9158-fc7aec4150d0.png)
+https://docs.google.com/drawings/d/1fAm1XaMZYFh-6hZ6EEh9lmkhswXjxU8QlF4A36Q-s4o/edit
+
 ## Development Log ##
 
 * **5/24**
@@ -35,3 +39,18 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
 
 * **5/31**
   * **Steven**: First, I reformatted the class hierarchy of the game elements by adding the parent abstract class Element. Candy and Blockers now extend from this class, which removes the repeated constructor scheme for loading the image icon. I also finished the constructor of the level class using loadStrings and String delimiters. I was able to successfully display each Element object within the map 2D ArrayList of the level and also accounted for empty squares.
+  * **Ava**: N/A
+
+* **6/1**
+  * **Steven**: I worked on updating the icons of Candies after realizing that they were the incorrect resolution and tweaked displaying the level object so it would be centered in the screen.
+  * **Ava**: I created the button that connected the playButton with the levels screen and adjusted the screen sizes for both PImages.
+
+* **6/3**
+  * **Steven**: I implemented the abIlity to click on Candies and update their icons if they are clicked. After I was able to do this, I worked on making sure that only one candy can be selected at a time, and the second candy would trigger a swap function. I also made some adjustments to the Level and class to make sure the neighbors of each element are properly set and started the remove method.
+  * **Ava**: I created a global String variable that kept track of the screen that is currently being displayed, added the text files for levels 5 and 6, and worked on displaying  each level from the levels screen. I also added the class templates for Jelly and StripedCandy.
+Together: We merged our branches…
+
+* **6/4 (before 8am)**
+  * **Steven**: I completed the swap and remove method for Candies, added the spawnCandy() and pushDown() methods for making the Candies drop after a removal. I did some debugging to make polish the swap() method, but unfortunately there are some issues that I did not fully resolve.
+  * **Ava**: I connected all the buttons to their screens and created a tracker class that displays the number of moves and blockers left. I also implemented the win and loss screen.
+
