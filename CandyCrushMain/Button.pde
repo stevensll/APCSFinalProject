@@ -1,6 +1,7 @@
 public class Button{
   int leftx; int rightx;
   int topy; int bottomy;
+  
   public Button(int left, int right, int top, int bottom){
     leftx = left;
     rightx = right;
@@ -8,25 +9,22 @@ public class Button{
     bottomy = bottom;
   }
   
-  void mouseClicked(String filename, int x, int y){
+  void mouseClicked(String filename, int x, int y){ //displays image and resizes
     PImage loadscreen = loadImage(filename);
     imageMode(CORNER);
     if (filename.equals("levels.jpg")) {
       loadscreen.resize(463,1000);
-      image(loadscreen,x,y);
     }
+    else if (filename.equals("backIcon.png")) loadscreen.resize(60,60);
     else{
       loadscreen.resize(463,0);
-      image(loadscreen,x,y);
     }
-
+    image(loadscreen,x,y);
   }
-  void display(String filename, int loadonx, int loadony){ //checks coordinates and displays
+  void display(String filename, int loadonx, int loadony){ //checks coordinates and calls mouseClicked
+    //rect(leftx,topy,rightx-leftx,bottomy-topy);
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
-    PImage load = loadImage(filename);
-    imageMode(CORNER);
-    if (filename.equals("backIcon.png")) load.resize(60,60);
-    image(load,loadonx,loadony);
+      mouseClicked(filename, loadonx, loadony);
     }
   }
 }
