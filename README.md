@@ -46,7 +46,7 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
   * **Ava**: I created a global String variable that kept track of the screen that is currently being displayed, added the text files for levels 5 and 6, and worked on displaying  each level from the levels screen. I also added the class templates for Jelly and StripedCandy.
 Together: We merged our branches…
 
-* **6/4 **(before 8am)
+* **6/4 (before 8am)**
   * **Steven**: I completed the swap and remove method for Candies, added the spawnCandy() and pushDown() methods for making the Candies drop after a removal. I did some debugging to make polish the swap() method, but unfortunately there are some issues that I did not fully resolve.
   * **Ava**: I connected all the buttons to their screens and created a tracker class that displays the number of moves and blockers left. I also implemented the win and loss screen.
 
