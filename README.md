@@ -11,7 +11,7 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
 **Full Documentation**: https://docs.google.com/document/d/14Sa5gidgGSbhlf87K5KDiDqQwpsWG7MyiybDuFpHrM4/edit?usp=sharing
 
 **UML**
-![APCS Candy Crush UML](https://user-images.githubusercontent.com/46882137/121120941-a0dd5080-c7ec-11eb-9179-b64556715398.png)
+![APCS Candy Crush UML (1)](https://user-images.githubusercontent.com/46882137/121121836-607ed200-c7ee-11eb-9158-fc7aec4150d0.png)
 https://docs.google.com/drawings/d/1fAm1XaMZYFh-6hZ6EEh9lmkhswXjxU8QlF4A36Q-s4o/edit
 
 ## Development Log ##
