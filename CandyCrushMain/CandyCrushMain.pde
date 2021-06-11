@@ -2,6 +2,7 @@ Level l1; Level l2;
 Level l3; Level l4;
 Level l5; Level l6;
 Button playButton; Button back;
+Button lvl1; Button lvl2; Button lvl3; Button lvl4; Button lvl5;
 String currentscreen;
 
 //boolean win;
@@ -19,7 +20,7 @@ void setup(){
 
 void draw(){
  
-    back = new Button(7,65,555,630);
+    //back = new Button(7,65,555,630);
 //   boolean toggle = false;
 //   //win = false;
 //   if (currentscreen.equals("levels")){ //displays the gameplays for each level
@@ -90,7 +91,14 @@ void mouseClicked(){
   //  l1.mouseTrack();
     if (playButton!=null && currentscreen.equals("firstm")) {
       playButton.display("levels.jpg",-20,-200);
-      currentscreen = "levels"; }
-    //if (back!=null && currentscreen.equals("levels")) {
-    //  back.display("backIcon.png",0,0); }
-  }
+      currentscreen = "levels"; 
+    }
+    if (lvl1!=null && currentscreen.equals("levels")){
+      lvl1 = new Button(7,65,555,630);
+      lvl1.display(l1, 1);
+      currentscreen = "gameplay";
+    }
+ 
+  //  if (back!=null && currentscreen.equals("levels")) {
+  //    back.display("backIcon.png",0,0); }
+}

@@ -27,4 +27,13 @@ public class Button{
       mouseClicked(filename, loadonx, loadony);
     }
   }
+  void mouseClicked(Level l, int n){
+    clear();
+    l = new Level(n);
+    l.display(width/2, height/2, true);
+  }
+  void display(Level l, int n) { //displaying levels
+    if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
+      mouseClicked(l, n); }
+  }
 }
