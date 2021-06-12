@@ -8,6 +8,7 @@ void setup(){
 
     size(463,1000);
     l1 = new Level(1);
+        l1.maxMoves = 0;
 
 }
 

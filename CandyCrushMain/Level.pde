@@ -10,6 +10,7 @@ public class Level {
   int ySpacing = 55;
   Element firstSelected;
   Tracker score;
+  boolean active;
 
   public Level(int level) {
     numBlockers = 0;
@@ -17,6 +18,7 @@ public class Level {
     init(level);
     updateNeighbors();
     display();
+    active = true;
   }
   
   void updateNeighbors() {
@@ -68,19 +70,89 @@ public class Level {
       }
     }
   }
-  boolean removeCandies(){
+  boolean removable(){
     int count = 0;
     for(int y = 0; y < ySize; y++){
       for(int x = 0; x<xSize; x++){
         if(map.get(y).get(x).remove){
           count++;
-          map.get(y).set(x,null);
         }
       }
     }
     return count > 2;
   }
   
+  boolean remove(){
+    int count = 0;
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x<xSize; x++){
+        if(map.get(y).get(x)!=null && map.get(y).get(x).remove){
+          count++;
+          map.get(y).set(x, null);
+        }
+      }
+    }
+    updateNeighbors();
+    return count > 2;
+  }
+
+  void drop(){
+    for(int i=ySize-2; i>=0; i--){
+      for(int j = 0; j < xSize; j++){
+        Element ref = map.get(i).get(j);
+        if(ref!=null && ref.dN == null){
+          map.get(i+1).set(j,ref);
+          map.get(i).set(j,null);
+          ref.xPosL = j;
+          ref.yPosL+=1;
+          updateNeighbors();
+        }
+      }
+    }
+  }
+  void spawn(){
+    for(int i=0; i<1; i++){
+      for(int j = 0; j < xSize; j++){
+        Element ref = map.get(i).get(j);
+        if(ref==null){
+          double n  = Math.random() * 6;
+          if(n >= 0){
+            map.get(i).set(j, new Candy("orange"));
+          }
+          if(n >= 1){
+            map.get(i).set(j, new Candy("purple"));
+          }
+          if(n >= 2){
+            map.get(i).set(j, new Candy("yellow"));
+          }
+          if(n >= 3){
+            map.get(i).set(j, new Candy("red"));
+          }
+          if(n >= 4){
+            map.get(i).set(j, new Candy("blue"));
+          }
+          if(n >= 5){
+            map.get(i).set(j, new Candy("green"));
+          }
+          map.get(i).get(j).init(1);
+          map.get(i).get(j).xPosL = j;
+          map.get(i).get(j).yPosL = i;
+        }
+      }
+    }
+    updateNeighbors();
+  }
+  void update(){
+    drop();
+  }
+  boolean droppable(){
+    for(int i = 0; i < ySize; i++){
+      for(int j = 0; j< xSize; j++){
+        if(map.get(i).get(j)==null) return true;
+      }
+    }
+    return false;
+  }
   void display() {
     // score.display();
     if(maxMoves>0){
@@ -99,16 +171,24 @@ public class Level {
           }
         }
       }
-
+      while(droppable()){
+        drop();
+        spawn();
+      }
+      flagCandies();
+      remove();
+      
     } else {
+      active = false;
       PImage end;
       if (numBlockers > 0){
         end = loadImage("loss.jpg");
       } else {
         end = loadImage("win.jpg");
       }
+      imageMode(CENTER);
       end.resize(0,1000);
-      image(end,0,0);
+      image(end,width/2,height/2);
     }
 
   }
@@ -118,7 +198,7 @@ public class Level {
     float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
     float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
 
-    if (x >= 0 && x<xSize && y>=0 && y<ySize) {    
+    if (active && x >= 0 && x<xSize && y>=0 && y<ySize) {    
       Element chosen =map.get((int)y).get((int)x);
       //check if the mouse has clicked a candy
       if (chosen!=null && chosen instanceof Candy) {
@@ -128,13 +208,14 @@ public class Level {
           if (chosen.equals(firstSelected)) {
             chosen.clicked();
             firstSelected = null;
+            
           //swapping sequence: core of the program
           } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
             firstSelected.clicked();
             swap(chosen, this.firstSelected);
             flagCandies();
             //if a possible combo can be made from the swap, run the break sequence. if not, swap them back.
-            if(removeCandies()){
+            if(removable()){
               firstSelected = null;
               /*
               iterate:
@@ -155,7 +236,7 @@ public class Level {
           chosen.clicked();
         }
         System.out.println("1st selected " + firstSelected);
-        System.out.println(this);
+        System.out.println(this + ""+maxMoves);
       }
     }
   }
