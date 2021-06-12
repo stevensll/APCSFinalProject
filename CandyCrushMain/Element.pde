@@ -1,9 +1,10 @@
 abstract class Element{
   PImage icon;
   String imagePath;
-  String c;
+  String col;
   Element lN, rN, uN, dN;
   int[] chains = new int[]{0,0,0,0};
+  boolean remove;
   float scale;
   
   //coordinates based on pixel positioning;
@@ -12,9 +13,10 @@ abstract class Element{
   int xPosL, yPosL;
 
   public Element(String file){
-    c = "";
+    col = "";
     scale = 1;
     imagePath = file;
+    remove = false;
   }
   void updateChains(String input, int value){
     if(input.equals("up")){  
@@ -44,10 +46,4 @@ abstract class Element{
   
   abstract String toString();
 
-  void neighborTest(){
-    if(lN!=null) System.out.println("l" + lN.getClass().getName());
-    if(rN!=null)System.out.println("r" + rN.getClass().getName());
-    if(uN!=null)System.out.println("up" + uN.getClass().getName());
-    if(dN!=null)System.out.println("down"+ dN.getClass().getName());
-  }
 }

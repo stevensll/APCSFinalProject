@@ -40,7 +40,43 @@ public class Level {
       }
     }
   }
-  
+
+  void flagCandies(){
+    // look at the candies in a 3 in a row approach throughout each row
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize-2; x++){
+        Element a = map.get(y).get(x);
+        Element b = map.get(y).get(x+1);
+        Element c = map.get(y).get(x+2);
+        if(a.col.equals(b.col) && a.col.equals(c.col)){
+          a.remove = true;
+          b.remove = true;
+          c.remove = true;
+        }
+      }
+    }
+    for(int y = 0; y < ySize-2; y++){
+      for(int x = 0; x < xSize; x++){
+        Element a = map.get(y).get(x);
+        Element b = map.get(y+1).get(x);
+        Element c = map.get(y+2).get(x);
+        if(a.col.equals(b.col) && a.col.equals(c.col)){
+          a.remove = true;
+          b.remove = true;
+          c.remove = true;
+        }
+      }
+    }
+  }
+  void removeCandies(){
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x<xSize; x++){
+        if(map.get(y).get(x).remove){
+          map.get(y).set(x,null);
+        }
+      }
+    }
+  }
   
   void display() {
     // score.display();
@@ -50,6 +86,8 @@ public class Level {
       fill(120);
       rect(width/2, height/2, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
       //display the candies at their right pixel positions
+      flagCandies();
+      removeCandies();
       for (int y = 0; y < this.ySize; y++) {
         for (int x = 0; x < this.xSize; x++) {
           Element e = map.get(y).get(x);
@@ -60,7 +98,6 @@ public class Level {
           }
         }
       }
-
 
     } else {
       PImage end;
@@ -91,8 +128,8 @@ public class Level {
             firstSelected = null;
             //swapping sequence: core of the program
           } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
-            chosen.clicked();
             swap(chosen, this.firstSelected);
+            firstSelected.clicked();
             firstSelected = null;
             maxMoves--;
           }
@@ -101,9 +138,11 @@ public class Level {
           firstSelected = chosen;
           chosen.clicked();
         }
+        System.out.println(firstSelected);
+        System.out.println(this);
       }
     }
-}
+  }
 
 void swap(Element chosen, Element firstSelected) {
     int sxPosL = firstSelected.xPosL;
@@ -210,7 +249,11 @@ void swap(Element chosen, Element firstSelected) {
     PImage background = loadImage("background.png");
     background.resize(0,1000);
     image(background,0,0);
-
+    
+    rectMode(CENTER);
+    stroke(120);
+    fill(120);
+    rect(width/2, height/2, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
 
   }
 
