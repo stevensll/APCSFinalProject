@@ -14,9 +14,11 @@ public class Level {
   public Level(int level) {
     numBlockers = 0;
     map = new ArrayList<ArrayList<Element>>();
-    
     init(level);
-
+    score = new Tracker(this);
+    PImage background = loadImage("background.png");
+    background.resize(0,1000);
+    image(background,0,0);
   }
   
   void updateNeighbors() {
@@ -172,18 +174,15 @@ public class Level {
 
 
     //xOff and yOff are offsets to determine how to offset the candy icons in relation to the board
-    xOff = width/2 - (this.xSize * xSpacing / 2 - xSpacing/2);
-    yOff = height/2 - (this.ySize * ySpacing / 2 - ySpacing/2);
+    xOff = width - (this.xSize * xSpacing / 2 - xSpacing/2);
+    yOff = height - (this.ySize * ySpacing / 2 - ySpacing/2);
 
 
-    /////draw the grey box around the candies    score = new Tracker(this);
-    PImage background = loadImage("background.png");
-    background.resize(0,1000);
-    image(background,0,0);
+    /////draw the grey box around the candies
     rectMode(CENTER);
     stroke(120);
     fill(120);
-    rect(width/2, height/2, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
+    rect(width, height, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
 
   }
 
