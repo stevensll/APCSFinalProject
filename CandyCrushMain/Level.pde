@@ -68,14 +68,17 @@ public class Level {
       }
     }
   }
-  void removeCandies(){
+  boolean removeCandies(){
+    int count = 0;
     for(int y = 0; y < ySize; y++){
       for(int x = 0; x<xSize; x++){
         if(map.get(y).get(x).remove){
+          count++;
           map.get(y).set(x,null);
         }
       }
     }
+    return count > 2;
   }
   
   void display() {
@@ -86,8 +89,6 @@ public class Level {
       fill(120);
       rect(width/2, height/2, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
       //display the candies at their right pixel positions
-      flagCandies();
-      removeCandies();
       for (int y = 0; y < this.ySize; y++) {
         for (int x = 0; x < this.xSize; x++) {
           Element e = map.get(y).get(x);
@@ -119,46 +120,63 @@ public class Level {
 
     if (x >= 0 && x<xSize && y>=0 && y<ySize) {    
       Element chosen =map.get((int)y).get((int)x);
-      //check if clicked is valid
+      //check if the mouse has clicked a candy
       if (chosen!=null && chosen instanceof Candy) {
-        //if there is already a firstSelected: unselect if same candy, if not check if its a neighbor and swap if true
+        //if there is already a selected: unselect if same candy, if not check if its a neighbor and swap if true
         if (firstSelected!=null) {
+          //if the player reclicks on the selected candy, unselect it.
           if (chosen.equals(firstSelected)) {
             chosen.clicked();
             firstSelected = null;
-            //swapping sequence: core of the program
+          //swapping sequence: core of the program
           } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
-            swap(chosen, this.firstSelected);
             firstSelected.clicked();
-            firstSelected = null;
-            maxMoves--;
+            swap(chosen, this.firstSelected);
+            flagCandies();
+            //if a possible combo can be made from the swap, run the break sequence. if not, swap them back.
+            if(removeCandies()){
+              firstSelected = null;
+              /*
+              iterate:
+              drop
+              combo
+              spawn
+              */
+              maxMoves--;
+            //if no candies can be removed, then we swap back      
+            } else{
+              swap(firstSelected,chosen);
+              firstSelected = null;
+            }
           }
-          //if not, chosen is the firstSelected
+        //if not, appoint a candy to be selected
         } else {
           firstSelected = chosen;
           chosen.clicked();
         }
-        System.out.println(firstSelected);
+        System.out.println("1st selected " + firstSelected);
         System.out.println(this);
       }
     }
   }
 
-void swap(Element chosen, Element firstSelected) {
-    int sxPosL = firstSelected.xPosL;
-    int syPosL = firstSelected.yPosL;
+void swap(Element chosen, Element selected) {
+    int sxPosL = selected.xPosL;
+    int syPosL = selected.yPosL;
     //System.out.println( sxPosL + " " + syPosL);
   
-    firstSelected.xPosL = chosen.xPosL;
-    firstSelected.yPosL = chosen.yPosL;
+    selected.xPosL = chosen.xPosL;
+    selected.yPosL = chosen.yPosL;
   
   
-    map.get(chosen.yPosL).set(chosen.xPosL, firstSelected);
+    map.get(chosen.yPosL).set(chosen.xPosL, selected);
   
     chosen.xPosL = sxPosL;
     chosen.yPosL = syPosL;
   
     map.get(syPosL).set(sxPosL, chosen);
+    System.out.println("1st selected" + firstSelected);
+
     updateNeighbors();
 }
 
