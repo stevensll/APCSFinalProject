@@ -13,9 +13,11 @@ public class Candy extends Element{
   void clicked(){
     if(!isClicked){
       isClicked = true;
+      display(this.xPos,this.yPos);
     }
     else {
       isClicked = false;
+      display(this.xPos,this.yPos);
     }
     //System.out.println(xPos + " " + yPos + " clicked");
 
