@@ -32,7 +32,7 @@ public class Candy extends Element{
   }
   
   String toString(){
-    if(remove) return "r";
+    if(remove) return "*";
     else return col.substring(0,1);
   }
 }

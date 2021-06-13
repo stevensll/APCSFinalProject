@@ -171,12 +171,14 @@ public class Level {
           }
         }
       }
-      while(droppable()){
+      if(droppable()){
         drop();
         spawn();
+      } else {
+        flagCandies();
+        remove();
       }
-      flagCandies();
-      remove();
+
       
     } else {
       active = false;
@@ -274,8 +276,7 @@ void swap(Element chosen, Element selected) {
         for (int j = 0; j < xSize; j++) {
           String [] splitter = lines[i].split(" ");
           if (splitter[j].equals("E")) {
-            column.add(null);
-            System.out.print(" ");
+            column.add(new Empty());
           }
           if (splitter[j].equals("R")) {
             column.add(new Candy("red"));
@@ -361,7 +362,7 @@ void swap(Element chosen, Element selected) {
     for (ArrayList<Element> column : map) {
       for (Element e : column) {
         if(e!=null)r+= e.toString() + " ";
-        else r+=" ";
+        else r+="  ";
       }
       r+="\n";
     }
