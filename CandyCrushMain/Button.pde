@@ -13,6 +13,7 @@ public class Button{
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
       if (screen.equals("backmenu")) menuShowing=!menuShowing;
       else{
+        if (screen.equals("levels")) menuShowing=false;
         currentscreen=screen;
         if (screen.equals("gameplay1")) l1 = new Level(1);
         if (screen.equals("gameplay2")) l2 = new Level(2);
@@ -34,5 +35,4 @@ public class Button{
     imageMode(CORNER);
     image(loadscreen,loadonx,loadony);
   }
-
 }
