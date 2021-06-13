@@ -22,20 +22,19 @@ public class Button{
     image(loadscreen,x,y);
   }
   void display(String filename, int loadonx, int loadony){ //checks coordinates and calls mouseClicked
-    //rect(leftx,topy,rightx-leftx,bottomy-topy);
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
       mouseClicked(filename, loadonx, loadony);
+      if (filename.equals("levels.jpg")) currentscreen="levels";
     }
   }
-  void mouseClicked(Level l, int n){
+  void mouseClicked(Level l, int n){ // for levels
     clear();
     l = new Level(n);
     l.display(width/2, height/2);
+    currentscreen = "gameplay";
   }
   void display(Level l, int n) { //displaying levels
-    rect(leftx,topy,rightx-leftx,bottomy-topy);
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
-      rect(mouseX,mouseY,10,10);
       mouseClicked(l, n); }
   }
 }

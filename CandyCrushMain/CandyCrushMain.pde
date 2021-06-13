@@ -23,9 +23,7 @@ void draw(){
  
    //back = new Button(7,65,555,630);
    //boolean toggle = false;
-   if (currentscreen.equals("levels")){ //displays the gameplays for each level
-     lvl1 = new Button(7,65,555,630);
-     lvl2 = new Button(175,230,555,630);
+   //if (currentscreen.equals("levels")){ //displays the gameplays for each level
      //if (mouseX>=7 && mouseX<=65 && mouseY>=555 && mouseY<=630) {
      //  clear();
      //  l1 = new Level (1);
@@ -87,20 +85,24 @@ void draw(){
   //if(l4!=null)l4.display(width/2,height/2);
   //if(l5!=null)l5.display(width/2,height/2);
 
-}
+//}
 
 
 void mouseClicked(){
-  //if(l1!=null){
-  //  l1.mouseTrack(); }
     if (playButton!=null && currentscreen.equals("firstm")) {
       playButton.display("levels.jpg",-20,-200);
-      currentscreen = "levels"; 
       lvl1 = new Button(7,65,555,630);
+      lvl2 = new Button(175,230,555,630);
+      lvl3 = new Button(325,385,560,640);
+      lvl4 = new Button(380,435,430,505);
+      lvl5 = new Button(310,365,315,390);
     }
     if (currentscreen.equals("levels")){
       lvl1.display(l1, 1);
-      currentscreen = "gameplay";
+      lvl2.display(l2, 2);
+      lvl3.display(l3, 3);
+      lvl4.display(l4, 4);
+      lvl5.display(l5, 5);
     }
  
   //  if (back!=null && currentscreen.equals("levels")) {
