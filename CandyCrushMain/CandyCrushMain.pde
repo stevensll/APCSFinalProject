@@ -25,7 +25,6 @@ void setup(){
 
 void draw(){
    //boolean toggle = false;
- 
    
    //allows player to go back to levels screen
    //if (mousePressed && currentscreen.contains("lvl")){
@@ -35,17 +34,18 @@ void draw(){
    //    //toggle = true;
    //  }
    //}
-   //if (mousePressed && currentscreen.equals("back")){
-   //  if (mouseX>=135 && mouseX<=325 && mouseY>=530 && mouseY<=575){
-   //    clear();
-   //    l1 = null;
-   //    l2 = null;
-   //    l3 = null;
-   //    l4 = null;
-   //    l5 = null;
-   // //   back.mouseClicked("levels.jpg",-20,-200); //returns to level page
-   //    currentscreen = "levels";
-   //  }
+   //if (currentscreen.equals("gameplay")){
+   //   back.display("backButton.png",0,0);
+     //if (mouseX>=135 && mouseX<=325 && mouseY>=530 && mouseY<=575){
+     //  clear();
+     //  l1 = null;
+     //  l2 = null;
+     //  l3 = null;
+     //  l4 = null;
+     //  l5 = null;
+    //   back.mouseClicked("levels.jpg",-20,-200); //returns to level page
+       //currentscreen = "levels";
+    // } //}
    //  else if (mouseX>=500){
    //    //resume level
    //  }
@@ -84,8 +84,9 @@ void mouseClicked(){
       lvl9.display(l9, 9);
       lvl10.display(l10, 10);
     }
-    if (currentscreen.equals("gameplay")){
-      back.display("backIcon.png",0,0);
-    }
- 
+    //if (currentscreen.equals("gameplay")){
+    //  back.display("backButton.png",-20,-20);
+    //  //Button quit = new Button();
+    //  //quit.display("levels.png",-20,-200);
+    //}
 }

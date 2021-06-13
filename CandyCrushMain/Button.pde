@@ -15,13 +15,13 @@ public class Button{
     if (filename.equals("levels.jpg")) {
       loadscreen.resize(463,1000);
     }
-    else if (filename.equals("backIcon.png")) loadscreen.resize(60,60);
     else{
       loadscreen.resize(463,0);
     }
     image(loadscreen,x,y);
   }
   void display(String filename, int loadonx, int loadony){ //checks coordinates and calls mouseClicked
+    //System.out.println(mouseX + " " + mouseY);
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
       mouseClicked(filename, loadonx, loadony);
       if (filename.equals("levels.jpg")) currentscreen="levels";
