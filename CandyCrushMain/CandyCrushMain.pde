@@ -8,7 +8,7 @@ void setup(){
 
     size(463,1000);
     l1 = new Level(1);
-    frameRate(10);
+    frameRate(8);
 }
 
 void draw(){

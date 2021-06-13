@@ -27,7 +27,7 @@ abstract class Element{
   
   void display(float x, float y){
     if(remove){
-      color c = 40;
+      color c = 200;
       if(col.equals("red")) c =  color(179,2,5);
       if(col.equals("orange")) c =  color(230,121,5);
       if(col.equals("green")) c =  color(0,145,10);
