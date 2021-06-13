@@ -1,0 +1,10 @@
+7 9 22
+E SP E O E SG E
+E G E G E P E
+E O P B P B E
+E O P I B P E
+I P O I B B I
+I I P I G I I
+I I I I I I I
+I I I I I I I
+E I I I I I E

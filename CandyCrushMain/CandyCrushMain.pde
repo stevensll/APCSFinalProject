@@ -1,9 +1,12 @@
 
-Level l1; Level l2;
-Level l3; Level l4;
-Level l5; Level l6;
+Level l1; Level l2; Level l3; Level l4; Level l5; 
+Level l6; Level l7; Level l8; Level l9; Level l10;
+
 Button playButton; Button back;
+
 Button lvl1; Button lvl2; Button lvl3; Button lvl4; Button lvl5;
+Button lvl6; Button lvl7; Button lvl8; Button lvl9; Button lvl10;
+
 String currentscreen;
 
 //boolean win;
@@ -96,6 +99,11 @@ void mouseClicked(){
       lvl3 = new Button(325,385,560,640);
       lvl4 = new Button(380,435,430,505);
       lvl5 = new Button(310,365,315,390);
+      lvl6 = new Button(180,235,290,365);
+      lvl7 = new Button(150,205,290,365);
+      lvl8 = new Button(0,0,0,0);
+      lvl9 = new Button(0,0,0,0);
+      lvl10 = new Button(0,0,0,0);
     }
     if (currentscreen.equals("levels")){
       lvl1.display(l1, 1);
@@ -103,6 +111,11 @@ void mouseClicked(){
       lvl3.display(l3, 3);
       lvl4.display(l4, 4);
       lvl5.display(l5, 5);
+      lvl6.display(l6, 6);
+      lvl7.display(l7, 7);
+      lvl8.display(l8, 8);
+      lvl9.display(l9, 9);
+      lvl10.display(l10, 10);
     }
  
   //  if (back!=null && currentscreen.equals("levels")) {

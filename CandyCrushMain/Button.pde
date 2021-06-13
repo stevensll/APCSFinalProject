@@ -34,6 +34,7 @@ public class Button{
     currentscreen = "gameplay";
   }
   void display(Level l, int n) { //displaying levels
+    rect(leftx, topy, rightx-leftx, bottomy-topy);
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
       mouseClicked(l, n); }
   }
