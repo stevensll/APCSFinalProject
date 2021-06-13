@@ -26,8 +26,24 @@ abstract class Element{
   }
   
   void display(float x, float y){
-    imageMode(CENTER);
-    image(icon,x,y);
+    if(remove){
+      color c = 40;
+      if(col.equals("red")) c =  color(179,2,5);
+      if(col.equals("orange")) c =  color(230,121,5);
+      if(col.equals("green")) c =  color(0,145,10);
+      if(col.equals("purple")) c =  color(102,0,145);
+      if(col.equals("yellow")) c =  color(266,230,5);
+      if(col.equals("blue")) c =  color(5,91,230);
+      rectMode(CENTER);
+      stroke(c);
+      fill(c);
+      rect(x,y,40,40,5,5,5,5);
+    } else {
+      imageMode(CENTER);
+      image(icon,x,y);
+    }
+
+ 
   }
   void clicked(){}
   
