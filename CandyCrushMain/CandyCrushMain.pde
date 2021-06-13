@@ -7,8 +7,8 @@ String currentscreen;
 void setup(){
 
     size(463,1000);
-    l1 = new Level(1);
-
+    l1 = new Level(4);
+    frameRate(10);
 }
 
 void draw(){

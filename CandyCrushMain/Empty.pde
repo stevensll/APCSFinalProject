@@ -1,9 +1,6 @@
 public class Empty extends Element {
     public Empty(){
-        super("Icing.png");
+        super("backIcon.png");
     }
-
-
-    
     String toString(){return "|";}
 }

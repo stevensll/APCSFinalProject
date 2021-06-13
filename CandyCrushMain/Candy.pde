@@ -7,8 +7,6 @@ public class Candy extends Element{
     super(c+".png");
     this.col = c;
     this.isClicked = false;
-    clickedIcon = loadImage(col+"clicked.png"); 
-    clickedIcon.resize(0, (int)(55*scale));
   }
 
   @Override
@@ -22,7 +20,13 @@ public class Candy extends Element{
     //System.out.println(xPos + " " + yPos + " clicked");
 
   }
-  
+  @Override
+  void init(float factor){
+    super.init(factor);
+    clickedIcon = loadImage(col+"clicked.png"); 
+    clickedIcon.resize(0, (int)(55*scale));
+  }
+  @Override
   void display(float x, float y){
     if(!isClicked){
        super.display(x,y);
