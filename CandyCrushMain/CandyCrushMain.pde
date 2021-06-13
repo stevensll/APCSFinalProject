@@ -9,7 +9,7 @@ Button lvl6; Button lvl7; Button lvl8; Button lvl9; Button lvl10;
 
 String currentscreen;
 
-//boolean win;
+boolean menuShowing;
 PImage current;
 
 void setup(){
@@ -21,6 +21,7 @@ void setup(){
     currentscreen="firstm";
     playButton = new Button(135,300,435,495);
     back = new Button(7,65,555,630);
+    menuShowing = false;
 }
 
 void draw(){
