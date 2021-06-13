@@ -2,6 +2,7 @@ abstract class Element{
   PImage icon;
   String imagePath;
   String col;
+  String direction;
   Element lN, rN, uN, dN;
   boolean remove;
   float scale;
@@ -12,6 +13,7 @@ abstract class Element{
   int xPosL, yPosL;
 
   public Element(String file){
+    direction = "";
     col = "";
     scale = 1;
     imagePath = file;

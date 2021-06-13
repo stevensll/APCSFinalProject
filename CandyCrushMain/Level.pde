@@ -41,7 +41,14 @@ public class Level {
       }
     }
   }
-
+  void check(){
+    for(int i = 0; i < ySize; i++){
+      for(int j = 0 ; j < xSize; j++){
+        Element a = map.get(i).get(j);
+        if (a instanceof StripedCandy) System.out.println(a.direction);
+      }
+    }
+  }
   void flagCandies(){
     // look at the candies in a 3 in a row approach throughout each row
     for(int y = 0; y < ySize; y++){
@@ -51,9 +58,19 @@ public class Level {
         Element c = map.get(y).get(x+2);
         if(a instanceof Candy ){
           if(a.col.equals(b.col) && a.col.equals(c.col)){
+
+            if(a.direction.equals("hori") || b.direction.equals("hori") || c.direction.equals("hori")){
+              for(int i = 0; i < xSize;i++){
+                if(true){
+                  System.out.println("fuck");
+                  map.get(y).get(i).remove = true;
+                }
+              }
+            } else {
             a.remove = true;
             b.remove = true;
             c.remove = true;
+            }
           }
         }
       }
@@ -65,10 +82,21 @@ public class Level {
         Element c = map.get(y+2).get(x);
         if(a instanceof Candy){
           if(a.col.equals(b.col) && a.col.equals(c.col)){
+            if(a.direction.equals("vert")||b.direction.equals("vert") || c.direction.equals("vert")){
+              for(int i = 0; i < ySize;i++){
+                if(true){
+                  System.out.println("fuck");
+                  map.get(i).get(x).remove = true;
+                }
+              }
+            }
+            else {
             a.remove = true;
             b.remove = true;
             c.remove = true;
+            }
           }
+            
         }
       }
     }
@@ -136,7 +164,6 @@ public class Level {
             ref.yPosL+=1;
           }
           updateNeighbors();
-          System.out.println(this);
         }
       }
     }
@@ -146,25 +173,22 @@ public class Level {
       for(int j = 0; j < xSize; j++){
         Element ref = map.get(i).get(j);
         if(ref==null){
+          String col = "";
           double n  = Math.random() * 6;
-          if(n >= 0){
-            map.get(i).set(j, new Candy("orange"));
+          double s = Math.random() * 6;
+          double d = Math.random()*2;
+          if(n >= 0){col =  "orange";}
+          if(n >= 1){col = "purple";}
+          if(n >= 2){col = "red";}
+          if(n >= 3){col = "blue";}
+          if(n >= 4){col = "yellow";}
+          if(n >= 5){col = "green";}
+          if(s <= 1){
+            if(d <=1){
+              map.get(i).set(j, new StripedCandy(col,"vert"));
+            } else map.get(i).set(j, new StripedCandy(col,"hori"));
           }
-          if(n >= 1){
-            map.get(i).set(j, new Candy("purple"));
-          }
-          if(n >= 2){
-            map.get(i).set(j, new Candy("yellow"));
-          }
-          if(n >= 3){
-            map.get(i).set(j, new Candy("red"));
-          }
-          if(n >= 4){
-            map.get(i).set(j, new Candy("blue"));
-          }
-          if(n >= 5){
-            map.get(i).set(j, new Candy("green"));
-          }
+          else map.get(i).set(j, new Candy(col));
           map.get(i).get(j).init(1);
           map.get(i).get(j).xPosL = j;
           map.get(i).get(j).yPosL = i;
@@ -199,7 +223,6 @@ public class Level {
   void display() {
     // score.display();
     if(maxMoves>0){
-      
       //display the candies at their right pixel positions
       candyBackground();
       for (int y = 0; y < this.ySize; y++) {

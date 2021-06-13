@@ -7,7 +7,7 @@ String currentscreen;
 void setup(){
 
     size(463,1000);
-    l1 = new Level(4);
+    l1 = new Level(1);
     frameRate(10);
 }
 

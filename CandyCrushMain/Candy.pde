@@ -23,7 +23,7 @@ public class Candy extends Element{
   @Override
   void init(float factor){
     super.init(factor);
-    clickedIcon = loadImage(col+"clicked.png"); 
+    clickedIcon = loadImage("clicked"+imagePath); 
     clickedIcon.resize(0, (int)(55*scale));
   }
   @Override
