@@ -2,7 +2,7 @@
 Level l1; Level l2; Level l3; Level l4; Level l5; 
 Level l6; Level l7; Level l8; Level l9; Level l10;
 
-Button playButton; Button back;
+Button playButton; Button back; Button quit;
 
 Button lvl1 = new Button(7,65,570,635), 
   lvl2 = new Button(177,232,610,675), 
@@ -28,6 +28,7 @@ void setup(){
     playButton = new Button(135,300,435,495);
     back = new Button(7,65,555,630);
     menuShowing = false;
+    quit = new Button(10,65,100,150);
 }
 
 void draw(){
@@ -41,11 +42,18 @@ void draw(){
    //    //toggle = true;
    //  }
    //}
-    if (currentscreen.equals("levels")){
+   if (currentscreen.equals("levels")){
       displayLevels();
     }
-   if (currentscreen.equals("gameplay")){
-      back.display("backButton",0,0);
+   if (currentscreen.length()>=8 && currentscreen.substring(0,8).equals("gameplay")){
+     if (currentscreen.equals("gameplay1")) l1.display(width/2,height/2);
+     back.display("backIcon.png",0,0);
+     if (menuShowing) {
+      // System.out.println("bae");
+       back.display("backButton.png",10,100);
+       quit.mouseClicked("levels");
+       displayLevels();
+     }
      //if (mouseX>=135 && mouseX<=325 && mouseY>=530 && mouseY<=575){
      //  clear();
      //  l1 = null;
@@ -70,6 +78,10 @@ void draw(){
 
 void mouseClicked(){
   if (currentscreen.equals("firstm")) playButton.mouseClicked("levels");
+  if (currentscreen.equals("levels")) clickLevels();
+  if (currentscreen.length()>=8 && currentscreen.substring(0,8).equals("gameplay")) {
+    back.mouseClicked("backmenu");
+  }
     //if (currentscreen.equals("gameplay")){
     //  back.display("backButton.png",-20,-20);
     //  //Button quit = new Button();
@@ -77,14 +89,20 @@ void mouseClicked(){
     //}
 }
 void displayLevels(){
-  lvl1.display(l1, 1);
-  lvl2.display(l2, 2);
-  lvl3.display(l3, 3);
-  lvl4.display(l4, 4);
-  lvl5.display(l5, 5);
-  lvl6.display(l6, 6);
-  lvl7.display(l7, 7);
-  lvl8.display(l8, 8);
-  lvl9.display(l9, 9);
-  lvl10.display(l10, 10);
+  PImage l = loadImage("levels.jpg");
+  imageMode(CORNER);
+  l.resize(463,1000);
+  image(l,-20,-200);
+}
+void clickLevels() {
+  lvl1.mouseClicked("gameplay1");
+  lvl2.mouseClicked("gameplay2");
+  lvl3.mouseClicked("gameplay3");
+  lvl4.mouseClicked("gameplay4");
+  lvl5.mouseClicked("gameplay5");
+  lvl6.mouseClicked("gameplay6");
+  lvl7.mouseClicked("gameplay7");
+  lvl8.mouseClicked("gameplay8");
+  lvl9.mouseClicked("gameplay9");
+  lvl10.mouseClicked("gameplay10");
 }
