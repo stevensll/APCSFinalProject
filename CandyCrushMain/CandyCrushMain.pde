@@ -31,14 +31,6 @@ void setup(){
 }
 
 void draw(){
-   //allows player to go back to levels screen
-   //if (mousePressed && currentscreen.contains("lvl")){
-   //  if (mouseX>=10 && mouseX<=47 && mouseY<=47){
-   // //   back.mouseClicked("backButton.png",0,0);
-   //    currentscreen = "back";
-   //    //toggle = true;
-   //  }
-   //}
    if (currentscreen.equals("levels")){
       displayLevels();
     }
