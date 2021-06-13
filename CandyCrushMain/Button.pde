@@ -9,7 +9,16 @@ public class Button{
     bottomy = bottom;
   }
   
-  void mouseClicked(String filename, int x, int y){ //displays image and resizes
+  void mouseClicked(String screen){ 
+    if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
+      //mouseClicked(filename, loadonx, loadony);
+      currentscreen=screen;
+     // if (screen.equals())
+    }
+    
+  }
+  void display(String filename, int loadonx, int loadony){ 
+    //System.out.println(mouseX + " " + mouseY);
     PImage loadscreen = loadImage(filename);
     imageMode(CORNER);
     if (filename.equals("levels.jpg")) {
@@ -18,25 +27,14 @@ public class Button{
     else{
       loadscreen.resize(463,0);
     }
-    image(loadscreen,x,y);
+    image(loadscreen,loadonx,loadony);
   }
-  void display(String filename, int loadonx, int loadony){ //checks coordinates and calls mouseClicked
+
+  void display(Level l, int n) { //displaying levels
     //System.out.println(mouseX + " " + mouseY);
-    if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
-      mouseClicked(filename, loadonx, loadony);
-      if (filename.equals("levels.jpg")) currentscreen="levels";
-    }
-  }
-  void mouseClicked(Level l, int n){ // for levels
+    //rect(leftx, topy, rightx-leftx, bottomy-topy);
     clear();
     l = new Level(n);
     l.display(width/2, height/2);
     currentscreen = "gameplay";
-  }
-  void display(Level l, int n) { //displaying levels
-    //System.out.println(mouseX + " " + mouseY);
-    //rect(leftx, topy, rightx-leftx, bottomy-topy);
-    if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
-      mouseClicked(l, n); }
-  }
 }

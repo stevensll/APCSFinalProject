@@ -42,19 +42,10 @@ void draw(){
    //  }
    //}
     if (currentscreen.equals("levels")){
-      lvl1.display(l1, 1);
-      lvl2.display(l2, 2);
-      lvl3.display(l3, 3);
-      lvl4.display(l4, 4);
-      lvl5.display(l5, 5);
-      lvl6.display(l6, 6);
-      lvl7.display(l7, 7);
-      lvl8.display(l8, 8);
-      lvl9.display(l9, 9);
-      lvl10.display(l10, 10);
+      displayLevels();
     }
    if (currentscreen.equals("gameplay")){
-      back.display("backButton.png",0,0);
+      back.display("backButton",0,0);
      //if (mouseX>=135 && mouseX<=325 && mouseY>=530 && mouseY<=575){
      //  clear();
      //  l1 = null;
@@ -78,22 +69,22 @@ void draw(){
 }
 
 void mouseClicked(){
-
-    //if (currentscreen.equals("levels")){
-    //  lvl1.display(l1, 1);
-    //  lvl2.display(l2, 2);
-    //  lvl3.display(l3, 3);
-    //  lvl4.display(l4, 4);
-    //  lvl5.display(l5, 5);
-    //  lvl6.display(l6, 6);
-    //  lvl7.display(l7, 7);
-    //  lvl8.display(l8, 8);
-    //  lvl9.display(l9, 9);
-    //  lvl10.display(l10, 10);
-    //}
+  if (currentscreen.equals("firstm")) playButton.mouseClicked("levels");
     //if (currentscreen.equals("gameplay")){
     //  back.display("backButton.png",-20,-20);
     //  //Button quit = new Button();
     //  //quit.display("levels.png",-20,-200);
     //}
+}
+void displayLevels(){
+  lvl1.display(l1, 1);
+  lvl2.display(l2, 2);
+  lvl3.display(l3, 3);
+  lvl4.display(l4, 4);
+  lvl5.display(l5, 5);
+  lvl6.display(l6, 6);
+  lvl7.display(l7, 7);
+  lvl8.display(l8, 8);
+  lvl9.display(l9, 9);
+  lvl10.display(l10, 10);
 }
