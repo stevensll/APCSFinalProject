@@ -94,16 +94,16 @@ void draw(){
 void mouseClicked(){
     if (playButton!=null && currentscreen.equals("firstm")) {
       playButton.display("levels.jpg",-20,-200);
-      lvl1 = new Button(7,65,555,630);
-      lvl2 = new Button(175,230,555,630);
-      lvl3 = new Button(325,385,560,640);
+      lvl1 = new Button(7,65,570,635);
+      lvl2 = new Button(177,232,610,675);
+      lvl3 = new Button(325,385,560,635);
       lvl4 = new Button(380,435,430,505);
       lvl5 = new Button(310,365,315,390);
       lvl6 = new Button(180,235,290,365);
-      lvl7 = new Button(150,205,290,365);
-      lvl8 = new Button(0,0,0,0);
-      lvl9 = new Button(0,0,0,0);
-      lvl10 = new Button(0,0,0,0);
+      lvl7 = new Button(45,100,290,365);
+      lvl8 = new Button(0,47,200,260);
+      lvl9 = new Button(95,145,125,185);
+      lvl10 = new Button(215,270,150,210);
     }
     if (currentscreen.equals("levels")){
       lvl1.display(l1, 1);
