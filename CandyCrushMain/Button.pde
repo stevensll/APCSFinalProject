@@ -30,10 +30,12 @@ public class Button{
   void mouseClicked(Level l, int n){
     clear();
     l = new Level(n);
-    l.display(width/2, height/2, true);
+    l.display(width/2, height/2);
   }
   void display(Level l, int n) { //displaying levels
+    rect(leftx,topy,rightx-leftx,bottomy-topy);
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
+      rect(mouseX,mouseY,10,10);
       mouseClicked(l, n); }
   }
 }

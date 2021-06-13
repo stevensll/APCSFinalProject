@@ -67,7 +67,7 @@ public class Level {
     numBlockers--;
   }
   
-  void display(int w, int l, boolean toggle) {
+  void display(int w, int l) {
     score.display();
     xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
     yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
