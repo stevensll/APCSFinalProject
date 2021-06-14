@@ -17,7 +17,7 @@ Run  _CandyCrushMain.pde_ in Processing.
 ## Gameplay ##
 To play, press Play on the first screen, which will take you to the levels screen. Although the image displays 10 levels, only levels 1-5 are implemented. Click on any one of these levels to start the gameplay. Once inside the level, you can quit the level by clicking the button on the top left corner. 
 
-Our game mimics the way traditional Candy Crush works, but instead of swiping the mouse, you can simply click on Candies to cause swaps. Only neighboring Candies will swap with  each other.
+Our game mimics the way traditional Candy Crush works, but instead of swiping the mouse, you can simply click on Candies to cause swaps. Only neighboring Candies will swap with  each other. **If at any point he level state is unsolvable (meaning the player can't make a move to trigger a match), the game will randomize the map and spawn new Candies until the map is solveable.**
 
 To resume playing, click on the button again. Your number of remaining moves and blockers will be displayed at the top, along with the number of points. For each level, you can continue playing until the number of moves runs out, in which case you will be brought to a win or lose screen. Then exit that screen through the same button. 
 
