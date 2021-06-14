@@ -87,9 +87,9 @@ void clickLevels() {
   lvl3.mouseClicked("gameplay3");
   lvl4.mouseClicked("gameplay4");
   lvl5.mouseClicked("gameplay5");
-  lvl6.mouseClicked("gameplay6");
-  lvl7.mouseClicked("gameplay7");
-  lvl8.mouseClicked("gameplay8");
-  lvl9.mouseClicked("gameplay9");
-  lvl10.mouseClicked("gameplay10");
+  // lvl6.mouseClicked("gameplay6");
+  // lvl7.mouseClicked("gameplay7");
+  // lvl8.mouseClicked("gameplay8");
+  // lvl9.mouseClicked("gameplay9");
+  // lvl10.mouseClicked("gameplay10");
 }

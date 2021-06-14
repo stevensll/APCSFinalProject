@@ -47,7 +47,7 @@ public class Level {
   */
   void display() {
     if (active && currentscreen.equals("gameplay"+lvl)){
-      if(maxMoves>0){
+      if(maxMoves>=0){
         background(background);
         score.display();
         //display the candies at their right pixel positions
@@ -88,6 +88,7 @@ public class Level {
           }
           clickable = true;
         }
+        if(maxMoves == 0) maxMoves --;
       } else {
         PImage end;
         if (numBlockers > 0){
@@ -544,27 +545,6 @@ public class Level {
             numBlockers++;
             column.add(new Icing());
           }
-          // if(splitter[j].equals("JB")) {
-          //     numBlockers++;
-          //     column.add(new Jelly("blue"));
-          //   }
-          // if(splitter[j].equals("JR")) {
-          //   numBlockers++;
-          //   column.add(new Jelly("red"));
-          // }
-          // if(splitter[j].equals("JO")) {
-          //   numBlockers++;
-          //   column.add(new Jelly("orange"));
-          // }
-          // if(splitter[j].equals("JP")) {
-          //   numBlockers++;
-          //   column.add(new Jelly("purple"));
-          // }
-          // if(splitter[j].equals("JG")) {
-          //   numBlockers++;
-          //   column.add(new Jelly("green"));
-          // }
-
           if (splitter[j].equals("RH")) {
             column.add(new StripedCandy("red","hori"));
           }
@@ -625,7 +605,7 @@ public class Level {
     image(background,0,0);
 
 
-    System.out.println(this);
+    // System.out.println(this);
   }
 
   //prints out the map
