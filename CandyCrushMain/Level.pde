@@ -38,12 +38,18 @@ public class Level {
   /*
   updates the map and redisplays it every tick
   heart of the program. every tick has a scheme of the following:
+
     1a) check if we can drop any candies - this is implied by the fact that the map may still have nulls
     2a) drop the candies
     3a) spawn new candies
+
     iterate 1a - 3a until we can't drop, then we proceed on the removing
     1b) flag every candy if they form a combo
     2b) remove them
+
+    if we cant remove and cant drop, that means the map is done updating. now do:
+    1c) check if a move can be made to trigger a combo
+      > shuffle the map if no moves can be made to trigger a combo
   */
   void display() {
     if (active && currentscreen.equals("gameplay"+lvl)){
@@ -155,6 +161,7 @@ public class Level {
     flagStripedCandies(map);
     flagIcings(map);
   }
+  //detect if any move can be made to trigger a combo after the drop/spawn/removal sequence
   boolean playable(){
     for(int i = 0; i < ySize; i++){
       for(int j = 0 ; j < xSize; j++){
@@ -185,7 +192,7 @@ public class Level {
     // System.out.println(toStringRef());
     return false;
   }
-
+  //shuffles the map
   void shuffle(ArrayList<ArrayList<Element>> input){
      for(int i = 0; i < ySize; i++){
       for(int j = 0 ; j < xSize; j++){
@@ -216,6 +223,7 @@ public class Level {
     updateNeighbors(input);
     System.out.println("MAP UNSOLVABLE, SHUFFLING");
   }
+  //creates a copy of the current map on mapref
   void copy(ArrayList<ArrayList<Element>> input){
     for(int i = 0; i < ySize; i++){
       for(int j = 0; j < xSize; j++){
@@ -388,7 +396,7 @@ public class Level {
             ref.xPosL-=1;
             ref.yPosL+=1;
           } 
-          else if(ref.uN !=null && ref.uN instanceof Blocker && ref.dN instanceof Blocker){
+          else if(ref.uN !=null && ref.uN instanceof Blocker){
             if(j!=xSize-1&&ref.rN == null){
               input.get(i).set(j+1, ref);
               input.get(i).set(j,null);
