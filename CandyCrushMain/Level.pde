@@ -410,6 +410,43 @@ public class Level {
             numBlockers++;
             column.add(new Jelly("green"));
           }
+          
+          if (splitter[j].equals("RH")) {
+            column.add(new StripedCandy("red","hori"));
+          }
+          if (splitter[j].equals("RV")) {
+            column.add(new StripedCandy("red","vert"));
+          }
+          if (splitter[j].equals("BH")) {
+            column.add(new StripedCandy("blue","hori"));
+          }
+          if (splitter[j].equals("BV")) {
+            column.add(new StripedCandy("blue","vert"));
+          }
+          if (splitter[j].equals("GH")) {
+            column.add(new StripedCandy("green","hori"));
+          }
+          if (splitter[j].equals("GV")) {
+            column.add(new StripedCandy("green","vert"));
+          }
+          if (splitter[j].equals("OH")) {
+            column.add(new StripedCandy("orange","hori"));
+          }
+          if (splitter[j].equals("OV")) {
+            column.add(new StripedCandy("orange","vert"));
+          }
+          if (splitter[j].equals("PH")) {
+            column.add(new StripedCandy("purple","hori"));
+          }
+          if (splitter[j].equals("PV")) {
+            column.add(new StripedCandy("purple","vert"));
+          }
+          if (splitter[j].equals("YH")) {
+            column.add(new StripedCandy("yellow","hori"));
+          }
+          if (splitter[j].equals("YV")) {
+            column.add(new StripedCandy("yellow","vert"));
+          }
           //////////////////////////////////////////////////////////////////////////////////////////
   
           //set the list positionings of the candies and init it with its scale
