@@ -3,6 +3,6 @@ public class Icing extends Blocker{
     super("Icing.png");
   }
   String toString(){
-    return "i";
+    return "I";
   }
 }

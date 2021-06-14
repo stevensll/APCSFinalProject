@@ -1,8 +1,9 @@
 public class Jelly extends Blocker{
-  public Jelly(){
-    super("jelly.png");
+  public Jelly(String c){
+    super(c+".png");
+    this.col = c;
   }
   String toString(){
-    return "J";
+    return "J"+col.substring(0,1);
   }
 }

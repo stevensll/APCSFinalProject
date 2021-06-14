@@ -1,14 +1,14 @@
 public class Candy extends Element{
+  
   PImage clickedIcon;
   boolean isClicked;
   // neighbors
   public Candy(String c){
     super(c+".png");
-    this.c = c;
+    this.col = c;
     this.isClicked = false;
-    clickedIcon = loadImage(c+"clicked.png"); 
-    clickedIcon.resize(0, (int)(55*scale));
   }
+
   @Override
   void clicked(){
     if(!isClicked){
@@ -20,7 +20,13 @@ public class Candy extends Element{
     //System.out.println(xPos + " " + yPos + " clicked");
 
   }
-  
+  @Override
+  void init(float factor){
+    super.init(factor);
+    clickedIcon = loadImage("clicked"+imagePath); 
+    clickedIcon.resize(0, (int)(55*scale));
+  }
+  @Override
   void display(float x, float y){
     if(!isClicked){
        super.display(x,y);
@@ -30,6 +36,7 @@ public class Candy extends Element{
   }
   
   String toString(){
-    return c.substring(0,1);
+    if(remove) return "*";
+    else return col.substring(0,1);
   }
 }

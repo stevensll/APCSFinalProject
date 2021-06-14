@@ -5,229 +5,356 @@ public class Level {
   ArrayList<ArrayList<Element>> map;
   int maxMoves, numBlockers;
   int xSize, ySize;
-  int screenW, screenL;
   float xOff, yOff;
   int xSpacing = 50;
   int ySpacing = 55;
   Element firstSelected;
   Tracker score;
+  boolean active;
+
   public Level(int level) {
     numBlockers = 0;
     map = new ArrayList<ArrayList<Element>>();
     init(level);
     updateNeighbors();
-    score = new Tracker(this);
-     PImage background = loadImage("background.png");
-     background.resize(0,1000);
-     image(background,0,0);
+    active = true;
   }
-  
-  void updateNeighbors() {
-    for (int i =0; i < ySize; i++) {
-      for (int j = 0; j < xSize; j++) {
-        if (map.get(i).get(j)!=null) {
-          Element ref = map.get(i).get(j);
-          for(int z=0; z<4;z++){
-            ref.chains[z] = 0;
+
+
+  //flag all elements in the board
+  void flagElements(){
+    flagCandies();
+    flagStripedCandies();
+    flagIcings();
+  }
+
+  //iterate and flag candies if they make a combo with each other
+  void flagCandies(){
+    // look at the candies 3 in a row throughout each row
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize-2; x++){
+        Element a = map.get(y).get(x);
+        Element b = map.get(y).get(x+1);
+        Element c = map.get(y).get(x+2);
+        if(a instanceof Candy ){
+          if(a.col.equals(b.col) && a.col.equals(c.col)){
+            a.remove = true;
+            b.remove = true;
+            c.remove = true;
+
           }
-          if ( i > 0) {
-            map.get(i).get(j).uN = map.get(i-1).get(j);
-            if(ref.uN!=null && ref.uN.c.equals(ref.c)){
-              ref.updateChains("up",1);
-            }
-          }
-          if (i < ySize-1) {
-            map.get(i).get(j).dN = map.get(i+1).get(j);
-            if(ref.dN!=null && ref.dN.c.equals(ref.c)){
-              ref.updateChains("down",1);
-            } 
-          }
-          if (j > 0) {
-            map.get(i).get(j).lN = map.get(i).get(j-1);
-            if(ref.lN!=null && ref.lN.c.equals(ref.c)){
-              ref.updateChains("left",1);
-            }
-          }
-          if (j < xSize-1) {
-            map.get(i).get(j).rN = map.get(i).get(j+1);
-            if(ref.rN!=null && ref.rN.c.equals(ref.c)){
-              ref.updateChains("right",1);
-            }
+        }
+      }
+    }
+    //look at candies in a 3 in a column throughout each column
+    for(int y = 0; y < ySize-2; y++){
+      for(int x = 0; x < xSize; x++){
+        Element a = map.get(y).get(x);
+        Element b = map.get(y+1).get(x);
+        Element c = map.get(y+2).get(x);
+        if(a instanceof Candy){
+          if(a.col.equals(b.col) && a.col.equals(c.col)){
+            a.remove = true;
+            b.remove = true;
+            c.remove = true;
           }
         }
       }
     }
   }
+
+  //after candies are flagged, check again to see if striped candies will cause further flagging
+  void flagStripedCandies(){
+     for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize; x++){
+        Element ref = map.get(y).get(x);
+        if(ref instanceof StripedCandy && ref.remove){
+          if(ref.direction.equals("hori")){
+            for(int i = 0; i < xSize;i++){
+              if(!(map.get(y).get(i) instanceof Empty)) map.get(y).get(i).remove = true;
+            }
+          }
+          else if (ref.direction.equals("vert")){
+            for(int i = 0; i < ySize;i++){
+              if(!(map.get(i).get(x) instanceof Empty)) map.get(i).get(x).remove = true;
+            }
+          }
+        }
+      }
+     }
+  }
+
+  //after all candies are flagged, check to see if any icings are adjacents to flagged candies
+  void flagIcings(){
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize; x++){
+        Element a = map.get(y).get(x);
+        if(a instanceof Icing){
+          if (a.lN!=null && a.lN.remove && a.lN instanceof Candy 
+          || a.rN!=null && a.rN.remove && a.rN instanceof Candy 
+          || a.uN!=null && a.uN.remove && a.uN instanceof Candy
+          || a.dN!=null &&a.dN.remove && a.dN instanceof Candy)
+            a.remove = true;
+        }
+      }
+    }
+  }
+
   
-  int getMaxMoves() {
-    return maxMoves;
+
+  boolean removable(){
+    int count = 0;
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x<xSize; x++){
+        if(map.get(y).get(x).remove){
+          count++;
+        }
+      }
+    }
+    return count > 2;
   }
   
-  void decreaseBlockers() {
-    numBlockers--;
-  }
-  
-  void display(int w, int l) {
-    score.display();
-    xOff = w - (this.xSize * xSpacing / 2 - xSpacing/2);
-    yOff = l - (this.ySize * ySpacing / 2 - ySpacing/2);
-    screenW = w;
-    screenL = l;
-    /////draw the rectangular box around the candies
-    rectMode(CENTER);
-    stroke(120);
-    fill(120);
-    rect(w, l, this.xSize*(xSpacing*1.05), this.ySize *(ySpacing*1.05), 10, 10, 10, 10);
-  
-    //offsets for centering the board
-  
-  
-    //display the candies at their right pixel positions
-    for (int y = 0; y < this.ySize; y++) {
-      for (int x = 0; x < this.xSize; x++) {
-        Element e = map.get(y).get(x);
-        if (e!=null) {
-          e.xPos = xOff+x*xSpacing;
-          e.yPos = yOff+y*ySpacing;
-          e.display(e.xPos, e.yPos);
+  boolean remove(){
+    int count = 0;
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x<xSize; x++){
+        if(map.get(y).get(x)!=null && map.get(y).get(x).remove){
+          count++;
+          map.get(y).set(x, null);
         }
       }
     }
     updateNeighbors();
-    pushDown();
+    return count > 2;
   }
-  
-  void mouseTrack() {
-  
-    //System.out.println(mouseX  + " " + mouseY);
-    //converts the mouse position to a possible list coordinate position
-    float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
-    float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
-  
-    //System.out.println((mouseX-xOff+xSpacing/2) + " " + (mouseY-yOff+ySpacing/2));
-    if (x >= 0 && x<xSize && y>=0 && y<ySize) {    
-      Element chosen =map.get((int)y).get((int)x);
-      //check if clicked is valid
-      if (chosen!=null && chosen instanceof Candy) {
-  
-        //if there is already a firstSelected: unselect if same candy, if not check if its a neighbor and swap if true
-        if (firstSelected!=null) {
-          System.out.println(Arrays.toString(firstSelected.chains));
-          if (chosen.equals(firstSelected)) {
-            chosen.clicked();
-            firstSelected = null;
-  
-            //swapping sequence: core of the program
-          } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
-            chosen.clicked();
-            swap(chosen, this.firstSelected);
-            updateNeighbors();
-            if(chosen.chains[0] <= 0 && chosen.chains[1] <= 0 && chosen.chains[2] <= 0 && chosen.chains[3] <= 0){
-              swap(this.firstSelected, chosen);
-              chosen.clicked();
-              firstSelected.clicked();
-            } else {
-              updateNeighbors();
-            }
-            cheese();
-            //System.out.println(chosen);
-            firstSelected = null;
-            updateNeighbors();
-            score.maxMoves--;
-            maxMoves--;
-          }
-  
-          //if not, chosen is the firstSelected
-        } else {
-          firstSelected = chosen;
-          chosen.clicked();
-        }
-  
-        //debug
-        if (firstSelected!=null) {
-          System.out.println("firstSelected: " + firstSelected + " " + firstSelected.xPosL + " " + firstSelected.yPosL );
-        } else System.out.println(firstSelected);
-      }
-    }
-  }
-  void swap(Element chosen, Element firstSelected) {
-    int sxPosL = firstSelected.xPosL;
-    int syPosL = firstSelected.yPosL;
-    //System.out.println( sxPosL + " " + syPosL);
-  
-    firstSelected.xPosL = chosen.xPosL;
-    firstSelected.yPosL = chosen.yPosL;
-  
-  
-    map.get(chosen.yPosL).set(chosen.xPosL, firstSelected);
-  
-    chosen.xPosL = sxPosL;
-    chosen.yPosL = syPosL;
-  
-    map.get(syPosL).set(sxPosL, chosen);
-    //System.out.println(this);
-    firstSelected.clicked();
-    chosen.clicked();
-  }
-  
-  void pushDown(){
+  //Gravity function for candies
+  void drop(){
     for(int i=ySize-2; i>=0; i--){
       for(int j = 0; j < xSize; j++){
         Element ref = map.get(i).get(j);
-        if(ref!=null && ref.dN == null){
-          map.get(i+1).set(j,ref);
-          map.get(i).set(j,null);
-          ref.xPosL = j;
-          ref.yPosL+=1;
+        if(ref!=null && ref instanceof Candy){
+          //If down neighbor is empty, drop down
+          if(ref.dN == null){
+            map.get(i+1).set(j,ref);
+            map.get(i).set(j,null);
+            ref.xPosL = j;
+            ref.yPosL+=1;
+          //Slide to the right or left if down neighbor exists but isn't a candy (empty or blocker )
+          // }else if (ref.rN != null && !(ref.rN instanceof Candy)&& ref.dN.rN == null&&j!=xSize-1){
+          //   map.get(i+1).set(j+1,ref);
+          //   map.get(i).set(j,null);
+          //   ref.xPosL+=1;
+          //   ref.yPosL+=1;
+          // } else if(ref.lN != null &&  !(ref.lN instanceof Candy) && ref.dN.lN==null && j!=0){
+          //   map.get(i+1).set(j-1,ref);
+          //   map.get(i).set(j,null);
+          //   ref.xPosL-=1;
+          //   ref.yPosL+=1;
+          }
           updateNeighbors();
         }
       }
     }
   }
-  void cheese(){
-    for(int i=ySize-1; i>=0; i--){
+  
+  //spawn candies at the first row randomly
+  void spawn(){
+    for(int i=0; i<1; i++){
       for(int j = 0; j < xSize; j++){
         Element ref = map.get(i).get(j);
-        removeElements(ref,-1);
-        updateNeighbors();
+        if(ref==null){
+          String col = "";
+          double n  = Math.random() * 6;
+          double s = Math.random() * 6;
+          double d = Math.random()*2;
+          if(n >= 0){col =  "orange";}
+          if(n >= 1){col = "purple";}
+          if(n >= 2){col = "red";}
+          if(n >= 3){col = "blue";}
+          if(n >= 4){col = "green";}
+          // if(n >= 5){col = "yellow";}
+          if(s <= 1){
+            if(d <=1){
+              map.get(i).set(j, new StripedCandy(col,"vert"));
+            } else map.get(i).set(j, new StripedCandy(col,"hori"));
+          }
+          else map.get(i).set(j, new Candy(col));
+          map.get(i).get(j).init(1);
+          map.get(i).get(j).xPosL = j;
+          map.get(i).get(j).yPosL = i;
+        }
+      }
+    }
+    updateNeighbors();
+  }
+
+  boolean droppable(){
+    for(int i = 0; i < ySize; i++){
+      for(int j = 0; j< xSize; j++){
+        if(map.get(i).get(j)==null) return true;
+      }
+    }
+    return false;
+  }
+
+  void candyBackground(){
+    rectMode(CENTER);
+    stroke(120);
+    fill(120);
+    for (int y = 0; y < this.ySize; y++) {
+      for (int x = 0; x < this.xSize; x++) {
+        Element e = map.get(y).get(x);
+        if (e!=null && !(e instanceof Empty)) {
+          e.xPos = xOff+x*xSpacing;
+          e.yPos = yOff+y*ySpacing;
+          rect(e.xPos, e.yPos, (xSpacing*1.1), (ySpacing*1.1), 5, 5, 5, 5);
+        }
       }
     }
   }
-  void removeElements(Element input,int dir) {
-    if(dir == 0 && (input.uN==null || !input.uN.c.equals(input.c))){
-        map.get(input.yPosL).set(input.xPosL,null);
+  
+  void display() {
+    if (active){
+    // score.display();
+      if(maxMoves>0){
+        //display the candies at their right pixel positions
+        candyBackground();
+        for (int y = 0; y < this.ySize; y++) {
+          for (int x = 0; x < this.xSize; x++) {
+            Element e = map.get(y).get(x);
+            if (e!=null && !(e instanceof Empty)) {
+              e.xPos = xOff+x*xSpacing;
+              e.yPos = yOff+y*ySpacing;
+              e.display(e.xPos, e.yPos);
+            }
+          }
+        }
+
+        if(droppable()){
+          drop();
+          spawn();
+        } else {
+          flagElements();
+          candyBackground();
+
+          for (int y = 0; y < this.ySize; y++) {
+            for (int x = 0; x < this.xSize; x++) {
+              Element e = map.get(y).get(x);
+              if (e!=null && !(e instanceof Empty)) {
+                e.xPos = xOff+x*xSpacing;
+                e.yPos = yOff+y*ySpacing;
+                e.display(e.xPos, e.yPos);
+              }
+            }
+          }
+          remove();
+        }
+
+        
+      } else {
+        PImage end;
+        if (numBlockers > 0){
+          end = loadImage("loss.jpg");
+        } else {
+          end = loadImage("win.jpg");
+        }
+        imageMode(CENTER);
+        end.resize(0,1000);
+        image(end,width/2,height/2);
+        active = false;
       }
-    if(dir == 1 && (input.dN==null || !input.dN.c.equals(input.c))){
-        map.get(input.yPosL).set(input.xPosL,null);
-      }
-    if(dir == 2 && (input.lN==null || !input.lN.c.equals(input.c))){
-        map.get(input.yPosL).set(input.xPosL,null);
-      }
-    if(dir == 3 && (input.rN==null || !input.rN.c.equals(input.c))){
-        map.get(input.yPosL).set(input.xPosL,null);
-      }
-    else {
-      if( input!=null && input.chains[0] >=1 && input.chains[1] >=1){
-        removeElements(input.uN,0);
-        removeElements(input.dN,1);
-        map.get(input.yPosL).set(input.xPosL,null);
-      }
-      if( input!=null && input.chains[2] >=1 && input.chains[3] >=1){
-        removeElements(input.lN,2);
-        removeElements(input.rN,3);
-        map.get(input.yPosL).set(input.xPosL,null);
-      }
-      
     }
-    
   }
   
+  void mouseTrack() {  
+    //converts the mouse position to a possible list coordinate position
+    float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
+    float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
+
+    if (active && x >= 0 && x<xSize && y>=0 && y<ySize) {    
+      Element chosen =map.get((int)y).get((int)x);
+      //check if the mouse has clicked a candy
+      if (chosen!=null && chosen instanceof Candy) {
+        //If there is a selected: unselect if same candy 
+        //If not check if its a neighbor and swap if true
+        if (firstSelected!=null) {
+          //UNSELECT
+          if (chosen.equals(firstSelected)) {
+            chosen.clicked();
+            firstSelected = null;
+          //SWAPPING SEQUENCE
+          } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
+            firstSelected.clicked();
+            swap(chosen, this.firstSelected);
+            flagElements();
+            //if a possible combo can be made from the swap, run the break sequence. if not, swap them back.
+            if(removable()){
+              firstSelected = null;
+              maxMoves--;
+            //if no candies can be removed, then we swap back      
+            } else{
+              swap(firstSelected,chosen);
+              firstSelected = null;
+            }
+          }
+        //APPOINT A CANDY TO BE SELECTED
+        } else {
+          firstSelected = chosen;
+          chosen.clicked();
+        }
+        System.out.println("1st selected " + firstSelected);
+        System.out.println(this + ""+maxMoves);
+      }
+    }
+  }
+
+  void swap(Element chosen, Element selected) {
+    int sxPosL = selected.xPosL;
+    int syPosL = selected.yPosL;
+    //System.out.println( sxPosL + " " + syPosL);
+  
+    selected.xPosL = chosen.xPosL;
+    selected.yPosL = chosen.yPosL;
   
   
+    map.get(chosen.yPosL).set(chosen.xPosL, selected);
+  
+    chosen.xPosL = sxPosL;
+    chosen.yPosL = syPosL;
+  
+    map.get(syPosL).set(sxPosL, chosen);
+    System.out.println("1st selected" + firstSelected);
+
+    updateNeighbors();
+  }
+
+  //update the neighbors of each candy appropriately. this should occur any time candies are removed or swapped.
+  void updateNeighbors() {
+    for (int i =0; i < ySize; i++) {
+      for (int j = 0; j < xSize; j++) {
+        if (map.get(i).get(j)!=null) {
+          Element ref = map.get(i).get(j);
+          if ( i > 0) {
+            map.get(i).get(j).uN = map.get(i-1).get(j);
+          }
+          if (i < ySize-1) {
+            map.get(i).get(j).dN = map.get(i+1).get(j);
+          }
+          if (j > 0) {
+            map.get(i).get(j).lN = map.get(i).get(j-1);
+          }
+          if (j < xSize-1) {
+            map.get(i).get(j).rN = map.get(i).get(j+1);
+          }
+        }
+      }
+    }
+  }
+
+  //parse the appropriate level text file, create new candies and add it to the map. also sets up the background and display offsets.
   void init(int level) {
     String [] lines = loadStrings("level"+level+".txt");
     for (int i = 0; i<lines.length; i++) {
-      System.out.println();
       if (i == 0) {
         String [] splitter = lines[0].split(" ");
         xSize = Integer.parseInt(splitter[0]);
@@ -237,9 +364,9 @@ public class Level {
         ArrayList<Element> column = new ArrayList<Element>();
         for (int j = 0; j < xSize; j++) {
           String [] splitter = lines[i].split(" ");
+          //////////////////////////////ADD THE CORRESPONDING ELEMENT//////////////////////////////
           if (splitter[j].equals("E")) {
-            column.add(null);
-            System.out.print(" ");
+            column.add(new Empty());
           }
           if (splitter[j].equals("R")) {
             column.add(new Candy("red"));
@@ -265,29 +392,29 @@ public class Level {
           }
           if(splitter[j].equals("JB")) {
               numBlockers++;
-              column.add(new Jelly());
+              column.add(new Jelly("blue"));
             }
-            if(splitter[j].equals("JR")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-            if(splitter[j].equals("JO")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-            if(splitter[j].equals("JP")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-            if(splitter[j].equals("JG")) {
-              numBlockers++;
-              column.add(new Jelly());
-            }
-          //////////////////////////////
+          if(splitter[j].equals("JR")) {
+            numBlockers++;
+            column.add(new Jelly("red"));
+          }
+          if(splitter[j].equals("JO")) {
+            numBlockers++;
+            column.add(new Jelly("orange"));
+          }
+          if(splitter[j].equals("JP")) {
+            numBlockers++;
+            column.add(new Jelly("purple"));
+          }
+          if(splitter[j].equals("JG")) {
+            numBlockers++;
+            column.add(new Jelly("green"));
+          }
+          //////////////////////////////////////////////////////////////////////////////////////////
   
           //set the list positionings of the candies and init it with its scale
           if (column.get(j) == null) {
-            System.out.print(" ");
+            // System.out.print(" ");
           } else {
             //System.out.print(column.get(j).toString() + " ");
             column.get(j).xPosL = j;
@@ -298,17 +425,28 @@ public class Level {
         map.add(column);
       }
     }
+    //xOff and yOff are offsets to determine how to offset the candy icons in relation to the board
+    xOff = width/2 - (this.xSize * xSpacing / 2 - xSpacing/2);
+    yOff = height/2 - (this.ySize * ySpacing / 2 - ySpacing/2);
+    //display the background;
+    PImage background = loadImage("background.png");
+    background.resize(0,1000);
+    image(background,0,0);
+    
     System.out.println(this);
   }
+
+  //prints out the map
   String toString() {
     String r = "";
     for (ArrayList<Element> column : map) {
       for (Element e : column) {
         if(e!=null)r+= e.toString() + " ";
-        else r+=" ";
+        else r+="  ";
       }
       r+="\n";
     }
     return r;
   }
+
 }
