@@ -10,9 +10,7 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
 
 **Full Documentation**: https://docs.google.com/document/d/14Sa5gidgGSbhlf87K5KDiDqQwpsWG7MyiybDuFpHrM4/edit?usp=sharing
 
-**UML**
-![APCS Candy Crush UML (1)](https://user-images.githubusercontent.com/46882137/121121836-607ed200-c7ee-11eb-9158-fc7aec4150d0.png)
-https://docs.google.com/drawings/d/1fAm1XaMZYFh-6hZ6EEh9lmkhswXjxU8QlF4A36Q-s4o/edit
+
 
 ## Compile/Run Instructions ##
 Run from Processing. To play, press Play on the first screen, which will take you to the levels screen. Although the image displays 10 levels, only levels 1-5 are implemented. Click on any one of these levels to start the gameplay. Once inside the level, you can quit the level by clicking the button on the top left corner. To resume playing, click on the button again. Your number of remaining moves and blockers will be displayed at the top, along with the number of points. 60 points are added to the total for every candy that is removed. For each level, you can continue playing until the number of moves runs out, in which case you will be brought to a win or lose screen. Then exit that screen through the same button.
@@ -56,3 +54,40 @@ Together: We merged our branches…
 * **6/4 (before 8am)**
   * **Steven**: I completed the swap and remove method for Candies, added the spawnCandy() and pushDown() methods for making the Candies drop after a removal. I did some debugging to make polish the swap() method, but unfortunately there are some issues that I did not fully resolve.
   * **Ava**: I connected all the buttons to their screens and created a tracker class that displays the number of moves and blockers left. I also implemented the win and loss screen.
+
+* **6/7**
+  * **Steven**: N/A
+  * **Ava**: I started to clean up the buttons by putting the code to check for the mouse coordinates in the Button class instead of in draw().
+
+* **6/8**
+  * **Steven**: I updated our documentation and moved our UML to google drawings for easier access.
+  * **Ava**: I added display() and mouseClicked() methods to my Button class that do different actions depending on what is being displayed.
+
+* **6/10**
+  * **Steven**: N/A
+  * **Ava**: I made the code cleaner for the Level 1 Button, but have not implemented the other buttons or the back buttons yet.
+
+* **6/11**
+  * **Steven**: I began refactoring our old level class and implemented a new algorithm for removing Candies. Created methods drop(), flagCandies(), spawn(), and remove() to break this process into smaller methods.
+  * **Ava**: N/A
+
+* **6/12**
+  * **Steven**: I updated the Element and Levels class to fix removing candies and tested it on Level1. I also created a new Empty class to update visuals and how everything in a level is displayed.
+  * **Ava**: I deleted some methods in Button and added displayLevels() in CandyCrushMain, added more functions in draw to increase the time it takes to transition between screens. I also added the rest of the text files.
+
+* **6/13**
+  * **Steven**: I implemented the StripedCandy() class after much testing. I also created a pseudo animation
+	for the candies by manipulating the frame rate. I did bug fixing on drop() to account for diagonal Candy drops and started working on playable()
+  * **Ava**: I made the buttons more efficient and generally increased readability, fixed text files to replace jellies with icings, and connected all screens with gameplay.
+  * **Together**: Merged our branches and fixed minor bugs.
+
+* **6/14**
+  * **Steven**: I implemented and tested the playable() method, which checks to see if the map can be solved by a player, and if not, the map will get reshuffled with new Candies. I debugged drop() further.
+  * **Ava**: I made sure the toggle button was working, added run instructions in README, tested for any bugs.
+Together: Updated UMLs, documentation, and bug fixes. Merged everything onto main.
+
+
+
+**UML**
+![APCS Candy Crush UML (1)](https://user-images.githubusercontent.com/46882137/121121836-607ed200-c7ee-11eb-9158-fc7aec4150d0.png)
+https://docs.google.com/drawings/d/1fAm1XaMZYFh-6hZ6EEh9lmkhswXjxU8QlF4A36Q-s4o/edit
