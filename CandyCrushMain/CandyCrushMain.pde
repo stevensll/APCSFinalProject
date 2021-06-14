@@ -28,7 +28,7 @@ void setup(){
     image(firstm, 0,0);
     currentscreen="firstm";
     menuShowing = false;
-    frameRate(3);
+    frameRate(8);
 }
 
 void draw(){
