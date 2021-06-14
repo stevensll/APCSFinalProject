@@ -93,13 +93,13 @@ void displayLevels(){
 }
 void clickLevels() {
   if(lvl1!=null)lvl1.mouseClicked("gameplay1");
-  if(lvl1!=null)lvl2.mouseClicked("gameplay2");
-  if(lvl1!=null)lvl3.mouseClicked("gameplay3");
-  if(lvl1!=null)lvl4.mouseClicked("gameplay4");
-  if(lvl1!=null)lvl5.mouseClicked("gameplay5");
-  if(lvl1!=null)lvl6.mouseClicked("gameplay6");
-  if(lvl1!=null)lvl7.mouseClicked("gameplay7");
-  if(lvl1!=null)lvl8.mouseClicked("gameplay8");
-  if(lvl1!=null)lvl9.mouseClicked("gameplay9");
-  if(lvl1!=null)lvl10.mouseClicked("gameplay10");
+  if(lvl2!=null)lvl2.mouseClicked("gameplay2");
+  if(lvl3!=null)lvl3.mouseClicked("gameplay3");
+  if(lvl4!=null)lvl4.mouseClicked("gameplay4");
+  if(lvl5!=null)lvl5.mouseClicked("gameplay5");
+  if(lvl6!=null)lvl6.mouseClicked("gameplay6");
+  if(lvl7!=null)lvl7.mouseClicked("gameplay7");
+  if(lvl8!=null)lvl8.mouseClicked("gameplay8");
+  if(lvl9!=null)lvl9.mouseClicked("gameplay9");
+  if(lvl10!=null)lvl10.mouseClicked("gameplay10");
 }

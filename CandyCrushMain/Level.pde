@@ -3,18 +3,23 @@ import java.util.*;
 
 public class Level {
   ArrayList<ArrayList<Element>> map;
+  ArrayList<ArrayList<Element>> mapref;
+  int[][] candyBackground;
   int maxMoves, numBlockers;
   int xSize, ySize;
   float xOff, yOff;
-  int xSpacing = 50;
-  int ySpacing = 55;
+  int xSpacing = 50; int ySpacing = 55;
   Element firstSelected;
   Tracker score;
-  boolean active;
-
+  boolean active; boolean clickable;
+  PImage background;
   public Level(int level) {
+    clickable = true;
     numBlockers = 0;
+    maxMoves = 0;
+    score = new Tracker(this);
     map = new ArrayList<ArrayList<Element>>();
+    mapref = new ArrayList<ArrayList<Element>>();
     init(level);
     updateNeighbors();
     active = true;
@@ -93,8 +98,11 @@ public class Level {
           if (a.lN!=null && a.lN.remove && a.lN instanceof Candy 
           || a.rN!=null && a.rN.remove && a.rN instanceof Candy 
           || a.uN!=null && a.uN.remove && a.uN instanceof Candy
-          || a.dN!=null &&a.dN.remove && a.dN instanceof Candy)
-            a.remove = true;
+          || a.dN!=null &&a.dN.remove && a.dN instanceof Candy){
+            if(!a.remove){
+              a.remove = true;
+            }
+          }           
         }
       }
     }
@@ -115,11 +123,13 @@ public class Level {
   }
   
   boolean remove(){
+    clickable = false;
     int count = 0;
     for(int y = 0; y < ySize; y++){
       for(int x = 0; x<xSize; x++){
         if(map.get(y).get(x)!=null && map.get(y).get(x).remove){
           count++;
+          if(map.get(y).get(x) instanceof Icing){numBlockers--;}
           map.get(y).set(x, null);
         }
       }
@@ -129,6 +139,7 @@ public class Level {
   }
   //Gravity function for candies
   void drop(){
+    clickable = false;
     for(int i=ySize-2; i>=0; i--){
       for(int j = 0; j < xSize; j++){
         Element ref = map.get(i).get(j);
@@ -139,17 +150,18 @@ public class Level {
             map.get(i).set(j,null);
             ref.xPosL = j;
             ref.yPosL+=1;
-          //Slide to the right or left if down neighbor exists but isn't a candy (empty or blocker )
-          // }else if (ref.rN != null && !(ref.rN instanceof Candy)&& ref.dN.rN == null&&j!=xSize-1){
-          //   map.get(i+1).set(j+1,ref);
-          //   map.get(i).set(j,null);
-          //   ref.xPosL+=1;
-          //   ref.yPosL+=1;
-          // } else if(ref.lN != null &&  !(ref.lN instanceof Candy) && ref.dN.lN==null && j!=0){
-          //   map.get(i+1).set(j-1,ref);
-          //   map.get(i).set(j,null);
-          //   ref.xPosL-=1;
-          //   ref.yPosL+=1;
+          //Slide to the right or left if down neighbor exists, but the current left or right neighbors are a blocker/empty )
+          //this allows us to fill up diagonals squares when the board isn't rectangular
+          }else if (ref.rN != null && !(ref.rN instanceof Candy)&& ref.dN.rN == null&&j!=xSize-1){
+            map.get(i+1).set(j+1,ref);
+            map.get(i).set(j,null);
+            ref.xPosL+=1;
+            ref.yPosL+=1;
+          } else if(ref.lN != null &&  !(ref.lN instanceof Candy) && ref.dN.lN==null && j!=0){
+            map.get(i+1).set(j-1,ref);
+            map.get(i).set(j,null);
+            ref.xPosL-=1;
+            ref.yPosL+=1;
           }
           updateNeighbors();
         }
@@ -203,11 +215,10 @@ public class Level {
     fill(120);
     for (int y = 0; y < this.ySize; y++) {
       for (int x = 0; x < this.xSize; x++) {
-        Element e = map.get(y).get(x);
-        if (e!=null && !(e instanceof Empty)) {
-          e.xPos = xOff+x*xSpacing;
-          e.yPos = yOff+y*ySpacing;
-          rect(e.xPos, e.yPos, (xSpacing*1.1), (ySpacing*1.1), 5, 5, 5, 5);
+        if (candyBackground[y][x]==1) {
+          float rectx = xOff+x*xSpacing;
+          float recty = yOff+y*ySpacing;
+          rect(rectx, recty, (xSpacing*1.1), (ySpacing*1.1), 5, 5, 5, 5);
         }
       }
     }
@@ -215,8 +226,9 @@ public class Level {
   
   void display() {
     if (active){
-    // score.display();
       if(maxMoves>0){
+        background(background);
+        score.display();
         //display the candies at their right pixel positions
         candyBackground();
         for (int y = 0; y < this.ySize; y++) {
@@ -248,9 +260,8 @@ public class Level {
             }
           }
           remove();
+          clickable = true;
         }
-
-        
       } else {
         PImage end;
         if (numBlockers > 0){
@@ -261,6 +272,7 @@ public class Level {
         imageMode(CENTER);
         end.resize(0,1000);
         image(end,width/2,height/2);
+        score = null;
         active = false;
       }
     }
@@ -271,7 +283,7 @@ public class Level {
     float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
     float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
 
-    if (active && x >= 0 && x<xSize && y>=0 && y<ySize) {    
+    if (clickable && active && x >= 0 && x<xSize && y>=0 && y<ySize) {    
       Element chosen =map.get((int)y).get((int)x);
       //check if the mouse has clicked a candy
       if (chosen!=null && chosen instanceof Candy) {
@@ -360,13 +372,16 @@ public class Level {
         xSize = Integer.parseInt(splitter[0]);
         ySize = Integer.parseInt(splitter[1]);
         maxMoves = Integer.parseInt(splitter[2]);
+        candyBackground = new int[ySize][xSize];
       } else {
         ArrayList<Element> column = new ArrayList<Element>();
         for (int j = 0; j < xSize; j++) {
           String [] splitter = lines[i].split(" ");
           //////////////////////////////ADD THE CORRESPONDING ELEMENT//////////////////////////////
+          candyBackground[i-1][j] = 1;
           if (splitter[j].equals("E")) {
             column.add(new Empty());
+            candyBackground[i-1][j] = 0;
           }
           if (splitter[j].equals("R")) {
             column.add(new Candy("red"));
@@ -423,16 +438,18 @@ public class Level {
           }
         }
         map.add(column);
+        mapref.add(column);
       }
     }
     //xOff and yOff are offsets to determine how to offset the candy icons in relation to the board
     xOff = width/2 - (this.xSize * xSpacing / 2 - xSpacing/2);
     yOff = height/2 - (this.ySize * ySpacing / 2 - ySpacing/2);
     //display the background;
-    PImage background = loadImage("background.png");
-    background.resize(0,1000);
+    background = loadImage("background.png");
+    background.resize(width,height);
     image(background,0,0);
-    
+
+
     System.out.println(this);
   }
 
