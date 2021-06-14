@@ -1,8 +1,8 @@
 7 7 22
-E E JO O B P B
-G JO I JO B O B
-P I JO I JO G O
-B JO I E I JO G
-G G JO I JO I JO
-G JO G JO I JO O
-O G B G JO E E
+E E I O B P B
+G I I I B O B
+P I I I I G O
+B I I E I I G
+G G I I I I I
+G I G I I I O
+O G B G I E E
