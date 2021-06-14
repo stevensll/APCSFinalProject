@@ -1,5 +1,5 @@
 # APCSFinalProject
-Candy Crush game - APCS Final for Mr. K's period 10 class.
+Candy Crush Game remake - APCS Final for Mr. K's period 10 class.
 
 **Group Name**: Sweet Treats
 
