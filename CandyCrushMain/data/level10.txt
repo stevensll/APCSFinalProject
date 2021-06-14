@@ -1,4 +1,4 @@
-7 8 15
+7 8 7
 R O I I I G O
 G O I I I O B
 I I I B I I I
