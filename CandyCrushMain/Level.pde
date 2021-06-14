@@ -5,7 +5,7 @@ public class Level {
   ArrayList<ArrayList<Element>> map;
   ArrayList<ArrayList<Element>> mapref;
   int[][] candyBackground;
-  int maxMoves, numBlockers;
+  int maxMoves,numBlockers,points;
   int xSize, ySize;
   float xOff, yOff;
   int xSpacing = 50; int ySpacing = 55;
@@ -13,217 +13,36 @@ public class Level {
   Tracker score;
   boolean active; boolean clickable;
   PImage background;
+  
   public Level(int level) {
     clickable = true;
+    points = 0;
     numBlockers = 0;
     maxMoves = 0;
     score = new Tracker(this);
     map = new ArrayList<ArrayList<Element>>();
     mapref = new ArrayList<ArrayList<Element>>();
     init(level);
-    updateNeighbors();
+    for(int i =  0; i < ySize; i++){
+      mapref.add(new ArrayList<Element>());
+      for(int j = 0; j < xSize; j++){
+        mapref.get(i).add(new Empty());
+      }
+    }
+    updateNeighbors(map);
     active = true;
   }
 
-
-  //flag all elements in the board
-  void flagElements(){
-    flagCandies();
-    flagStripedCandies();
-    flagIcings();
-  }
-
-  //iterate and flag candies if they make a combo with each other
-  void flagCandies(){
-    // look at the candies 3 in a row throughout each row
-    for(int y = 0; y < ySize; y++){
-      for(int x = 0; x < xSize-2; x++){
-        Element a = map.get(y).get(x);
-        Element b = map.get(y).get(x+1);
-        Element c = map.get(y).get(x+2);
-        if(a instanceof Candy ){
-          if(a.col.equals(b.col) && a.col.equals(c.col)){
-            a.remove = true;
-            b.remove = true;
-            c.remove = true;
-
-          }
-        }
-      }
-    }
-    //look at candies in a 3 in a column throughout each column
-    for(int y = 0; y < ySize-2; y++){
-      for(int x = 0; x < xSize; x++){
-        Element a = map.get(y).get(x);
-        Element b = map.get(y+1).get(x);
-        Element c = map.get(y+2).get(x);
-        if(a instanceof Candy){
-          if(a.col.equals(b.col) && a.col.equals(c.col)){
-            a.remove = true;
-            b.remove = true;
-            c.remove = true;
-          }
-        }
-      }
-    }
-  }
-
-  //after candies are flagged, check again to see if striped candies will cause further flagging
-  void flagStripedCandies(){
-     for(int y = 0; y < ySize; y++){
-      for(int x = 0; x < xSize; x++){
-        Element ref = map.get(y).get(x);
-        if(ref instanceof StripedCandy && ref.remove){
-          if(ref.direction.equals("hori")){
-            for(int i = 0; i < xSize;i++){
-              if(!(map.get(y).get(i) instanceof Empty)) map.get(y).get(i).remove = true;
-            }
-          }
-          else if (ref.direction.equals("vert")){
-            for(int i = 0; i < ySize;i++){
-              if(!(map.get(i).get(x) instanceof Empty)) map.get(i).get(x).remove = true;
-            }
-          }
-        }
-      }
-     }
-  }
-
-  //after all candies are flagged, check to see if any icings are adjacents to flagged candies
-  void flagIcings(){
-    for(int y = 0; y < ySize; y++){
-      for(int x = 0; x < xSize; x++){
-        Element a = map.get(y).get(x);
-        if(a instanceof Icing){
-          if (a.lN!=null && a.lN.remove && a.lN instanceof Candy 
-          || a.rN!=null && a.rN.remove && a.rN instanceof Candy 
-          || a.uN!=null && a.uN.remove && a.uN instanceof Candy
-          || a.dN!=null &&a.dN.remove && a.dN instanceof Candy){
-            if(!a.remove){
-              a.remove = true;
-            }
-          }           
-        }
-      }
-    }
-  }
-
-  
-
-  boolean removable(){
-    int count = 0;
-    for(int y = 0; y < ySize; y++){
-      for(int x = 0; x<xSize; x++){
-        if(map.get(y).get(x).remove){
-          count++;
-        }
-      }
-    }
-    return count > 2;
-  }
-  
-  boolean remove(){
-    clickable = false;
-    int count = 0;
-    for(int y = 0; y < ySize; y++){
-      for(int x = 0; x<xSize; x++){
-        if(map.get(y).get(x)!=null && map.get(y).get(x).remove){
-          count++;
-          if(map.get(y).get(x) instanceof Icing){numBlockers--;}
-          map.get(y).set(x, null);
-        }
-      }
-    }
-    updateNeighbors();
-    return count > 2;
-  }
-  //Gravity function for candies
-  void drop(){
-    clickable = false;
-    for(int i=ySize-2; i>=0; i--){
-      for(int j = 0; j < xSize; j++){
-        Element ref = map.get(i).get(j);
-        if(ref!=null && ref instanceof Candy){
-          //If down neighbor is empty, drop down
-          if(ref.dN == null){
-            map.get(i+1).set(j,ref);
-            map.get(i).set(j,null);
-            ref.xPosL = j;
-            ref.yPosL+=1;
-          //Slide to the right or left if down neighbor exists, but the current left or right neighbors are a blocker/empty )
-          //this allows us to fill up diagonals squares when the board isn't rectangular
-          }else if (ref.rN != null && !(ref.rN instanceof Candy)&& ref.dN.rN == null&&j!=xSize-1){
-            map.get(i+1).set(j+1,ref);
-            map.get(i).set(j,null);
-            ref.xPosL+=1;
-            ref.yPosL+=1;
-          } else if(ref.lN != null &&  !(ref.lN instanceof Candy) && ref.dN.lN==null && j!=0){
-            map.get(i+1).set(j-1,ref);
-            map.get(i).set(j,null);
-            ref.xPosL-=1;
-            ref.yPosL+=1;
-          }
-          updateNeighbors();
-        }
-      }
-    }
-  }
-  
-  //spawn candies at the first row randomly
-  void spawn(){
-    for(int i=0; i<1; i++){
-      for(int j = 0; j < xSize; j++){
-        Element ref = map.get(i).get(j);
-        if(ref==null){
-          String col = "";
-          double n  = Math.random() * 6;
-          double s = Math.random() * 6;
-          double d = Math.random()*2;
-          if(n >= 0){col =  "orange";}
-          if(n >= 1){col = "purple";}
-          if(n >= 2){col = "red";}
-          if(n >= 3){col = "blue";}
-          if(n >= 4){col = "green";}
-          // if(n >= 5){col = "yellow";}
-          if(s <= 1){
-            if(d <=1){
-              map.get(i).set(j, new StripedCandy(col,"vert"));
-            } else map.get(i).set(j, new StripedCandy(col,"hori"));
-          }
-          else map.get(i).set(j, new Candy(col));
-          map.get(i).get(j).init(1);
-          map.get(i).get(j).xPosL = j;
-          map.get(i).get(j).yPosL = i;
-        }
-      }
-    }
-    updateNeighbors();
-  }
-
-  boolean droppable(){
-    for(int i = 0; i < ySize; i++){
-      for(int j = 0; j< xSize; j++){
-        if(map.get(i).get(j)==null) return true;
-      }
-    }
-    return false;
-  }
-
-  void candyBackground(){
-    rectMode(CENTER);
-    stroke(120);
-    fill(120);
-    for (int y = 0; y < this.ySize; y++) {
-      for (int x = 0; x < this.xSize; x++) {
-        if (candyBackground[y][x]==1) {
-          float rectx = xOff+x*xSpacing;
-          float recty = yOff+y*ySpacing;
-          rect(rectx, recty, (xSpacing*1.1), (ySpacing*1.1), 5, 5, 5, 5);
-        }
-      }
-    }
-  }
-  
+  /*
+  updates the map and redisplays it every tick
+  heart of the program. every tick has a scheme of the following:
+    1a) check if we can drop any candies - this is implied by the fact that the map may still have nulls
+    2a) drop the candies
+    3a) spawn new candies
+    iterate 1a - 3a until we can't drop, then we proceed on the removing
+    1b) flag every candy if they form a combo
+    2b) remove them
+  */
   void display() {
     if (active){
       if(maxMoves>0){
@@ -242,13 +61,12 @@ public class Level {
           }
         }
 
-        if(droppable()){
-          drop();
-          spawn();
+        if(droppable(map)){
+          drop(map);
+          spawn(map);
         } else {
           flagElements();
           candyBackground();
-
           for (int y = 0; y < this.ySize; y++) {
             for (int x = 0; x < this.xSize; x++) {
               Element e = map.get(y).get(x);
@@ -259,7 +77,13 @@ public class Level {
               }
             }
           }
-          remove();
+          remove(map);
+          if(!droppable(map) && !removable(map)){
+            copy(map);
+            if(playable()) {
+              shuffle();
+            }
+          }
           clickable = true;
         }
       } else {
@@ -277,7 +101,9 @@ public class Level {
       }
     }
   }
-  
+
+    
+  //checks if the mouse has clicked on a candy and handle the necessary result
   void mouseTrack() {  
     //converts the mouse position to a possible list coordinate position
     float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
@@ -297,15 +123,15 @@ public class Level {
           //SWAPPING SEQUENCE
           } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
             firstSelected.clicked();
-            swap(chosen, this.firstSelected);
+            swap(chosen, this.firstSelected,map);
             flagElements();
             //if a possible combo can be made from the swap, run the break sequence. if not, swap them back.
-            if(removable()){
+            if(removable(map)){
               firstSelected = null;
               maxMoves--;
             //if no candies can be removed, then we swap back      
             } else{
-              swap(firstSelected,chosen);
+              swap(firstSelected,chosen,map);
               firstSelected = null;
             }
           }
@@ -320,7 +146,282 @@ public class Level {
     }
   }
 
-  void swap(Element chosen, Element selected) {
+  //flag all elements in the board
+  void flagElements(){
+    flagCandies(map);
+    flagStripedCandies(map);
+    flagIcings(map);
+  }
+  boolean playable(){
+    for(int i = 0; i < ySize; i++){
+      for(int j = 0 ; j < xSize; j++){
+        Element ref = mapref.get(i).get(j);
+        if(ref!=null){
+          if(ref.rN!=null && ref.rN instanceof Candy){
+            swap(ref,ref.rN,mapref);
+            flagCandies(mapref);
+            if(removable(mapref)) {
+              swap(ref.rN,ref,mapref);
+              return true;
+            }
+          }
+          if(ref.dN!=null && ref.dN instanceof Candy){
+            swap(ref,ref.dN,mapref);
+            flagCandies(mapref);
+            if(removable(mapref)) {
+              swap(ref.dN,ref,mapref);
+              return true;
+            }
+          }
+          if(ref.uN!=null && ref.uN instanceof Candy){
+            swap(ref,ref.uN,mapref);
+            flagCandies(mapref);
+            if(removable(mapref)) {
+              swap(ref.uN,ref,mapref);
+              return true;
+            }
+          }
+          if(ref.lN!=null && ref.lN instanceof Candy){
+            swap(ref,ref.lN,mapref);
+            flagCandies(mapref);
+            if(removable(mapref)) {
+              swap(ref.lN,ref,mapref);
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  void shuffle(){
+    System.out.println("SHUFFLE!");
+  }
+  void copy(ArrayList<ArrayList<Element>> input){
+    for(int i = 0; i < ySize; i++){
+      for(int j = 0; j < xSize; j++){
+        Element e = input.get(i).get(j);{
+          if(e instanceof StripedCandy){
+            mapref.get(i).set(j,new StripedCandy(e.col, e.direction));
+          } else if (e instanceof Candy){
+            mapref.get(i).set(j,new Candy(e.col));
+          } else if (e instanceof Icing ) {
+            mapref.get(i).set(j,new Icing());
+          } else mapref.get(i).set(j, new Empty());
+        }
+      }
+    }
+  }
+  //iterate and flag candies if they make a combo with each other
+  void flagCandies(ArrayList<ArrayList<Element>> input){
+    // look at the candies 3 in a row throughout each row
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize-2; x++){
+        Element a = input.get(y).get(x);
+        Element b = input.get(y).get(x+1);
+        Element c = input.get(y).get(x+2);
+        if(a instanceof Candy ){
+          if(a.col.equals(b.col) && a.col.equals(c.col)){
+            a.remove = true;
+            b.remove = true;
+            c.remove = true;
+          }
+        }
+      }
+    }
+    //look at candies in a 3 in a column throughout each column
+    for(int y = 0; y < ySize-2; y++){
+      for(int x = 0; x < xSize; x++){
+        Element a = input.get(y).get(x);
+        Element b = input.get(y+1).get(x);
+        Element c = input.get(y+2).get(x);
+        if(a instanceof Candy){
+          if(a.col.equals(b.col) && a.col.equals(c.col)){
+            a.remove = true;
+            b.remove = true;
+            c.remove = true;
+          }
+        }
+      }
+    }
+  }
+
+  //after candies are flagged, check again to see if striped candies will cause further flagging
+  void flagStripedCandies(ArrayList<ArrayList<Element>> input){
+     for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize; x++){
+        Element ref = input.get(y).get(x);
+        if(ref instanceof StripedCandy && ref.remove){
+          if(ref.direction.equals("hori")){
+            for(int i = 0; i < xSize;i++){
+              if(!(input.get(y).get(i) instanceof Empty)) input.get(y).get(i).remove = true;
+            }
+          }
+          else if (ref.direction.equals("vert")){
+            for(int i = 0; i < ySize;i++){
+              if(!(input.get(i).get(x) instanceof Empty)) input.get(i).get(x).remove = true;
+            }
+          }
+        }
+      }
+     }
+  }
+
+  //after all candies are flagged, check to see if any icings are adjacents to flagged candies
+  void flagIcings(ArrayList<ArrayList<Element>> input){
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x < xSize; x++){
+        Element a = input.get(y).get(x);
+        if(a instanceof Icing){
+          if (a.lN!=null && a.lN.remove && a.lN instanceof Candy 
+          || a.rN!=null && a.rN.remove && a.rN instanceof Candy 
+          || a.uN!=null && a.uN.remove && a.uN instanceof Candy
+          || a.dN!=null &&a.dN.remove && a.dN instanceof Candy){
+            if(!a.remove){
+              a.remove = true;
+            }
+          }           
+        }
+      }
+    }
+  }
+
+  //checks if there are any flags and if the board needs to remove candies
+  boolean removable(ArrayList<ArrayList<Element>> input){
+    int count = 0;
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x<xSize; x++){
+        if(input.get(y).get(x).remove){
+          count++;
+        }
+      }
+    }
+    return count > 2;
+  }
+  
+  //removes every flagged candy in the board. adds the necessary points and decreases the numBlockers
+  //60 per candy, 120 per striped, 100 per icing
+  boolean remove(ArrayList<ArrayList<Element>> input){
+    clickable = false;
+    int count = 0;
+    for(int y = 0; y < ySize; y++){
+      for(int x = 0; x<xSize; x++){
+        if(input.get(y).get(x)!=null && input.get(y).get(x).remove){
+          count++;
+          if(input.get(y).get(x) instanceof Icing){
+            numBlockers--;
+            points+=100;
+          }
+          if(input.get(y).get(x)instanceof StripedCandy){
+            points+=120;
+          }
+          else {
+            points+=60;
+          }
+          input.get(y).set(x, null);
+        }
+      }
+    }
+    updateNeighbors(input);
+    return count > 2;
+  }
+
+  //checks if any candies need to be dropped//moved
+  boolean droppable(ArrayList<ArrayList<Element>> input){
+    for(int i = 0; i < ySize; i++){
+      for(int j = 0; j< xSize; j++){
+        if(input.get(i).get(j)==null) return true;
+      }
+    }
+    return false;
+  }
+
+  //Gravity function for candies
+  void drop(ArrayList<ArrayList<Element>> input){
+    clickable = false;
+    for(int i=ySize-2; i>=0; i--){
+      for(int j = 0; j < xSize; j++){
+        Element ref = input.get(i).get(j);
+        if(ref!=null && ref instanceof Candy && !ref.moved){
+          //If down neighbor is empty, drop down
+          if(ref.dN == null){
+            input.get(i+1).set(j,ref);
+            input.get(i).set(j,null);
+            ref.xPosL = j;
+            ref.yPosL+=1;
+          //Slide to the right or left if down neighbor exists, but the current left or right neighbors are a blocker/empty )
+          //this allows us to fill up diagonals squares when the board isn't rectangular
+          } 
+          else if (j!=xSize-1 && ref.rN != null && ref.rN instanceof Blocker&& ref.dN.rN == null){
+              input.get(i+1).set(j+1,ref);
+              input.get(i).set(j,null);
+              ref.xPosL+=1;
+              ref.yPosL+=1;
+          } 
+          else if(j!=0 && ref.lN != null &&  ref.lN instanceof Blocker && ref.dN.lN==null){
+            input.get(i+1).set(j-1,ref);
+            input.get(i).set(j,null);
+            ref.xPosL-=1;
+            ref.yPosL+=1;
+          } 
+          else if(ref.uN !=null && ref.uN instanceof Blocker && ref.dN instanceof Blocker){
+            if(j!=xSize-1&&ref.rN == null){
+              input.get(i).set(j+1, ref);
+              input.get(i).set(j,null);
+              ref.xPosL+=1;
+            } 
+            else if (j!=0&&ref.lN == null){
+              input.get(i).set(j-1, ref);
+              input.get(i).set(j,null);
+              ref.xPosL-=1;
+            }
+          }
+          ref.moved = true;
+          updateNeighbors(input);
+        }
+      }
+    }
+    for(int i=ySize-2; i>=0; i--){
+      for(int j = 0; j < xSize; j++){
+        if(input.get(i).get(j)!=null) input.get(i).get(j).moved = false;
+      }
+    }
+  }
+  
+  //spawn candies at the first row randomly
+  void spawn(ArrayList<ArrayList<Element>> input){
+    for(int i=0; i<1; i++){
+      for(int j = 0; j < xSize; j++){
+        Element ref = input.get(i).get(j);
+        if(ref==null){
+          String col = "";
+          double n  = Math.random() * 6;
+          double s = Math.random() * 6;
+          double d = Math.random()*2;
+          if(n >= 0){col =  "orange";}
+          if(n >= 1){col = "purple";}
+          if(n >= 2){col = "red";}
+          if(n >= 3){col = "blue";}
+          if(n >= 4){col = "green";}
+          // if(n >= 5){col = "yellow";}
+          if(s <= 1){
+            if(d <=1){
+              input.get(i).set(j, new StripedCandy(col,"vert"));
+            } else input.get(i).set(j, new StripedCandy(col,"hori"));
+          }
+          else input.get(i).set(j, new Candy(col));
+          input.get(i).get(j).init(1);
+          input.get(i).get(j).xPosL = j;
+          input.get(i).get(j).yPosL = i;
+        }
+      }
+    }
+    updateNeighbors(input);
+  }
+
+  //swaps the selected candy and the one that was clicked on
+  void swap(Element chosen, Element selected, ArrayList<ArrayList<Element>> input) {
     int sxPosL = selected.xPosL;
     int syPosL = selected.yPosL;
     //System.out.println( sxPosL + " " + syPosL);
@@ -329,35 +430,51 @@ public class Level {
     selected.yPosL = chosen.yPosL;
   
   
-    map.get(chosen.yPosL).set(chosen.xPosL, selected);
+    input.get(chosen.yPosL).set(chosen.xPosL, selected);
   
     chosen.xPosL = sxPosL;
     chosen.yPosL = syPosL;
   
-    map.get(syPosL).set(sxPosL, chosen);
+    input.get(syPosL).set(sxPosL, chosen);
     System.out.println("1st selected" + firstSelected);
 
-    updateNeighbors();
+    updateNeighbors(input);
   }
 
   //update the neighbors of each candy appropriately. this should occur any time candies are removed or swapped.
-  void updateNeighbors() {
+  void updateNeighbors(ArrayList<ArrayList<Element>> input) {
     for (int i =0; i < ySize; i++) {
       for (int j = 0; j < xSize; j++) {
-        if (map.get(i).get(j)!=null) {
-          Element ref = map.get(i).get(j);
+        if (input.get(i).get(j)!=null) {
+          Element ref = input.get(i).get(j);
           if ( i > 0) {
-            map.get(i).get(j).uN = map.get(i-1).get(j);
+            input.get(i).get(j).uN = input.get(i-1).get(j);
           }
           if (i < ySize-1) {
-            map.get(i).get(j).dN = map.get(i+1).get(j);
+            input.get(i).get(j).dN = input.get(i+1).get(j);
           }
           if (j > 0) {
-            map.get(i).get(j).lN = map.get(i).get(j-1);
+            input.get(i).get(j).lN = input.get(i).get(j-1);
           }
           if (j < xSize-1) {
-            map.get(i).get(j).rN = map.get(i).get(j+1);
+            input.get(i).get(j).rN = input.get(i).get(j+1);
           }
+        }
+      }
+    }
+  }
+
+  //creates the grey outline background for the candies
+  void candyBackground(){
+    rectMode(CENTER);
+    stroke(120);
+    fill(120);
+    for (int y = 0; y < this.ySize; y++) {
+      for (int x = 0; x < this.xSize; x++) {
+        if (candyBackground[y][x]==1) {
+          float rectx = xOff+x*xSpacing;
+          float recty = yOff+y*ySpacing;
+          rect(rectx, recty, (xSpacing*1.1), (ySpacing*1.1), 5, 5, 5, 5);
         }
       }
     }
@@ -475,7 +592,6 @@ public class Level {
           }
         }
         map.add(column);
-        mapref.add(column);
       }
     }
     //xOff and yOff are offsets to determine how to offset the candy icons in relation to the board

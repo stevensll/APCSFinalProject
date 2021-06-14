@@ -4,7 +4,7 @@ abstract class Element{
   String col;
   String direction;
   Element lN, rN, uN, dN;
-  boolean remove;
+  boolean remove, moved;
   float scale;
   
   //coordinates based on pixel positioning;
@@ -18,6 +18,7 @@ abstract class Element{
     scale = 1;
     imagePath = file;
     remove = false;
+    moved = false;
   }
   void init(float factor){
     scale = factor;
