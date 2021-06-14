@@ -80,8 +80,8 @@ public class Level {
           remove(map);
           if(!droppable(map) && !removable(map)){
             copy(map);
-            if(playable()) {
-              shuffle();
+            if(!playable()) {
+              shuffle(map);
             }
           }
           clickable = true;
@@ -156,47 +156,62 @@ public class Level {
     for(int i = 0; i < ySize; i++){
       for(int j = 0 ; j < xSize; j++){
         Element ref = mapref.get(i).get(j);
-        if(ref!=null){
+        if(ref!=null&&ref instanceof Candy){
           if(ref.rN!=null && ref.rN instanceof Candy){
+            // System.out.println(toStringRef());
             swap(ref,ref.rN,mapref);
             flagCandies(mapref);
             if(removable(mapref)) {
-              swap(ref.rN,ref,mapref);
+              // System.out.println(toStringRef());
               return true;
             }
+            swap(mapref.get(i).get(j),mapref.get(i).get(j).rN,mapref);
           }
           if(ref.dN!=null && ref.dN instanceof Candy){
             swap(ref,ref.dN,mapref);
             flagCandies(mapref);
             if(removable(mapref)) {
-              swap(ref.dN,ref,mapref);
+              // System.out.println(toStringRef());
               return true;
             }
-          }
-          if(ref.uN!=null && ref.uN instanceof Candy){
-            swap(ref,ref.uN,mapref);
-            flagCandies(mapref);
-            if(removable(mapref)) {
-              swap(ref.uN,ref,mapref);
-              return true;
-            }
-          }
-          if(ref.lN!=null && ref.lN instanceof Candy){
-            swap(ref,ref.lN,mapref);
-            flagCandies(mapref);
-            if(removable(mapref)) {
-              swap(ref.lN,ref,mapref);
-              return true;
-            }
+            swap(mapref.get(i).get(j), mapref.get(i).get(j).dN, mapref);
           }
         }
       }
     }
+    System.out.println(toStringRef());
     return false;
   }
 
-  void shuffle(){
-    System.out.println("SHUFFLE!");
+  void shuffle(ArrayList<ArrayList<Element>> input){
+     for(int i = 0; i < ySize; i++){
+      for(int j = 0 ; j < xSize; j++){
+        Element ref = input.get(i).get(j);
+        if(ref instanceof Candy){
+          String col = "";
+          double n  = Math.random() * 6;
+          double s = Math.random() * 6;
+          double d = Math.random()*2;
+          if(n >= 0){col =  "orange";}
+          if(n >= 1){col = "purple";}
+          if(n >= 2){col = "red";}
+          if(n >= 3){col = "blue";}
+          if(n >= 4){col = "green";}
+          // if(n >= 5){col = "yellow";}
+          if(s <= 1){
+            if(d <=1){
+              input.get(i).set(j, new StripedCandy(col,"vert"));
+            } else input.get(i).set(j, new StripedCandy(col,"hori"));
+          }
+          else input.get(i).set(j, new Candy(col));
+          input.get(i).get(j).init(1);
+          input.get(i).get(j).xPosL = j;
+          input.get(i).get(j).yPosL = i;
+      }
+     }
+    }
+    updateNeighbors(input);
+    System.out.println("MAP UNSOLVABLE, SHUFFLING");
   }
   void copy(ArrayList<ArrayList<Element>> input){
     for(int i = 0; i < ySize; i++){
@@ -209,9 +224,12 @@ public class Level {
           } else if (e instanceof Icing ) {
             mapref.get(i).set(j,new Icing());
           } else mapref.get(i).set(j, new Empty());
+          mapref.get(i).get(j).xPosL = e.xPosL;
+          mapref.get(i).get(j).yPosL = e.yPosL;
         }
       }
     }
+    updateNeighbors(mapref);
   }
   //iterate and flag candies if they make a combo with each other
   void flagCandies(ArrayList<ArrayList<Element>> input){
@@ -311,14 +329,16 @@ public class Level {
           count++;
           if(input.get(y).get(x) instanceof Icing){
             numBlockers--;
-            points+=100;
+            if(input == map)points+=100;
           }
-          if(input.get(y).get(x)instanceof StripedCandy){
-            points+=120;
+          else if(input.get(y).get(x)instanceof StripedCandy){
+            if(input == map)points+=120;
           }
           else {
-            points+=60;
+            if(input == map)points+=60;
           }
+            if(input==map)System.out.println(points);
+
           input.get(y).set(x, null);
         }
       }
@@ -436,7 +456,7 @@ public class Level {
     chosen.yPosL = syPosL;
   
     input.get(syPosL).set(sxPosL, chosen);
-    System.out.println("1st selected" + firstSelected);
+    // System.out.println("1st selected" + firstSelected);
 
     updateNeighbors(input);
   }
@@ -619,4 +639,15 @@ public class Level {
     return r;
   }
 
+  String toStringRef(){
+    String r = "";
+    for (ArrayList<Element> column : mapref) {
+      for (Element e : column) {
+        if(e!=null)r+= e.toString() + " ";
+        else r+="  ";
+      }
+      r+="\n";
+    }
+    return r;
+  }
 }

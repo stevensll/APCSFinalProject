@@ -1,6 +1,6 @@
-5 5 20
-B P O P B
-P O B O G
-G B G G P
-G O B O P
+5 5 30
 B G O P O
+O R B R P
+O G O R O
+B R B P P
+B G O B O
