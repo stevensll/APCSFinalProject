@@ -5,7 +5,7 @@ public class Level {
   ArrayList<ArrayList<Element>> map;
   ArrayList<ArrayList<Element>> mapref;
   int[][] candyBackground;
-  int maxMoves, numBlockers;
+  int maxMoves,numBlockers,points;
   int xSize, ySize;
   float xOff, yOff;
   int xSpacing = 50; int ySpacing = 55;
@@ -13,8 +13,10 @@ public class Level {
   Tracker score;
   boolean active; boolean clickable;
   PImage background;
+  
   public Level(int level) {
     clickable = true;
+    points = 0;
     numBlockers = 0;
     maxMoves = 0;
     score = new Tracker(this);
@@ -25,6 +27,112 @@ public class Level {
     active = true;
   }
 
+  /*
+  updates the map and redisplays it every tick
+  heart of the program. every tick has a scheme of the following:
+    1a) check if we can drop any candies - this is implied by the fact that the map may still have nulls
+    2a) drop the candies
+    3a) spawn new candies
+    iterate 1a - 3a until we can't drop, then we proceed on the removing
+    1b) flag every candy if they form a combo
+    2b) remove them
+  */
+  void display() {
+    if (active){
+      if(maxMoves>0){
+        background(background);
+        score.display();
+        //display the candies at their right pixel positions
+        candyBackground();
+        for (int y = 0; y < this.ySize; y++) {
+          for (int x = 0; x < this.xSize; x++) {
+            Element e = map.get(y).get(x);
+            if (e!=null && !(e instanceof Empty)) {
+              e.xPos = xOff+x*xSpacing;
+              e.yPos = yOff+y*ySpacing;
+              e.display(e.xPos, e.yPos);
+            }
+          }
+        }
+
+        if(droppable()){
+          drop();
+          spawn();
+        } else {
+          flagElements();
+          candyBackground();
+          for (int y = 0; y < this.ySize; y++) {
+            for (int x = 0; x < this.xSize; x++) {
+              Element e = map.get(y).get(x);
+              if (e!=null && !(e instanceof Empty)) {
+                e.xPos = xOff+x*xSpacing;
+                e.yPos = yOff+y*ySpacing;
+                e.display(e.xPos, e.yPos);
+              }
+            }
+          }
+          remove();
+          clickable = true;
+        }
+      } else {
+        PImage end;
+        if (numBlockers > 0){
+          end = loadImage("loss.jpg");
+        } else {
+          end = loadImage("win.jpg");
+        }
+        imageMode(CENTER);
+        end.resize(0,1000);
+        image(end,width/2,height/2);
+        score = null;
+        active = false;
+      }
+    }
+  }
+
+    
+  //checks if the mouse has clicked on a candy and handle the necessary result
+  void mouseTrack() {  
+    //converts the mouse position to a possible list coordinate position
+    float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
+    float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
+
+    if (clickable && active && x >= 0 && x<xSize && y>=0 && y<ySize) {    
+      Element chosen =map.get((int)y).get((int)x);
+      //check if the mouse has clicked a candy
+      if (chosen!=null && chosen instanceof Candy) {
+        //If there is a selected: unselect if same candy 
+        //If not check if its a neighbor and swap if true
+        if (firstSelected!=null) {
+          //UNSELECT
+          if (chosen.equals(firstSelected)) {
+            chosen.clicked();
+            firstSelected = null;
+          //SWAPPING SEQUENCE
+          } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
+            firstSelected.clicked();
+            swap(chosen, this.firstSelected);
+            flagElements();
+            //if a possible combo can be made from the swap, run the break sequence. if not, swap them back.
+            if(removable()){
+              firstSelected = null;
+              maxMoves--;
+            //if no candies can be removed, then we swap back      
+            } else{
+              swap(firstSelected,chosen);
+              firstSelected = null;
+            }
+          }
+        //APPOINT A CANDY TO BE SELECTED
+        } else {
+          firstSelected = chosen;
+          chosen.clicked();
+        }
+        System.out.println("1st selected " + firstSelected);
+        System.out.println(this + ""+maxMoves);
+      }
+    }
+  }
 
   //flag all elements in the board
   void flagElements(){
@@ -46,7 +154,6 @@ public class Level {
             a.remove = true;
             b.remove = true;
             c.remove = true;
-
           }
         }
       }
@@ -108,8 +215,7 @@ public class Level {
     }
   }
 
-  
-
+  //checks if there are any flags and if the board needs to remove candies
   boolean removable(){
     int count = 0;
     for(int y = 0; y < ySize; y++){
@@ -122,6 +228,8 @@ public class Level {
     return count > 2;
   }
   
+  //removes every flagged candy in the board. adds the necessary points and decreases the numBlockers
+  //60 per candy, 120 per striped, 100 per icing
   boolean remove(){
     clickable = false;
     int count = 0;
@@ -129,7 +237,16 @@ public class Level {
       for(int x = 0; x<xSize; x++){
         if(map.get(y).get(x)!=null && map.get(y).get(x).remove){
           count++;
-          if(map.get(y).get(x) instanceof Icing){numBlockers--;}
+          if(map.get(y).get(x) instanceof Icing){
+            numBlockers--;
+            points+=100;
+          }
+          if(map.get(y).get(x)instanceof StripedCandy){
+            points+=120;
+          }
+          else {
+            points+=60;
+          }
           map.get(y).set(x, null);
         }
       }
@@ -137,6 +254,17 @@ public class Level {
     updateNeighbors();
     return count > 2;
   }
+
+  //checks if any candies need to be dropped//moved
+  boolean droppable(){
+    for(int i = 0; i < ySize; i++){
+      for(int j = 0; j< xSize; j++){
+        if(map.get(i).get(j)==null) return true;
+      }
+    }
+    return false;
+  }
+
   //Gravity function for candies
   void drop(){
     clickable = false;
@@ -152,16 +280,31 @@ public class Level {
             ref.yPosL+=1;
           //Slide to the right or left if down neighbor exists, but the current left or right neighbors are a blocker/empty )
           //this allows us to fill up diagonals squares when the board isn't rectangular
-          }else if (ref.rN != null && !(ref.rN instanceof Candy)&& ref.dN.rN == null&&j!=xSize-1){
-            map.get(i+1).set(j+1,ref);
-            map.get(i).set(j,null);
-            ref.xPosL+=1;
-            ref.yPosL+=1;
-          } else if(ref.lN != null &&  !(ref.lN instanceof Candy) && ref.dN.lN==null && j!=0){
+          } 
+          else if (j!=xSize-1 && ref.rN != null && ref.rN instanceof Blocker&& ref.dN.rN == null){
+              map.get(i+1).set(j+1,ref);
+              map.get(i).set(j,null);
+              ref.xPosL+=1;
+              ref.yPosL+=1;
+          } 
+          else if(j!=0 && ref.lN != null &&  ref.lN instanceof Blocker && ref.dN.lN==null){
             map.get(i+1).set(j-1,ref);
             map.get(i).set(j,null);
             ref.xPosL-=1;
             ref.yPosL+=1;
+          } 
+          else if(ref.uN !=null && ref.uN instanceof Blocker && ref.dN instanceof Blocker){
+            if(j!=xSize-1&&ref.rN == null){
+              map.get(i).set(j+1, ref);
+              map.get(i).set(j,null);
+              ref.xPosL+=1;
+            } 
+            else if (j!=0&&ref.lN == null){
+              map.get(i).set(j-1, ref);
+              map.get(i).set(j,null);
+              ref.xPosL-=1;
+            }
+            updateNeighbors();
           }
           updateNeighbors();
         }
@@ -200,126 +343,7 @@ public class Level {
     updateNeighbors();
   }
 
-  boolean droppable(){
-    for(int i = 0; i < ySize; i++){
-      for(int j = 0; j< xSize; j++){
-        if(map.get(i).get(j)==null) return true;
-      }
-    }
-    return false;
-  }
-
-  void candyBackground(){
-    rectMode(CENTER);
-    stroke(120);
-    fill(120);
-    for (int y = 0; y < this.ySize; y++) {
-      for (int x = 0; x < this.xSize; x++) {
-        if (candyBackground[y][x]==1) {
-          float rectx = xOff+x*xSpacing;
-          float recty = yOff+y*ySpacing;
-          rect(rectx, recty, (xSpacing*1.1), (ySpacing*1.1), 5, 5, 5, 5);
-        }
-      }
-    }
-  }
-  
-  void display() {
-    if (active){
-      if(maxMoves>0){
-        background(background);
-        score.display();
-        //display the candies at their right pixel positions
-        candyBackground();
-        for (int y = 0; y < this.ySize; y++) {
-          for (int x = 0; x < this.xSize; x++) {
-            Element e = map.get(y).get(x);
-            if (e!=null && !(e instanceof Empty)) {
-              e.xPos = xOff+x*xSpacing;
-              e.yPos = yOff+y*ySpacing;
-              e.display(e.xPos, e.yPos);
-            }
-          }
-        }
-
-        if(droppable()){
-          drop();
-          spawn();
-        } else {
-          flagElements();
-          candyBackground();
-
-          for (int y = 0; y < this.ySize; y++) {
-            for (int x = 0; x < this.xSize; x++) {
-              Element e = map.get(y).get(x);
-              if (e!=null && !(e instanceof Empty)) {
-                e.xPos = xOff+x*xSpacing;
-                e.yPos = yOff+y*ySpacing;
-                e.display(e.xPos, e.yPos);
-              }
-            }
-          }
-          remove();
-          clickable = true;
-        }
-      } else {
-        PImage end;
-        if (numBlockers > 0){
-          end = loadImage("loss.jpg");
-        } else {
-          end = loadImage("win.jpg");
-        }
-        imageMode(CENTER);
-        end.resize(0,1000);
-        image(end,width/2,height/2);
-        score = null;
-        active = false;
-      }
-    }
-  }
-  
-  void mouseTrack() {  
-    //converts the mouse position to a possible list coordinate position
-    float x = ((mouseX-xOff+xSpacing/2) / xSpacing);
-    float y = ((mouseY-yOff+ySpacing/2) / ySpacing);
-
-    if (clickable && active && x >= 0 && x<xSize && y>=0 && y<ySize) {    
-      Element chosen =map.get((int)y).get((int)x);
-      //check if the mouse has clicked a candy
-      if (chosen!=null && chosen instanceof Candy) {
-        //If there is a selected: unselect if same candy 
-        //If not check if its a neighbor and swap if true
-        if (firstSelected!=null) {
-          //UNSELECT
-          if (chosen.equals(firstSelected)) {
-            chosen.clicked();
-            firstSelected = null;
-          //SWAPPING SEQUENCE
-          } else if (chosen.equals(firstSelected.dN) || chosen.equals(firstSelected.uN) || chosen.equals(firstSelected.rN) || chosen.equals(firstSelected.lN)) {
-            firstSelected.clicked();
-            swap(chosen, this.firstSelected);
-            flagElements();
-            //if a possible combo can be made from the swap, run the break sequence. if not, swap them back.
-            if(removable()){
-              firstSelected = null;
-              maxMoves--;
-            //if no candies can be removed, then we swap back      
-            } else{
-              swap(firstSelected,chosen);
-              firstSelected = null;
-            }
-          }
-        //APPOINT A CANDY TO BE SELECTED
-        } else {
-          firstSelected = chosen;
-          chosen.clicked();
-        }
-        System.out.println("1st selected " + firstSelected);
-        System.out.println(this + ""+maxMoves);
-      }
-    }
-  }
-
+  //swaps the selected candy and the one that was clicked on
   void swap(Element chosen, Element selected) {
     int sxPosL = selected.xPosL;
     int syPosL = selected.yPosL;
@@ -358,6 +382,22 @@ public class Level {
           if (j < xSize-1) {
             map.get(i).get(j).rN = map.get(i).get(j+1);
           }
+        }
+      }
+    }
+  }
+
+  //creates the grey outline background for the candies
+  void candyBackground(){
+    rectMode(CENTER);
+    stroke(120);
+    fill(120);
+    for (int y = 0; y < this.ySize; y++) {
+      for (int x = 0; x < this.xSize; x++) {
+        if (candyBackground[y][x]==1) {
+          float rectx = xOff+x*xSpacing;
+          float recty = yOff+y*ySpacing;
+          rect(rectx, recty, (xSpacing*1.1), (ySpacing*1.1), 5, 5, 5, 5);
         }
       }
     }
