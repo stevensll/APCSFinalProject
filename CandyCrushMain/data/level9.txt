@@ -1,4 +1,4 @@
-9 8 20
+9 8 8
 E E E E G E E E E
 E E E B G B E E E
 E E I B P G I E E

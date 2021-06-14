@@ -1,4 +1,4 @@
-9 9 30
+9 9 7
 G B O P O G P O B
 G I I I I I I I R
 P I I I I I I I R

@@ -1,4 +1,4 @@
-7 7 12
+7 7 7
 E E P O B E E
 E P I I I O E
 G I I I I I P
