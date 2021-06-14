@@ -97,5 +97,4 @@ Together: Updated UMLs, documentation, and bug fixes. Merged everything onto mai
 
 
 **UML**
-![APCS Candy Crush UML (1)](https://user-images.githubusercontent.com/46882137/121121836-607ed200-c7ee-11eb-9158-fc7aec4150d0.png)
-https://docs.google.com/drawings/d/1fAm1XaMZYFh-6hZ6EEh9lmkhswXjxU8QlF4A36Q-s4o/edit
+![APCS Candy Crush UML (2)](https://user-images.githubusercontent.com/46882137/121901383-59772880-ccf4-11eb-8497-b17fac5c5c17.png)
