@@ -544,6 +544,7 @@ public class Level {
             numBlockers++;
             column.add(new Icing());
           }
+<<<<<<< HEAD
           // if(splitter[j].equals("JB")) {
           //     numBlockers++;
           //     column.add(new Jelly("blue"));
@@ -565,6 +566,8 @@ public class Level {
           //   column.add(new Jelly("green"));
           // }
           
+=======
+>>>>>>> 2d202b9a8da60f38e713a23754ebf47433980ed2
           if (splitter[j].equals("RH")) {
             column.add(new StripedCandy("red","hori"));
           }
