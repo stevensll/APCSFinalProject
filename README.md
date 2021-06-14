@@ -13,7 +13,7 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
 
 
 ## Compile/Run Instructions ##
-Run  _CandyCrushMain.pde_ in Processing. 
+Pull from _main_ branch. Run  _CandyCrushMain.pde_ in Processing. 
 ## Gameplay ##
 To play, press Play on the first screen, which will take you to the levels screen. Although the image displays 10 levels, only levels 1-5 are implemented. Click on any one of these levels to start the gameplay. Once inside the level, you can quit the level by clicking the button on the top left corner. 
 
