@@ -19,7 +19,7 @@ To play, press Play on the first screen, which will take you to the levels scree
 
 Our game mimics the way traditional Candy Crush works, but instead of swiping the mouse, you can simply click on Candies to cause swaps. Only neighboring Candies will swap with  each other. **If at any point he level state is unsolvable (meaning the player can't make a move to trigger a match), the game will randomize the map and spawn new Candies until the map is solveable.**
 
-To resume playing, click on the button again. Your number of remaining moves and blockers will be displayed at the top, along with the number of points. For each level, you can continue playing until the number of moves runs out, in which case you will be brought to a win or lose screen. Then exit that screen through the same button. 
+To resume playing, click on the top left button again. Your number of remaining moves and blockers will be displayed at the top, along with the number of points. For each level, you can continue playing until the number of moves runs out, in which case you will be brought to a win or lose screen. Then exit that screen through the same button. 
 
 **Although we have done numerous bugfixes, if any do occur within a level, such as not all Candies not being displayed, it is best to relaunch the game through Processing.**
 
