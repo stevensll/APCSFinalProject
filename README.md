@@ -13,7 +13,7 @@ We will be creating a remake of the Candy Crush Saga game using Java and Process
 
 
 ## Compile/Run Instructions ##
-Run from Processing. To play, press Play on the first screen, which will take you to the levels screen. Although the image displays 10 levels, only levels 1-5 are implemented. Click on any one of these levels to start the gameplay. Once inside the level, you can quit the level by clicking the button on the top left corner. To resume playing, click on the button again. Your number of remaining moves and blockers will be displayed at the top, along with the number of points. 60 points are added to the total for every candy that is removed. For each level, you can continue playing until the number of moves runs out, in which case you will be brought to a win or lose screen. Then exit that screen through the same button.
+Run from Processing. To play, press Play on the first screen, which will take you to the levels screen. Although the image displays 10 levels, only levels 1-5 are implemented. Click on any one of these levels to start the gameplay. Once inside the level, you can quit the level by clicking the button on the top left corner. To resume playing, click on the button again. Your number of remaining moves and blockers will be displayed at the top, along with the number of points. For each level, you can continue playing until the number of moves runs out, in which case you will be brought to a win or lose screen. Then exit that screen through the same button. **Although we have done numerous bugfixes, if any do occur within a level, it is best to relaunch the game through Processing.**
 
 ## Development Log ##
 
