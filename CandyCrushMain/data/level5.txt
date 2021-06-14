@@ -1,6 +1,6 @@
 7 7 7
-E E P O B E E
-E P I I I O E
+E E P O P E E
+E P B P O O E
 G I I I I I P
 O I I I I I O
 O I I I I I B
