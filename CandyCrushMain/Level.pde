@@ -4,6 +4,7 @@ import java.util.*;
 public class Level {
   ArrayList<ArrayList<Element>> map;
   ArrayList<ArrayList<Element>> mapref;
+  int lvl;
   int[][] candyBackground;
   int maxMoves,numBlockers,points;
   int xSize, ySize;
@@ -15,6 +16,7 @@ public class Level {
   PImage background;
   
   public Level(int level) {
+    this.lvl = level;
     clickable = true;
     points = 0;
     numBlockers = 0;
@@ -44,7 +46,7 @@ public class Level {
     2b) remove them
   */
   void display() {
-    if (active){
+    if (active && currentscreen.equals("gameplay"+lvl)){
       if(maxMoves>0){
         background(background);
         score.display();
@@ -179,7 +181,7 @@ public class Level {
         }
       }
     }
-    System.out.println(toStringRef());
+    // System.out.println(toStringRef());
     return false;
   }
 
@@ -337,7 +339,7 @@ public class Level {
           else {
             if(input == map)points+=60;
           }
-            if(input==map)System.out.println(points);
+            // if(input==map)System.out.println(points);
 
           input.get(y).set(x, null);
         }

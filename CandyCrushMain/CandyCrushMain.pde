@@ -28,7 +28,7 @@ void setup(){
     image(firstm, 0,0);
     currentscreen="firstm";
     menuShowing = false;
-    frameRate(8);
+    frameRate(6);
 }
 
 void draw(){
@@ -61,29 +61,19 @@ void mouseClicked(){
   if (currentscreen.length()>=8 && currentscreen.substring(0,8).equals("gameplay")) {
     back.mouseClicked("backmenu");
     if (menuShowing) {
-        l1=null;
-        l2=null;
-        l3=null;
-        l4=null;
-        l5=null;
-        l6=null;
-        l7=null;
-        l8=null;
-        l9=null;
-        l10=null;
         quit.mouseClicked("levels");
     }
   }
-  if(l1!=null) l1.mouseTrack();
-  if(l2!=null) l2.mouseTrack();
-  if(l3!=null) l3.mouseTrack();
-  if(l4!=null) l4.mouseTrack();
-  if(l5!=null) l5.mouseTrack();
-  if(l6!=null) l6.mouseTrack();
-  if(l7!=null) l7.mouseTrack();
-  if(l8!=null) l8.mouseTrack();
-  if(l9!=null) l9.mouseTrack();
-  if(l10!=null) l10.mouseTrack();
+  if(l1!=null&&currentscreen.equals("gameplay1")) l1.mouseTrack();
+  if(l2!=null&&currentscreen.equals("gameplay2")) l2.mouseTrack();
+  if(l3!=null&&currentscreen.equals("gameplay3")) l3.mouseTrack();
+  if(l4!=null&&currentscreen.equals("gameplay4")) l4.mouseTrack();
+  if(l5!=null&&currentscreen.equals("gameplay5")) l5.mouseTrack();
+  if(l6!=null&&currentscreen.equals("gameplay6")) l6.mouseTrack();
+  if(l7!=null&&currentscreen.equals("gameplay7")) l7.mouseTrack();
+  if(l8!=null&&currentscreen.equals("gameplay8")) l8.mouseTrack();
+  if(l9!=null&&currentscreen.equals("gameplay9")) l9.mouseTrack();
+  if(l10!=null&&currentscreen.equals("gameplay10")) l10.mouseTrack();
 }
 void displayLevels(){
   PImage l = loadImage("levels.jpg");
@@ -92,14 +82,14 @@ void displayLevels(){
   image(l,-20,-200);
 }
 void clickLevels() {
-  if(lvl1!=null)lvl1.mouseClicked("gameplay1");
-  if(lvl2!=null)lvl2.mouseClicked("gameplay2");
-  if(lvl3!=null)lvl3.mouseClicked("gameplay3");
-  if(lvl4!=null)lvl4.mouseClicked("gameplay4");
-  if(lvl5!=null)lvl5.mouseClicked("gameplay5");
-  if(lvl6!=null)lvl6.mouseClicked("gameplay6");
-  if(lvl7!=null)lvl7.mouseClicked("gameplay7");
-  if(lvl8!=null)lvl8.mouseClicked("gameplay8");
-  if(lvl9!=null)lvl9.mouseClicked("gameplay9");
-  if(lvl10!=null)lvl10.mouseClicked("gameplay10");
+  lvl1.mouseClicked("gameplay1");
+  lvl2.mouseClicked("gameplay2");
+  lvl3.mouseClicked("gameplay3");
+  lvl4.mouseClicked("gameplay4");
+  lvl5.mouseClicked("gameplay5");
+  lvl6.mouseClicked("gameplay6");
+  lvl7.mouseClicked("gameplay7");
+  lvl8.mouseClicked("gameplay8");
+  lvl9.mouseClicked("gameplay9");
+  lvl10.mouseClicked("gameplay10");
 }
