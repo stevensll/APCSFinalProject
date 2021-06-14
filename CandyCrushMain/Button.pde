@@ -11,7 +11,9 @@ public class Button{
   
   void mouseClicked(String screen){ 
     if (mouseX>=leftx && mouseX<=rightx && mouseY>=topy && mouseY<=bottomy){
-      if (screen.equals("backmenu")) menuShowing=!menuShowing;
+      if (screen.equals("backmenu")) {
+        menuShowing=!menuShowing;
+      }
       else{
         if (screen.equals("levels")) menuShowing=false;
         currentscreen=screen;

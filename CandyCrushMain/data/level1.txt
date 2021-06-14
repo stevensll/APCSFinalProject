@@ -1,4 +1,4 @@
-5 5 20
+5 5 8
 B P O P B
 P O B O G
 G B G G P
