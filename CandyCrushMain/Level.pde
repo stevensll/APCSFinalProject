@@ -544,26 +544,26 @@ public class Level {
             numBlockers++;
             column.add(new Icing());
           }
-          if(splitter[j].equals("JB")) {
-              numBlockers++;
-              column.add(new Jelly("blue"));
-            }
-          if(splitter[j].equals("JR")) {
-            numBlockers++;
-            column.add(new Jelly("red"));
-          }
-          if(splitter[j].equals("JO")) {
-            numBlockers++;
-            column.add(new Jelly("orange"));
-          }
-          if(splitter[j].equals("JP")) {
-            numBlockers++;
-            column.add(new Jelly("purple"));
-          }
-          if(splitter[j].equals("JG")) {
-            numBlockers++;
-            column.add(new Jelly("green"));
-          }
+          // if(splitter[j].equals("JB")) {
+          //     numBlockers++;
+          //     column.add(new Jelly("blue"));
+          //   }
+          // if(splitter[j].equals("JR")) {
+          //   numBlockers++;
+          //   column.add(new Jelly("red"));
+          // }
+          // if(splitter[j].equals("JO")) {
+          //   numBlockers++;
+          //   column.add(new Jelly("orange"));
+          // }
+          // if(splitter[j].equals("JP")) {
+          //   numBlockers++;
+          //   column.add(new Jelly("purple"));
+          // }
+          // if(splitter[j].equals("JG")) {
+          //   numBlockers++;
+          //   column.add(new Jelly("green"));
+          // }
           
           if (splitter[j].equals("RH")) {
             column.add(new StripedCandy("red","hori"));
