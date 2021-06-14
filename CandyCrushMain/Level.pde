@@ -143,8 +143,8 @@ public class Level {
           firstSelected = chosen;
           chosen.clicked();
         }
-        System.out.println("1st selected " + firstSelected);
-        System.out.println(this + ""+maxMoves);
+        // System.out.println("1st selected " + firstSelected);
+        // System.out.println(this + ""+maxMoves);
       }
     }
   }
