@@ -61,11 +61,8 @@ void mouseClicked(){
   if (currentscreen.length()>=8 && currentscreen.substring(0,8).equals("gameplay")) {
     back.mouseClicked("backmenu");
     if (menuShowing) {
-<<<<<<< HEAD
       quit.mouseClicked("levels");
-=======
         quit.mouseClicked("levels");
->>>>>>> 6f06d0b742dcf6f2a23be354a937d2bc887ea4ea
     }
   }
   if(l1!=null&&currentscreen.equals("gameplay1")) l1.mouseTrack();
