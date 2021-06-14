@@ -1,4 +1,4 @@
-7 6 21
+7 6 13
 E G B I G B E
 E G I I I B E
 G B I I I G B

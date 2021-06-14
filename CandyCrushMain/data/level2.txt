@@ -1,4 +1,4 @@
-6 8 20
+6 8 10
 G O P G B O
 P G P O P G
 B B O G O B
