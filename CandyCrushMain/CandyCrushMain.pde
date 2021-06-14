@@ -55,7 +55,7 @@ void draw(){
 }
 
 void mouseClicked(){
-  println(mouseX+ " " +mouseY);
+  // println(mouseX+ " " +mouseY);
   if (currentscreen.equals("firstm")) playButton.mouseClicked("levels");
   if (currentscreen.equals("levels")) clickLevels();
   if (currentscreen.length()>=8 && currentscreen.substring(0,8).equals("gameplay")) {
